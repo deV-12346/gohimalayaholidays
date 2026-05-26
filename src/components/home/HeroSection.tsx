@@ -15,7 +15,7 @@ export default function HeroSection() {
             Explore The Beauty Of Himachal
           </h1>
 
-          <p className="mt-6 text-sm md:text-xl text-gray-200">
+          <p className="mt-6 text-sm md:text-2xl text-gray-200">
             Discover breathtaking mountains and unforgettable adventures.
           </p>
 

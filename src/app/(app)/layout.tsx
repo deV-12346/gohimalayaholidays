@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { Outfit, Geist } from 'next/font/google'
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/sonner";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+import { Outfit } from 'next/font/google'
+import "../globals.css";
+import Navbar from "@/components/Navbar";
 
 const outfit = Outfit({ 
   subsets: ['latin'],
@@ -25,10 +22,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", outfit.variable, "font-sans", geist.variable)}
+      className={`${outfit.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-      <Toaster position="top-center"/>
+        <Navbar/>
         {children}
       </body>
     </html>

@@ -1,0 +1,62 @@
+import { model, models, Schema,Model, ObjectId } from "mongoose";
+
+export interface Package extends Document{
+    _id:string;
+    destinationId:ObjectId
+    title:string;
+    destination:string;
+    price:number;
+    duration:number;
+    slots:number;
+    includedService:string[];
+    excludedService:string[];
+    packageImages:string[]
+}
+const packageSchema:Schema<Package> = new Schema({
+    destinationId:{
+        type:Schema.Types.ObjectId,
+        ref:"destination",
+        required:true,
+    },
+    title:{
+        type:String,
+        required:true,
+        trim:true,
+    },
+    destination:{
+        type:String,
+        required:true,
+        trim:true
+    },
+    packageImages:[
+        {
+            required:true,
+            type:String
+        }
+    ],
+    price:{
+        type:Number,
+        required:true
+    },
+    slots:{
+        type:Number,
+        required:true,
+    },    
+    duration:{
+        type:Number,
+        required:true
+    },
+    includedService:[
+        {
+            type:String,
+            required:true,
+        }
+    ],
+    excludedService:[
+        {
+            type:String,
+            required:true,
+        }
+    ],
+},{timestamps:true})
+export const packageModel = models.Package as Model<Package> ||  model<Package>('package',packageSchema)
