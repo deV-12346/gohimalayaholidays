@@ -1,7 +1,5 @@
 import { destinationSchema } from "@/schema/destination.model";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/option";
 import { destinationModel } from "@/models/destination.model";
 import { CloudinaryResult, deleteFromCloudinary, uploadOnCloudinary } from "@/libs/cloudinary";
 import {  Types } from "mongoose";

@@ -1,16 +1,17 @@
-import { model, models, Schema,Model, ObjectId } from "mongoose";
+import { CloudinaryResult } from "@/libs/cloudinary";
+import { model, models, Schema,Model, Types } from "mongoose";
 
 export interface Package extends Document{
     _id:string;
-    destinationId:ObjectId
+    destinationId:Types.ObjectId
     title:string;
-    destination:string;
+    description:string;
     price:number;
     duration:number;
     slots:number;
     includedService:string[];
     excludedService:string[];
-    packageImages:string[]
+    packageImages:CloudinaryResult[]
 }
 const packageSchema:Schema<Package> = new Schema({
     destinationId:{
@@ -23,15 +24,20 @@ const packageSchema:Schema<Package> = new Schema({
         required:true,
         trim:true,
     },
-    destination:{
+    description:{
         type:String,
         required:true,
         trim:true
     },
     packageImages:[
-        {
-            required:true,
-            type:String
+         {
+            secure_url:{
+                required:true,
+                type:String
+            },
+            public_id:{
+                type:String
+            },
         }
     ],
     price:{
