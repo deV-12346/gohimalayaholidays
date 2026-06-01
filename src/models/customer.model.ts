@@ -5,13 +5,15 @@ export interface Customer extends Document{
     customerName:string;
     phoneNumber:string;
     email:string;
-    dob:string;
-    otp:number;
+    dob?:string;
+    otp?:number | null;
+    otpExpiry?:Date | null;
+    isVerified:boolean;
 }
 const customerSchema:Schema<Customer> = new Schema({
     customerName:{
         trim:true,
-        requird:true,
+        required:true,
         type:String
     },
     phoneNumber:{
@@ -28,6 +30,17 @@ const customerSchema:Schema<Customer> = new Schema({
     },
     otp:{
         type:Number
+    },
+    otpExpiry:{
+        type:Date
+    },
+    isVerified:{
+        type:Boolean,
+        default:false
     }
 },{timestamps:true})
-export const customerModel =  models.Customer as Model<Customer>  || model<Customer>("customer",customerSchema) 
+const customerModel =
+  (models.customer as Model<Customer>) ||
+  model<Customer>("customer", customerSchema);
+
+export default customerModel;

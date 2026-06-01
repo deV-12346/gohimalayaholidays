@@ -5,6 +5,7 @@ import { CloudinaryResult, deleteFromCloudinary, uploadOnCloudinary } from "@/li
 import { packageModel } from "@/models/package.model";
 import {  Types } from "mongoose";
 import { destinationModel } from "@/models/destination.model";
+import { withErrorHandler } from "@/libs/withErrorHandler"
 export const POST = withHandler(async (req:NextRequest,user) => {
     const formData = await req.formData()
     const obj = {
@@ -53,5 +54,46 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     return NextResponse.json({
         succcess:true,
         message:"Package Uploaded successfully"
-    })
+    },{status:201})
 }) 
+export const GET = withErrorHandler(async (req:NextRequest)=>{
+    const packages = await packageModel.find()
+    if(!packages.length){
+        return NextResponse.json({
+            success:false,
+            message:"Package not found"
+        },{status:404})
+    }
+    return NextResponse.json({
+     success:true,
+     message:"Packages fecthed successfully",
+     packages
+    })
+})
+export const DELETE = withHandler(async (req:NextRequest)=>{
+    const {packageId} = await req.json()
+    if(!packageId){
+        return NextResponse.json({
+            success:false,
+            message:"Package iD is missing"
+        },{status:400})
+    }
+
+    const dbPackage = await packageModel.findById(packageId)
+    if(!dbPackage){
+        return NextResponse.json({
+            success:false,
+            message:"Package not found"
+        },{status:404})
+    }
+    await Promise.allSettled(
+        dbPackage.packageImages.map(async (img)=>(
+            await deleteFromCloudinary(img.public_id!)
+        ))
+    )
+    await dbPackage.deleteOne()
+    return NextResponse.json({
+        success:true,
+        message:"Package deleted successfully"
+    })
+})

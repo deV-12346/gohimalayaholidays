@@ -19,5 +19,5 @@ export const adminSchema = z.object({
     .regex(/[a-z]/, "Password Must contain at least one lowercase letter (a-z)")
     .regex(/[0-9]/, "Password Must contain at least one number (0-9)")
     .regex(/[^A-Za-z0-9]/, "Password Must contain at least one special character (!@#$%)")
-    .min(12,"Password should not be at least 8 characters")
+    .max(12,"Password should not be at least 12 characters")
 })

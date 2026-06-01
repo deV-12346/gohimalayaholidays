@@ -65,4 +65,9 @@ const packageSchema:Schema<Package> = new Schema({
         }
     ],
 },{timestamps:true})
-export const packageModel = models.Package as Model<Package> ||  model<Package>('package',packageSchema)
+
+export const packageModel =
+  (models.package as Model<Package>) ||
+  model<Package>("package", packageSchema);
+
+export default packageModel;

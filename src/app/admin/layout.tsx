@@ -1,29 +1,73 @@
-import AdminSidebar from "@/components/admin/sidebar/Sidebar";
+"use client";
+
 import AdminNavbar from "@/components/admin/navbar/Navbar";
+import AdminSidebar from "@/components/admin/sidebar/Sidebar";
+import { useState } from "react";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="flex min-h-screen bg-zinc-950 text-zinc-400 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
-      {/* Fixed Sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 lg:block">
-        <AdminSidebar />
-      </aside>
+  const [mobileOpen, setMobileOpen] =
+    useState(false);
 
-      {/* Main Content Area */}
-      <div className="flex flex-1 flex-col lg:pl-64">
-        <AdminNavbar />
-        <main className="flex-1 p-8 overflow-y-auto">
+  return (
+    <div
+      className="
+      min-h-screen
+      bg-[#020617]
+      text-zinc-300
+      selection:bg-cyan-500/20
+      selection:text-cyan-200
+    "
+    >
+      {/* Glow */}
+
+      <div
+        className="
+        pointer-events-none
+        fixed
+        top-[-200px]
+        right-[-100px]
+        h-[500px]
+        w-[500px]
+        rounded-full
+        bg-cyan-500/10
+        blur-[120px]
+      "
+      />
+
+      <div
+        className="
+        pointer-events-none
+        fixed
+        bottom-[-250px]
+        left-[-150px]
+        h-[500px]
+        w-[500px]
+        rounded-full
+        bg-blue-500/10
+        blur-[120px]
+      "
+      />
+
+      <AdminSidebar
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
+
+      <div className="md:pl-72">
+        <AdminNavbar
+          onMenuClick={() =>
+            setMobileOpen(true)
+          }
+        />
+
+        <main className="p-4 md:p-8">
           {children}
         </main>
       </div>
-      
-      {/* Decorative Background Elements */}
-      <div className="fixed top-0 left-64 right-0 h-[500px] bg-gradient-to-b from-cyan-500/5 to-transparent pointer-events-none" />
-      <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
     </div>
   );
 }

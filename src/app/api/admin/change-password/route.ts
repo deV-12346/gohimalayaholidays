@@ -16,7 +16,7 @@ export async function POST(req:NextRequest){
       },{status:400})
     }
     const {newPassword} = response.data
-    const user = await adminModel.findById("6a0dc4fba72d0b6c27145b8b")
+    const user = await adminModel.findById()
      if (!user) {
       return NextResponse.json(
         { 
