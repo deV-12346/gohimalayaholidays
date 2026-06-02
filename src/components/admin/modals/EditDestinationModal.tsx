@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Loader2, X, Upload } from "lucide-react";
+import { Edit, Loader2, X, Upload } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 import {
@@ -18,14 +18,19 @@ import FormField from "../common/FormField";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { destinationSchema } from "@/schema/destination.model";
-import { useCreateDestinationMutation } from "@/services/destinations/destinationApi";
+import { useUpdateDestinationMutation } from "@/services/destinations/destinationApi";
+import type { Destination } from "@/services/destinations/destinationApi";
 
-export default function CreateDestinationModal() {
+interface EditDestinationModalProps {
+  destination: Destination;
+}
+
+export default function EditDestinationModal({ destination }: EditDestinationModalProps) {
   const [open, setOpen] = useState(false);
-  const [popularPlaces, setPopularPlaces] = useState<string[]>([""]);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [popularPlaces, setPopularPlaces] = useState<string[]>(destination.popularPlaces || [""]);
+  const [imagePreview, setImagePreview] = useState<string | null>(destination.image);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [createDestination, { isLoading }] = useCreateDestinationMutation();
+  const [updateDestination, { isLoading }] = useUpdateDestinationMutation();
 
   const {
     register,
@@ -36,40 +41,49 @@ export default function CreateDestinationModal() {
   } = useForm<any>({
     resolver: zodResolver(destinationSchema.omit({ image: true })),
     defaultValues: {
-      popularPlaces: [""],
+      title: destination.title,
+      description: destination.description,
+      destinationLocation: destination.destinationLocation,
     },
   });
 
+  useEffect(() => {
+    if (open) {
+      // Reset form with destination data when modal opens
+      setValue("title", destination.title);
+      setValue("description", destination.description);
+      setValue("destinationLocation", destination.destinationLocation);
+      setPopularPlaces(destination.popularPlaces || [""]);
+      setImagePreview(destination.image);
+      setSelectedFile(null);
+    }
+  }, [open, destination, setValue]);
+
   const addPlace = () => {
-    const updated = [...popularPlaces, ""];
-    setPopularPlaces(updated);
-    setValue("popularPlaces", updated);
+    setPopularPlaces([...popularPlaces, ""]);
   };
   
   const removePlace = (index: number) => {
-    const updated = popularPlaces.filter((_, i) => i !== index);
-    setPopularPlaces(updated);
-    setValue("popularPlaces", updated);
+    if (popularPlaces.length > 1) {
+      setPopularPlaces(popularPlaces.filter((_, i) => i !== index));
+    }
   };
   
   const updatePlace = (index: number, value: string) => {
     const updated = [...popularPlaces];
     updated[index] = value;
     setPopularPlaces(updated);
-    setValue("popularPlaces", updated);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
       const validTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
       if (!validTypes.includes(file.type)) {
         toast.error("Only PNG, JPG, JPEG, and WEBP images are allowed");
         return;
       }
 
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         toast.error("Image size should be less than 5MB");
         return;
@@ -77,7 +91,6 @@ export default function CreateDestinationModal() {
 
       setSelectedFile(file);
       
-      // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -88,21 +101,15 @@ export default function CreateDestinationModal() {
 
   const removeImage = () => {
     setSelectedFile(null);
-    setImagePreview(null);
-    const fileInput = document.querySelector<HTMLInputElement>('input[name="image"]');
+    setImagePreview(destination.image); // Revert to original image
+    const fileInput = document.querySelector<HTMLInputElement>('input[name="image-edit"]');
     if (fileInput) {
       fileInput.value = "";
     }
   };
-    console.log(errors)
+
   const onSubmit = async (data: any) => {
     try {
-      if (!selectedFile) {
-        toast.error("Please select an image");
-        return;
-      }
-
-      // Validate popular places
       const validPlaces = popularPlaces.filter(p => p.trim());
       if (validPlaces.length === 0) {
         toast.error("Please add at least one popular place");
@@ -110,47 +117,28 @@ export default function CreateDestinationModal() {
       }
 
       const formData = new FormData();
+      formData.append("destinationId", destination._id);
       formData.append("title", data.title);
       formData.append("description", data.description);
       formData.append("destinationLocation", data.destinationLocation);
-      formData.append("image", selectedFile);
       formData.append("popularPlaces", JSON.stringify(validPlaces));
-
-      console.log("Submitting destination with:", {
-        title: data.title,
-        description: data.description,
-        destinationLocation: data.destinationLocation,
-        image: selectedFile.name,
-        popularPlaces: validPlaces
-      });
-
-      const result = await createDestination(formData).unwrap();
-      toast.success(result.message || "Destination created successfully");
       
-      // Reset form
-      reset();
-      setPopularPlaces([""]);
-      setImagePreview(null);
-      setSelectedFile(null);
+      if (selectedFile) {
+        formData.append("image", selectedFile);
+      }
+
+      const result = await updateDestination(formData).unwrap();
+      toast.success(result.message || "Destination updated successfully");
       setOpen(false);
     } catch (error: any) {
-      console.error("Error creating destination:", error);
-      
-      // Show specific validation errors
-      if (error?.data?.message) {
-        toast.error(error.data.message);
-      } else if (error?.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Failed to create destination");
-      }
+      toast.error(error?.data?.message || "Failed to update destination");
     }
   };
 
   const handleClose = () => {
     reset();
-    setPopularPlaces([""]);
-    setImagePreview(null);
+    setPopularPlaces(destination.popularPlaces || [""]);
+    setImagePreview(destination.image);
     setSelectedFile(null);
     setOpen(false);
   };
@@ -158,14 +146,17 @@ export default function CreateDestinationModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:scale-[1.02]">
-          <Plus className="h-5 w-5" />
-          Add Destination
-        </button>
+        <Button
+          size="icon"
+          variant="outline"
+          className="border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20"
+        >
+          <Edit className="h-4 w-4" />
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto border-white/10 bg-[#0b1120] text-white sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Create Destination</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">Edit Destination</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -197,42 +188,22 @@ export default function CreateDestinationModal() {
           {/* Image Upload with Preview */}
           <div className="space-y-2">
             <Label className="text-zinc-300">
-              Image <span className="text-red-400">*</span>
+              Image {!selectedFile && <span className="text-xs text-zinc-500">(optional - current image will be kept)</span>}
             </Label>
             
-            {!imagePreview ? (
-              <div className="relative">
-                <input
-                  type="file"
-                  name="image"
-                  id="destination-image"
-                  accept="image/png,image/jpeg,image/jpg,image/webp"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="destination-image"
-                  className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 bg-white/5 p-8 transition-colors hover:border-cyan-500/50 hover:bg-white/10"
-                >
-                  <Upload className="h-12 w-12 text-zinc-500" />
-                  <p className="mt-2 text-sm text-zinc-400">
-                    Click to upload image
-                  </p>
-                  <p className="mt-1 text-xs text-zinc-500">
-                    PNG, JPG, JPEG, WEBP (Max 5MB)
-                  </p>
-                </label>
-              </div>
-            ) : (
-              <div className="relative rounded-lg border border-white/10 bg-white/5 p-4">
-                <div className="relative h-48 w-full overflow-hidden rounded-lg">
+            <div className="relative rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className="relative h-48 w-full overflow-hidden rounded-lg">
+                {imagePreview && (
                   <Image
                     src={imagePreview}
                     alt="Preview"
                     fill
                     className="object-cover"
                   />
-                </div>
+                )}
+              </div>
+              
+              {selectedFile && (
                 <button
                   type="button"
                   onClick={removeImage}
@@ -240,11 +211,26 @@ export default function CreateDestinationModal() {
                 >
                   <X className="h-4 w-4" />
                 </button>
-                <p className="mt-2 text-sm text-zinc-400">
-                  {selectedFile?.name}
-                </p>
+              )}
+              
+              <div className="mt-3">
+                <input
+                  type="file"
+                  name="image-edit"
+                  id="destination-image-edit"
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="destination-image-edit"
+                  className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 p-2 text-sm text-zinc-400 transition-colors hover:border-cyan-500/50 hover:bg-white/10"
+                >
+                  <Upload className="h-4 w-4" />
+                  {selectedFile ? selectedFile.name : "Change image"}
+                </label>
               </div>
-            )}
+            </div>
           </div>
 
           {/* Popular Places */}
@@ -279,7 +265,7 @@ export default function CreateDestinationModal() {
               onClick={addPlace}
               className="w-full border-white/10 bg-white/5 text-white hover:bg-white/10"
             >
-              <Plus className="mr-2 h-4 w-4" />
+              <X className="mr-2 h-4 w-4 rotate-45" />
               Add Place
             </Button>
           </div>
@@ -296,16 +282,16 @@ export default function CreateDestinationModal() {
             </Button>
             <Button
               type="submit"
-              disabled={isLoading || !selectedFile}
+              disabled={isLoading}
               className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating...
+                  Updating...
                 </>
               ) : (
-                "Create"
+                "Update"
               )}
             </Button>
           </div>

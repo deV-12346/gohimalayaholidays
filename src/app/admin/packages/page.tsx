@@ -11,9 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import CreatePackageModal from "@/components/admin/modals/CreatePackageModal";
+import EditPackageModal from "@/components/admin/modals/EditPackageModal";
 import EmptyState from "@/components/admin/common/EmptyState";
 import { TableSkeleton } from "@/components/admin/common/LoadingSkeleton";
 import {
@@ -24,7 +24,7 @@ import Image from "next/image";
 
 export default function PackagesPage() {
   const { data, isLoading } = useGetPackagesQuery();
-  const [deletePackage, { isLoading: isDeleting }] = useDeletePackageMutation();
+  const [deletePackage] = useDeletePackageMutation();
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
@@ -80,12 +80,14 @@ export default function PackagesPage() {
                 >
                   <TableCell>
                     <div className="relative h-12 w-12 overflow-hidden rounded-lg">
-                      <Image
-                        src={pkg.packageImages[0]?.secure_url || "/placeholder.png"}
-                        alt={pkg.title}
-                        fill
-                        className="object-cover"
-                      />
+                      {pkg.packageImages && pkg.packageImages[0] && (
+                        <Image
+                          src={pkg.packageImages[0].secure_url}
+                          alt={pkg.title}
+                          fill
+                          className="object-cover"
+                        />
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className="font-medium text-white">
@@ -110,19 +112,22 @@ export default function PackagesPage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() => handleDelete(pkg._id)}
-                      disabled={deletingId === pkg._id}
-                      className="border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20"
-                    >
-                      {deletingId === pkg._id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <Trash2 className="h-4 w-4" />
-                      )}
-                    </Button>
+                    <div className="flex gap-2">
+                      <EditPackageModal pkg={pkg} />
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => handleDelete(pkg._id)}
+                        disabled={deletingId === pkg._id}
+                        className="border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                      >
+                        {deletingId === pkg._id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

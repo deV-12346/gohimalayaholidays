@@ -14,7 +14,26 @@ export const POST = withHandler(async (req:NextRequest,user) => {
         const description = formData.get('description') as string
         const destinationLocation = formData.get("destinationLocation") as string
         const image = formData.get('image') as File
-        const popularPlaces = JSON.parse(formData.get('popularPlaces') as string) as string[]
+        const popularPlacesRaw = formData.get('popularPlaces') as string
+        
+        console.log("Received formData:", {
+            title,
+            description,
+            destinationLocation,
+            image: image?.name,
+            popularPlacesRaw
+        });
+        
+        let popularPlaces: string[] = [];
+        try {
+            popularPlaces = popularPlacesRaw ? JSON.parse(popularPlacesRaw) : [];
+        } catch (e) {
+            return NextResponse.json({
+                success:false,
+                message:"Invalid popular places format"
+            },{status:400})
+        }
+        
         const result = await destinationSchema.safeParse({
             title,
             description,
@@ -23,12 +42,14 @@ export const POST = withHandler(async (req:NextRequest,user) => {
             popularPlaces
         })
         if(!result.success){
+            console.error("Validation error:", result.error);
             return NextResponse.json({
                 success:false,
                 message:result.error.issues[0].message
             },{status:400})
         }
         const imgRes = await uploadOnCloudinary(image,'destination')
+        console.log(imgRes)
         const newDestination = await destinationModel.create({
             title,
             description,

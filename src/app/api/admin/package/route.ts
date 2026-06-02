@@ -70,6 +70,81 @@ export const GET = withErrorHandler(async (req:NextRequest)=>{
      packages
     })
 })
+export const PATCH = withHandler(async (req:NextRequest, user) => {
+    const formData = await req.formData()
+    const packageId = formData.get("packageId") as string
+    
+    if(!packageId){
+        return NextResponse.json({
+            success:false,
+            message:"Package ID is missing"
+        },{status:400})
+    }
+
+    const dbPackage = await packageModel.findById(packageId)
+    if(!dbPackage){
+        return NextResponse.json({
+            success:false,
+            message:"Package not found"
+        },{status:404})
+    }
+
+    const destinationId = formData.get("destinationId") as string
+    const title = formData.get("title") as string
+    const description = formData.get("description") as string
+    const price = Number(formData.get("price"))
+    const slots = Number(formData.get("slots"))
+    const duration = Number(formData.get("duration"))
+    const includedService = JSON.parse(formData.get("includedService") as string)
+    const excludedService = JSON.parse(formData.get("excludedService") as string)
+    const newImages = formData.getAll("packageImages").filter((item): item is File => item instanceof File)
+
+    // Validate destination
+    if(destinationId){
+        const destination = await destinationModel.findById(destinationId)
+        if(!destination){
+            return NextResponse.json({
+                success:false,
+                message:"Destination not found"
+            },{status:404})
+        }
+    }
+
+    // Upload new images if provided
+    let updatedImages = dbPackage.packageImages
+    if(newImages.length > 0){
+        // Delete old images from cloudinary
+        await Promise.allSettled(
+            dbPackage.packageImages.map(async (img)=>(
+                await deleteFromCloudinary(img.public_id!)
+            ))
+        )
+        // Upload new images
+        const images: CloudinaryResult[] = await Promise.all(
+            newImages.map((image) => uploadOnCloudinary(image, "packages"))
+        )
+        updatedImages = images
+    }
+
+    // Update package
+    dbPackage.destinationId = destinationId ? new Types.ObjectId(destinationId) : dbPackage.destinationId
+    dbPackage.title = title || dbPackage.title
+    dbPackage.description = description || dbPackage.description
+    dbPackage.price = price || dbPackage.price
+    dbPackage.slots = slots || dbPackage.slots
+    dbPackage.duration = duration || dbPackage.duration
+    dbPackage.includedService = includedService || dbPackage.includedService
+    dbPackage.excludedService = excludedService || dbPackage.excludedService
+    dbPackage.packageImages = updatedImages
+
+    await dbPackage.save()
+
+    return NextResponse.json({
+        success:true,
+        message:"Package updated successfully"
+    })
+})
+
 export const DELETE = withHandler(async (req:NextRequest)=>{
     const {packageId} = await req.json()
     if(!packageId){

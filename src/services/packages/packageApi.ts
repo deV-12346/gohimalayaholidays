@@ -60,6 +60,15 @@ export const packageApi = createApi({
       invalidatesTags: ["Package"],
     }),
 
+    updatePackage: builder.mutation<ApiResponse, FormData>({
+      query: (formData) => ({
+        url: "/admin/package",
+        method: "PATCH",
+        body: formData,
+      }),
+      invalidatesTags: ["Package"],
+    }),
+
     deletePackage: builder.mutation<ApiResponse, { packageId: string }>({
       query: (body) => ({
         url: "/admin/package",
@@ -74,5 +83,6 @@ export const packageApi = createApi({
 export const {
   useGetPackagesQuery,
   useCreatePackageMutation,
+  useUpdatePackageMutation,
   useDeletePackageMutation,
 } = packageApi;

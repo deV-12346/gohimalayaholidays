@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MapPin, Trash2, Edit, Loader2 } from "lucide-react";
+import { MapPin, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   Table,
@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import CreateDestinationModal from "@/components/admin/modals/CreateDestinationModal";
+import EditDestinationModal from "@/components/admin/modals/EditDestinationModal";
 import EmptyState from "@/components/admin/common/EmptyState";
 import { TableSkeleton } from "@/components/admin/common/LoadingSkeleton";
 import {
@@ -24,7 +25,7 @@ import Image from "next/image";
 
 export default function DestinationsPage() {
   const { data, isLoading } = useGetDestinationsQuery();
-  const [deleteDestination, { isLoading: isDeleting }] = useDeleteDestinationMutation();
+  const [deleteDestination] = useDeleteDestinationMutation();
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
@@ -79,12 +80,14 @@ export default function DestinationsPage() {
                 >
                   <TableCell>
                     <div className="relative h-12 w-12 overflow-hidden rounded-lg">
-                      <Image
-                        src={destination.image}
-                        alt={destination.title}
-                        fill
-                        className="object-cover"
-                      />
+                      {destination.image && (
+                        <Image
+                          src={destination.image}
+                          alt={destination.title}
+                          fill
+                          className="object-cover"
+                        />
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className="font-medium text-white">
@@ -113,6 +116,7 @@ export default function DestinationsPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
+                      <EditDestinationModal destination={destination} />
                       <Button
                         size="icon"
                         variant="outline"

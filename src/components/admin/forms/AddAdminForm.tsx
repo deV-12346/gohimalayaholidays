@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { adminSchema } from "@/schema/admin.schema";
 import { useAddAdminMutation } from "@/services/admin/adminApi";
-import { FormField } from "@/components/admin/common/FormField";
+import  FormField  from "@/components/admin/common/FormField";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 
@@ -45,33 +45,37 @@ export default function AddAdminForm({ onSuccess }: AddAdminFormProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-6 pt-4">
       <FormField
         label="Admin Name"
+        name="adminName"
         placeholder="e.g. John Doe"
         required
-        error={errors.adminName?.message}
-        {...register("adminName")}
+        register={register}
+        error={errors.adminName}
       />
       <FormField
         label="Email"
+        name="email"
         type="email"
         placeholder="admin@example.com"
         required
-        error={errors.email?.message}
-        {...register("email")}
+        register={register}
+        error={errors.email}
       />
       <FormField
         label="Phone Number"
+        name="phoneNumber"
         placeholder="10-digit mobile number"
         required
-        error={errors.phoneNumber?.message}
-        {...register("phoneNumber")}
+        register={register}
+        error={errors.phoneNumber}
       />
       <FormField
         label="Password"
+        name="password"
         type="password"
         placeholder="Min 12 chars, uppercase, number, special"
         required
-        error={errors.password?.message}
-        {...register("password")}
+        register={register}
+        error={errors.password}
       />
       <DialogFooter className="pt-2 px-0">
         <Button

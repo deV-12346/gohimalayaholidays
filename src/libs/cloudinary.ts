@@ -18,9 +18,10 @@ export const uploadOnCloudinary = async(file:File,fn:string):Promise<CloudinaryR
             folder:folderName
             },
             (error,result)=>{
+                console.log(result)
                 if(error) reject(error)
                 else resolve({
-                 secure_url:result!.sucure_url,
+                 secure_url:result!.secure_url,
                  public_id:result!.public_id,
                 })
             }
