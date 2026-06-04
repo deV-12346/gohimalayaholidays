@@ -332,25 +332,23 @@ export default function CreatePackageModal() {
         data.slots
       );
 
-      formData.append(
-        "includedService",
+    includedServices
+    .filter((s) => s.trim())
+    .forEach((service) => {
+    formData.append(
+      "includedService",
+      service
+    );
+  });
 
-        JSON.stringify(
-          includedServices.filter(
-            (s) => s.trim()
-          )
-        )
-      );
-
-      formData.append(
-        "excludedService",
-
-        JSON.stringify(
-          excludedServices.filter(
-            (s) => s.trim()
-          )
-        )
-      );
+  excludedServices
+  .filter((s) => s.trim())
+  .forEach((service) => {
+    formData.append(
+      "excludedService",
+      service
+    );
+     });
 
       selectedFiles.forEach(
         (file) => {
@@ -741,8 +739,7 @@ export default function CreatePackageModal() {
               Included Services
             </Label>
 
-            {includedServices.map(
-              (
+            {includedServices.map((
                 service,
                 index
               ) => (

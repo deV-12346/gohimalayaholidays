@@ -60,27 +60,87 @@ export default function EditPackageModal({ pkg }: EditPackageModalProps) {
   });
 
   useEffect(() => {
-    if (open) {
-      // Extract destinationId from pkg
-      const destId = typeof pkg.destinationId === 'string' 
-        ? pkg.destinationId 
+  if (open) {
+    // Extract destinationId from pkg
+    const destId =
+      typeof pkg.destinationId ===
+      "string"
+        ? pkg.destinationId
         : pkg.destinationId._id;
-      
-      setSelectedDestination(destId);
-      setValue("title", pkg.title);
-      setValue("description", pkg.description);
-      setValue("price", pkg.price);
-      setValue("slots", pkg.slots);
-      setValue("duration", pkg.duration);
-      setIncludedServices(pkg.includedService || [""]);
-      setExcludedServices(pkg.excludedService || [""]);
-      
-      // Set existing images as previews
-      const existingPreviews = pkg.packageImages.map(img => img.secure_url);
-      setImagePreviews(existingPreviews);
-      setSelectedFiles([]);
-    }
-  }, [open, pkg, setValue]);
+
+    setSelectedDestination(destId);
+
+    setValue("title", pkg.title);
+
+    setValue(
+      "description",
+      pkg.description
+    );
+
+    setValue("price", pkg.price);
+
+    setValue("slots", pkg.slots);
+
+    setValue(
+      "duration",
+      pkg.duration
+    );
+
+    const parsedIncluded =
+      typeof pkg.includedService ===
+      "string"
+        ? JSON.parse(
+            pkg.includedService
+          )
+        : pkg.includedService ||
+          [""];
+
+    const parsedExcluded =
+      typeof pkg.excludedService ===
+      "string"
+        ? JSON.parse(
+            pkg.excludedService
+          )
+        : pkg.excludedService ||
+          [""];
+
+    setIncludedServices(
+      parsedIncluded
+    );
+
+    setExcludedServices(
+      parsedExcluded
+    );
+
+    setValue(
+      "includedService",
+      parsedIncluded,
+      {
+        shouldValidate: true,
+      }
+    );
+
+    setValue(
+      "excludedService",
+      parsedExcluded,
+      {
+        shouldValidate: true,
+      }
+    );
+
+    // Set existing images as previews
+    const existingPreviews =
+      pkg.packageImages.map(
+        (img) => img.secure_url
+      );
+
+    setImagePreviews(
+      existingPreviews
+    );
+
+    setSelectedFiles([]);
+  }
+}, [open, pkg, setValue]);
 
   const addService = (type: "included" | "excluded") => {
     if (type === "included") {

@@ -7,10 +7,12 @@ import {
 } from "lucide-react";
 
 interface Props {
+  adminName?:string
   onMenuClick: () => void;
 }
 
 export default function AdminNavbar({
+  adminName,
   onMenuClick,
 }: Props) {
   return (
@@ -113,11 +115,11 @@ export default function AdminNavbar({
         >
           <div className="hidden text-right sm:block">
             <p className="text-sm font-semibold text-white">
-              Admin User
+              {adminName}
             </p>
 
             <p className="text-xs text-zinc-500">
-              Super Admin
+              Admin
             </p>
           </div>
 

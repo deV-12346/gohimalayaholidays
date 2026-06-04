@@ -1,5 +1,5 @@
 "use client";
-
+import { signOut, useSession } from 'next-auth/react'
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -165,7 +165,9 @@ export default function AdminSidebar({
       </nav>
 
       <div className="border-t border-white/10 p-4">
-        <button
+        <Link
+          href={"/sign-in"}
+          onClick={()=>signOut()}
           className="
           flex
           w-full
@@ -184,7 +186,7 @@ export default function AdminSidebar({
         >
           <LogOut className="h-5 w-5" />
           Logout
-        </button>
+        </Link>
       </div>
     </>
   );

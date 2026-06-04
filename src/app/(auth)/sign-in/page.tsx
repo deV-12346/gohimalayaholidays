@@ -151,13 +151,13 @@ export default function SignInPage() {
                   placeholder:text-gray-400
                 "
               />
+              </div>
               {
                 errors.identifier && (
                   <span className="text-sm text-red-400 
                   font-medium">{errors.identifier.message}</span>
                 )
               }
-            </div>
           </div>
 
           {/* Password */}
@@ -181,7 +181,7 @@ export default function SignInPage() {
                 rounded-2xl
                 border
                 border-white/10
-                bg-white/10
+                // bg-white/10
                 px-4
               "
             >

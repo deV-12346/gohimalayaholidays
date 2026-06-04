@@ -57,7 +57,7 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     },{status:201})
 }) 
 export const GET = withErrorHandler(async (req:NextRequest)=>{
-    const packages = await packageModel.find()
+    const packages = await packageModel.find().sort({ updatedAt: -1 });
     if(!packages.length){
         return NextResponse.json({
             success:false,

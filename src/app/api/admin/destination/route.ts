@@ -68,7 +68,7 @@ export const POST = withHandler(async (req:NextRequest,user) => {
 
 export const GET = withErrorHandler(async (req:NextRequest,user) => {
         await connectDb()
-        const destinations = await destinationModel.find()
+        const destinations = await destinationModel.find().sort({ updatedAt: -1 });
         if(!destinations){
             return NextResponse.json({
                 success:false,

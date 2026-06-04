@@ -1,73 +1,20 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/option";
+import AdminLayoutClient from "./AdminLayoutClient";
 
-import AdminNavbar from "@/components/admin/navbar/Navbar";
-import AdminSidebar from "@/components/admin/sidebar/Sidebar";
-import { useState } from "react";
-
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [mobileOpen, setMobileOpen] =
-    useState(false);
+
+  const session = await getServerSession(authOptions);
 
   return (
-    <div
-      className="
-      min-h-screen
-      bg-[#020617]
-      text-zinc-300
-      selection:bg-cyan-500/20
-      selection:text-cyan-200
-    "
+    <AdminLayoutClient
+      user={session?.user}
     >
-      {/* Glow */}
-
-      <div
-        className="
-        pointer-events-none
-        fixed
-        top-[-200px]
-        right-[-100px]
-        h-[500px]
-        w-[500px]
-        rounded-full
-        bg-cyan-500/10
-        blur-[120px]
-      "
-      />
-
-      <div
-        className="
-        pointer-events-none
-        fixed
-        bottom-[-250px]
-        left-[-150px]
-        h-[500px]
-        w-[500px]
-        rounded-full
-        bg-blue-500/10
-        blur-[120px]
-      "
-      />
-
-      <AdminSidebar
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
-      />
-
-      <div className="md:pl-72">
-        <AdminNavbar
-          onMenuClick={() =>
-            setMobileOpen(true)
-          }
-        />
-
-        <main className="p-4 md:p-8">
-          {children}
-        </main>
-      </div>
-    </div>
+      {children}
+    </AdminLayoutClient>
   );
 }
