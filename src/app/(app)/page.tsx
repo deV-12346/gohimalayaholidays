@@ -5,17 +5,18 @@ import TrendingPackages from "@/components/home/TrendingPackages"
 import Testimonials from "@/components/home/Testimonials"
 import CTASection from "@/components/home/CTASection"
 import Footer from "@/components/layouts/Footer"
+import Navbar from "@/components/Navbar"
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
+      <Navbar transparent={true} />
       <HeroSection />
       <PopularDestinations />
       <WhyChooseUs />
       <TrendingPackages />
       <Testimonials />
       <CTASection />
-      <Footer />
     </main>
   )
 }

@@ -7,7 +7,7 @@ export default function EnquiriesTable() {
   const { data, isLoading, isError, refetch } = useGetEnquiriesQuery();
   const [search, setSearch] = useState("");
 
-  const filtered = data?.equiries.filter((e) =>
+  const filtered = data?.equiries!.filter((e) =>
     [e.name, e.email, e.phoneNumber, e.message]
       .join(" ")
       .toLowerCase()

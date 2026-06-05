@@ -1,7 +1,12 @@
+import Navbar from '@/components/Navbar'
 import React from 'react'
 
-export default function PackagesPage() {
+const page = () => {
   return (
-    <div>Packages Page</div>
+    <div>
+      <Navbar transparent={true} />
+    </div>
   )
 }
+
+export default page

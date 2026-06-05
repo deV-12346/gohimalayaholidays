@@ -3,7 +3,12 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { UseFormRegister, FieldError, Merge, FieldErrorsImpl } from "react-hook-form";
+import {
+  UseFormRegister,
+  FieldError,
+  Merge,
+  FieldErrorsImpl,
+} from "react-hook-form";
 
 interface FormFieldProps {
   label: string;
@@ -33,17 +38,34 @@ export default function FormField({
   multiple = false,
 }: FormFieldProps) {
   return (
-    <div className="space-y-2">
-      <Label htmlFor={name} className="text-zinc-300">
-        {label} {required && <span className="text-red-400">*</span>}
+    <div className="space-y-1.5 w-full">
+      <Label
+        htmlFor={name}
+        className="text-sm font-medium text-gray-700"
+      >
+        {label} {required && <span className="text-red-500">*</span>}
       </Label>
+
       {textarea ? (
         <Textarea
           id={name}
           placeholder={placeholder}
           rows={rows}
           {...register(name)}
-          className="border-white/10 bg-white/5 text-white placeholder:text-zinc-500 focus:border-cyan-500/50"
+          className="
+            w-full
+            rounded-lg
+            border
+            border-gray-200
+            bg-white
+            text-sm
+            text-gray-900
+            placeholder:text-gray-400
+            focus:border-orange-400
+            focus:ring-2
+            focus:ring-orange-100
+            min-h-[120px]
+          "
         />
       ) : (
         <Input
@@ -53,15 +75,28 @@ export default function FormField({
           accept={accept}
           multiple={multiple}
           {...register(name)}
-          className="border-white/10 bg-white/5 text-white placeholder:text-zinc-500 focus:border-cyan-500/50"
+          className="
+            h-11
+            w-full
+            rounded-lg
+            border
+            border-gray-200
+            bg-white
+            text-sm
+            text-gray-900
+            placeholder:text-gray-400
+            focus:border-orange-400
+            focus:ring-2
+            focus:ring-orange-100
+          "
         />
       )}
+
       {error && (
-        <p className="text-sm text-red-400">
-          {typeof error === 'string' 
-            ? error 
-            : String(error.message || 'Invalid input')
-          }
+        <p className="text-xs text-red-500">
+          {typeof error === "string"
+            ? error
+            : String(error.message || "Invalid input")}
         </p>
       )}
     </div>
