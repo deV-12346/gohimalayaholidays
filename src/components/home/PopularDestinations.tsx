@@ -1,41 +1,22 @@
 "use client"
 import Image from "next/image"
-import { motion } from "framer-motion"
-
-const destinations = [
-  {
-    title: "Manali",
-    image:
-      "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "Shimla",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "Kasol",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "Dharamshala",
-    image:
-      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "Spiti Valley",
-    image:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    title: "Kullu",
-    image:
-      "https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=2070&auto=format&fit=crop",
-  },
-]
+import { motion } from "framer-motion";
+import { useGetDestinationsQuery } from "@/services/destinations/destinationApi";
+import { Destination } from "@/services/destinations/destinationApi";
+import DestinationCard from "@/components/DestinationCard";
 
 export default function PopularDestinations() {
+  const { data, isLoading, isError } = useGetDestinationsQuery();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading destinations.</div>;
+  }
+
+  const destinations: Destination[] = data?.destinations.slice(0, 5) || [];
   return (
     <section className="bg-white px-6 py-12">
 
@@ -61,48 +42,28 @@ export default function PopularDestinations() {
 
         <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
-          {destinations.map((place, index) => (
-
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-              }}
-              viewport={{ once: true }}
-              className="group overflow-hidden rounded-3xl shadow-lg"
-            >
-
-              <div className="relative h-[350px] overflow-hidden">
-
-                <Image
-                  src={place.image}
-                  alt={place.title}
-                  fill
-                  className="object-cover transition duration-700 group-hover:scale-110"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                <div className="absolute bottom-6 left-6 text-white">
-
-                  <h3 className="text-3xl font-bold">
-                    {place.title}
-                  </h3>
-
-                  <p className="mt-2 text-sm text-gray-200">
-                    Discover scenic beauty & adventure
-                  </p>
-
-                </div>
-
-              </div>
-
-            </motion.div>
-
+          {destinations.map((destination, index) => (
+            <DestinationCard key={index} destination={destination} index={index} />
           ))}
+
+          {/* <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.5,
+              delay: 5 * 0.1,
+            }}
+            viewport={{ once: true }}
+            className="group overflow-hidden rounded-3xl shadow-lg"
+          >
+            <a
+              href="/destinations"
+              className="relative flex h-[350px] items-center justify-center overflow-hidden bg-gray-100 text-gray-800 transition duration-300 hover:bg-gray-200"
+            >
+              <h3 className="text-xl font-bold">View All Destinations</h3>
+            </a>
+          </motion.div> */}
+
 
         </div>
 

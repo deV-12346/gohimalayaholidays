@@ -44,7 +44,7 @@ export const destinationApi = createApi({
   endpoints: (builder) => ({
     getDestinations: builder.query<GetDestinationsResponse, void>({
       query: () => ({
-        url: "/admin/destination",
+        url: "/destination",
         method: "GET",
       }),
       providesTags: ["Destination"],
