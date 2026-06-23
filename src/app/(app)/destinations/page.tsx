@@ -4,7 +4,6 @@ import { useGetDestinationsQuery } from "@/services/destinations/destinationApi"
 import { Destination } from "@/services/destinations/destinationApi";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Footer from "@/components/layouts/Footer";
 
 const DestinationsPage = () => {
   const { data, isLoading, isError } = useGetDestinationsQuery();
@@ -23,7 +22,7 @@ const DestinationsPage = () => {
     <div>
       <Navbar transparent={false} />
       <main className="min-h-screen bg-white text-gray-900">
-        <section className="bg-white px-6 py-12">
+        <section className="bg-white  px-6 py-6 md:py-8">
           <div className="mx-auto max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -33,7 +32,7 @@ const DestinationsPage = () => {
               className="text-center"
             >
               <h2 className="text-4xl font-bold">All Destinations</h2>
-              <p className="mt-4 text-gray-600">
+              <p className="mt-2 text-gray-600">
                 Explore all the beautiful places of Himachal Pradesh
               </p>
             </motion.div>
@@ -72,7 +71,6 @@ const DestinationsPage = () => {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 };

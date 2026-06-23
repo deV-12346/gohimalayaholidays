@@ -27,7 +27,7 @@ export default function Testimonials() {
 
   return (
 
-    <section className="bg-gray-50 px-6 py-24">
+    <section className="bg-gray-50 px-6 py-10">
 
       <div className="mx-auto max-w-7xl">
 

@@ -18,10 +18,8 @@ export default function PopularDestinations() {
 
   const destinations: Destination[] = data?.destinations.slice(0, 5) || [];
   return (
-    <section className="bg-white px-6 py-12">
-
+    <section className="bg-white px-6 py-10">
       <div className="mx-auto max-w-7xl">
-
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}

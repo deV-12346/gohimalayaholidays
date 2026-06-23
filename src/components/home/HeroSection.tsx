@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-
+import Link from "next/link"
 export default function HeroSection() {
   const starsRef = useRef<SVGGElement>(null);
 
@@ -287,39 +287,33 @@ export default function HeroSection() {
 
           {/* CTAs */}
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              className="group relative overflow-hidden rounded-full px-8 py-3 text-sm font-semibold transition-all duration-300"
-              style={{
-                background: "linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)",
-                color: "#fff",
-                border: "none",
-                boxShadow: "0 0 24px rgba(124,58,237,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 0 40px rgba(124,58,237,0.7), inset 0 1px 0 rgba(255,255,255,0.2)")}
-              onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 0 24px rgba(124,58,237,0.45), inset 0 1px 0 rgba(255,255,255,0.15)")}
-            >
-              Explore Packages
-            </button>
-
-            <button
-              className="rounded-full px-8 py-3 text-sm font-semibold transition-all duration-300"
-              style={{
-                background: "rgba(255,255,255,0.07)",
-                border: "0.5px solid rgba(255,255,255,0.3)",
-                color: "rgba(240,235,255,0.9)",
-                backdropFilter: "blur(8px)",
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.14)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.07)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
-              }}
-            >
-              Contact Us
-            </button>
+              <Link href="/packages">
+               <button
+                 className="group relative overflow-hidden rounded-full px-8 py-3 text-sm font-semibold transition-all duration-300"
+                 style={{
+                   background: "linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)",
+                   color: "#fff",
+                   boxShadow: "0 0 24px rgba(124,58,237,0.45)",
+                 }}
+               >
+                 Explore Packages
+               </button>
+             </Link>
+           
+             <Link href="/enquiry">
+               <button
+                 className="rounded-full px-8 py-3 text-sm font-semibold transition-all duration-300"
+                 style={{
+                   background: "rgba(255,255,255,0.07)",
+                   border: "0.5px solid rgba(255,255,255,0.3)",
+                   color: "rgba(240,235,255,0.9)",
+                   backdropFilter: "blur(8px)",
+                 }}
+               >
+                 Enquiry Now
+               </button>
+             </Link>
+           
           </div>
 
           {/* Stats row */}
