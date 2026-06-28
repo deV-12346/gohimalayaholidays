@@ -1,19 +1,26 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import EnquiryModal from "./EnquiryModal"
 const EnquiryPopupHandler = () => {
   const [openModal, setOpenModal] = useState(false)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const delayRef = useRef(5000)
   useEffect(() => {
-    const alreadyShown = localStorage.getItem("enquiry-popup")
-    if (!alreadyShown) {
-    const timer = setTimeout(() => {
-    setOpenModal(true)
-    localStorage.setItem(
-      "enquiry-popup",
-      "true"
-    )}, 5000)
-    return () => clearTimeout(timer)
-  }}, [])
+     const showPopup = () => {
+      timerRef.current = setTimeout(() => {
+        setOpenModal(true)
+        // double delay
+        delayRef.current = delayRef.current * 2
+        showPopup()
+      }, delayRef.current)
+    }
+    showPopup()
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+  }
+  }, [])
   return (
     <EnquiryModal
       open={openModal}

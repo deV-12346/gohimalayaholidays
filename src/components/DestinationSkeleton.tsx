@@ -19,12 +19,6 @@ export default function DestinationCardSkeleton() {
         <div className="space-y-2 pt-2">
           <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
           <div className="h-4 w-5/6 rounded bg-gray-200 animate-pulse" />
-          <div className="h-4 w-2/3 rounded bg-gray-200 animate-pulse" />
-        </div>
-
-        {/* Button */}
-        <div className="pt-4">
-          <div className="h-11 w-32 rounded-full bg-gray-200 animate-pulse" />
         </div>
 
       </div>

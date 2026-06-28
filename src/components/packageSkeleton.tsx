@@ -15,16 +15,10 @@ export default function PackageCardSkeleton() {
         {/* Location */}
         <div className="h-4 w-1/2 rounded bg-gray-200 animate-pulse" />
 
-        {/* Description */}
-        <div className="space-y-2">
-          <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
-          <div className="h-4 w-5/6 rounded bg-gray-200 animate-pulse" />
-        </div>
 
         {/* Price + Button */}
         <div className="flex items-center justify-between pt-4">
           <div className="h-6 w-24 rounded bg-gray-200 animate-pulse" />
-
           <div className="h-10 w-28 rounded-full bg-gray-200 animate-pulse" />
         </div>
 

@@ -45,21 +45,21 @@ export default function PopularDestinations() {
           </p>
         </motion.div>
         {isLoading ? (
-          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {[1,2,3,4,5].map((item) => (
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {[1,2,3,4].map((item) => (
               <DestinationCardSkeleton key={item} />
             ))}
-          </div>
+        </div>
         ) : (
-          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {destinations.map((destination, index) => (
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {destinations.map((destination, index:number) => (
               <DestinationCard
                 key={index}
                 destination={destination}
                 index={index}
               />
             ))}
-          </div>
+        </div>
         )}
       </div>
     </section>

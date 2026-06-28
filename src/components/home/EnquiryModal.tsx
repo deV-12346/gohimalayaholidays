@@ -64,13 +64,13 @@ const EnquiryModal = ({ open, onClose }: Props) => {
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 rounded-full p-2 hover:bg-gray-100"
+              className="absolute right-4 top-0 rounded-full p-2 hover:bg-gray-100"
             >
               <X size={22} />
             </button>
 
-            <h2 className="text-3xl font-bold text-center">
-              Plan Your Himachal Trip ✨
+            <h2 className="text-2xl font-bold text-center">
+              Plan Your Himachal Trip
             </h2>
 
             <p className="mt-3 text-center text-gray-600">

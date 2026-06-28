@@ -20,9 +20,9 @@ const DestinationsPage = () => {
   }
   const destinations: Destination[] = data?.destinations || [];
   return (
-    <main className="min-h-screen bg-white text-gray-900">
-    <section className="bg-white px-6 py-6 md:py-8">
-    <div className="mx-auto max-w-7xl">
+    <main className="w-full bg-white  px-6 py-24 min-h-screen flex justify-start
+    items-center flex-col">
+    <div className="mx-auto w-full max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -44,13 +44,13 @@ const DestinationsPage = () => {
         </motion.div>
         {/* Skeleton Loading */}
         {isLoading ? (
-          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="w-full mt-14 grid-cols-1 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[1,2,3,4,5,6].map((item) => (
               <DestinationCardSkeleton key={item} />
             ))}
           </div>
         ) : (
-        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="w-full t-14 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {destinations.map((place, index) => (
             <motion.div
             key={index}
@@ -85,7 +85,6 @@ const DestinationsPage = () => {
         </div>
     )}
     </div>
-    </section>
     </main>
   );
 };
