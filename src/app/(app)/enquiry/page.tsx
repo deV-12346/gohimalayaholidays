@@ -2,6 +2,7 @@ import CreateEnquiry from '@/components/enquiry/createEnquiry'
 import Navbar from '@/components/Navbar'
 
 const page = () => {
+  
   return (
     <div className='min-h-screen bg-gray-50'>
       <Navbar transparent={false} />

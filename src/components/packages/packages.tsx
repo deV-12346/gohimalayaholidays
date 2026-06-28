@@ -2,6 +2,7 @@
 import { Package, useGetPackagesQuery } from '@/services/packages/packageApi'
 import PackageCard from './PackageCard'
 import { motion } from "framer-motion";
+import PackageCardSkeleton from '../packageSkeleton';
 const Packages = () => {
     const {data:packages,isLoading} = useGetPackagesQuery(undefined,{
       selectFromResult: ({ data,isLoading })=>({
@@ -9,7 +10,6 @@ const Packages = () => {
         isLoading
       })
     })
-    console.log("data.....",packages)
   return (
     <div className="w-full bg-white  px-6 py-24 min-h-screen flex justify-start
     items-center flex-col">
@@ -27,20 +27,19 @@ const Packages = () => {
         </p>
       </motion.div>
       </div>
-      {
-        isLoading && (
-          <h1>Please wait</h1>
-        )
-      }
-      {
-        packages && !isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-2">
+       {isLoading ? (
+        <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-10">
+          {[1,2,3,4,5,6].map((item) => (
+            <PackageCardSkeleton key={item} />
+          ))}
+        </div>
+      ) : (
+        <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-10">
           {packages?.map((item) => (
             <PackageCard key={item._id} item={item} />
           ))}
-          </div>
-        )
-      }
+        </div>
+      )}
     </div>
   )
 }

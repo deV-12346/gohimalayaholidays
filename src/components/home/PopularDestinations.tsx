@@ -1,25 +1,30 @@
 "use client"
-import Image from "next/image"
+
 import { motion } from "framer-motion";
 import { useGetDestinationsQuery } from "@/services/destinations/destinationApi";
 import { Destination } from "@/services/destinations/destinationApi";
 import DestinationCard from "@/components/DestinationCard";
+import { Loader2 } from "lucide-react";
+import DestinationCardSkeleton from "../DestinationSkeleton";
 
 export default function PopularDestinations() {
-  const { data, isLoading, isError } = useGetDestinationsQuery();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError
+  } = useGetDestinationsQuery();
   if (isError) {
     return <div>Error loading destinations.</div>;
   }
+  const destinations: Destination[] =
+    data?.destinations.slice(0, 5) || [];
 
-  const destinations: Destination[] = data?.destinations.slice(0, 5) || [];
   return (
     <section className="bg-white px-6 py-10">
       <div className="mx-auto max-w-7xl">
+
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -27,46 +32,36 @@ export default function PopularDestinations() {
           viewport={{ once: true }}
           className="text-center"
         >
-
-          <h2 className="text-4xl font-bold">
-            Popular Destinations
-          </h2>
-
+          <div className="flex items-center justify-center gap-3">
+            <h2 className="text-4xl font-bold">
+              Popular Destinations
+            </h2>
+            {isFetching && !isLoading && (
+              <Loader2 className="h-5 w-5 animate-spin text-indigo-600" />
+            )}
+          </div>
           <p className="mt-4 text-gray-600">
             Explore the most beautiful places of Himachal Pradesh
           </p>
-
         </motion.div>
-
-        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-
-          {destinations.map((destination, index) => (
-            <DestinationCard key={index} destination={destination} index={index} />
-          ))}
-
-          {/* <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{
-              duration: 0.5,
-              delay: 5 * 0.1,
-            }}
-            viewport={{ once: true }}
-            className="group overflow-hidden rounded-3xl shadow-lg"
-          >
-            <a
-              href="/destinations"
-              className="relative flex h-[350px] items-center justify-center overflow-hidden bg-gray-100 text-gray-800 transition duration-300 hover:bg-gray-200"
-            >
-              <h3 className="text-xl font-bold">View All Destinations</h3>
-            </a>
-          </motion.div> */}
-
-
-        </div>
-
+        {isLoading ? (
+          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {[1,2,3,4,5].map((item) => (
+              <DestinationCardSkeleton key={item} />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {destinations.map((destination, index) => (
+              <DestinationCard
+                key={index}
+                destination={destination}
+                index={index}
+              />
+            ))}
+          </div>
+        )}
       </div>
-
     </section>
   )
 }
