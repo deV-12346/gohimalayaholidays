@@ -4,8 +4,8 @@ import WhyChooseUs from "@/components/home/WhyChooseUs"
 import TrendingPackages from "@/components/home/TrendingPackages"
 import Testimonials from "@/components/home/Testimonials"
 import CTASection from "@/components/home/CTASection"
-import Footer from "@/components/layouts/Footer"
 import Navbar from "@/components/Navbar"
+import EnquiryPopupHandler from "@/components/home/EnquiryPopupHandler"
 
 export default function HomePage() {
   return (
@@ -17,6 +17,7 @@ export default function HomePage() {
       <TrendingPackages />
       <Testimonials />
       <CTASection />
+      <EnquiryPopupHandler/>
     </main>
   )
 }
