@@ -27,7 +27,11 @@ export interface GetPackagesResponse {
   message: string;
   packages: Package[];
 }
-
+export interface GetPackagesByIdResponse {
+  success: boolean;
+  message: string;
+  packages: Package;
+}
 export interface ApiResponse {
   success: boolean;
   message: string;
@@ -77,6 +81,12 @@ export const packageApi = createApi({
       }),
       invalidatesTags: ["Package"],
     }),
+    getPackageById: builder.query<GetPackagesByIdResponse,{ packageId: string }>({
+      query: ({packageId}) => ({
+      url:`/package/${packageId}`,
+      method:"GET",
+      })
+    }),
   }),
 });
 
@@ -85,4 +95,5 @@ export const {
   useCreatePackageMutation,
   useUpdatePackageMutation,
   useDeletePackageMutation,
+  useGetPackageByIdQuery
 } = packageApi;

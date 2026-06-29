@@ -1,46 +1,58 @@
 "use client"
+
 import { Package, useGetPackagesQuery } from '@/services/packages/packageApi'
 import PackageCard from './PackageCard'
-import { motion } from "framer-motion";
-import PackageCardSkeleton from '../packageSkeleton';
+import { motion } from "framer-motion"
+import PackageCardSkeleton from '../packageSkeleton'
+
 const Packages = () => {
-    const {data:packages,isLoading,isFetching} = useGetPackagesQuery(undefined,{
-      selectFromResult: ({ data,isLoading,isFetching })=>({
-        data: data?.packages,
-        isLoading,
-        isFetching
-      })
+  const { data: packages, isLoading, isFetching } = useGetPackagesQuery(undefined, {
+    selectFromResult: ({ data, isLoading, isFetching }) => ({
+      data: data?.packages,
+      isLoading,
+      isFetching
     })
+  })
+
   return (
-    <div className="w-full bg-white  px-6 py-24 min-h-screen flex justify-start
-    items-center flex-col">
-     <div className="mx-auto w-full max-w-7xl">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true }}
-        className="text-center"
-      >
-        <h2 className="text-4xl font-bold">All Packages</h2>
-        <p className="mt-2 text-gray-600">
-          Explore all the beautiful Packages of Himachal Pradesh
-        </p>
-      </motion.div>
+    <div className="w-full bg-slate-50/50 px-4 sm:px-6 py-15 min-h-screen flex flex-col 
+    items-center">
+      <div className="mx-auto w-full max-w-7xl mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 uppercase tracking-widest mb-2 shadow-sm">
+            Go Himalayas Holidays
+          </span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+            All Packages
+          </h2>
+          <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 font-medium max-w-xl mx-auto">
+            Explore all the beautiful Packages of Himachal Pradesh
+          </p>
+        </motion.div>
       </div>
-       {isLoading || isFetching ? (
-        <div className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6">
-          {[1,2,3,4,5,6,7,8].map((item) => (
-            <PackageCardSkeleton key={item} />
-          ))}
-        </div>
-      ) : (
-        <div className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6">
-          {packages?.map((item) => (
-            <PackageCard key={item._id} item={item} />
-          ))}
-        </div>
-      )}
+
+      <div className="w-full max-w-7xl mx-auto">
+        {isLoading || isFetching ? (
+          /* Grid auto-centering items on small devices */
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch">
+            {[1, 2, 3, 4].map((item) => (
+              <PackageCardSkeleton key={item} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
+            {packages?.map((item) => (
+              <PackageCard key={item._id} item={item} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

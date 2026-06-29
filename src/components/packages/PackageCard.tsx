@@ -1,65 +1,83 @@
 "use client"
 
 import Image from "next/image"
-import { Clock, Users } from "lucide-react"
+import { Clock, Users, MapPin } from "lucide-react"
 import { motion } from "framer-motion"
 import { Package } from "@/services/packages/packageApi"
 import Link from "next/link"
 
 const PackageCard = ({ item }: { item: Package }) => {
-
   return (
-    <Link href={`/packages/${item._id}`}>
+    <Link href={`/packages/${item._id}`} className="w-full max-w-[22rem] flex">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        whileHover={{ y: -10, scale: 1.02 }}
+        whileHover={{ y: -8 }}
         transition={{ duration: 0.4 }}
         viewport={{ once: true }}
-        className="w-80 cursor-pointer bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-200 hover:shadow-2xl"
+        className="w-full flex flex-col cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-slate-100 transition-all duration-300"
       >
-        <div className="relative h-64 w-full overflow-hidden">
+        {/* Top Image Section */}
+        <div className="relative h-56 w-full overflow-hidden bg-slate-100 flex-shrink-0">
           <motion.div
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.06 }}
             transition={{ duration: 0.4 }}
-            className="h-full w-full"
+            className="h-full w-full relative"
           >
-            <Image
-              src={item?.packageImages?.[0]?.secure_url}
-              alt={item?.title}
-              fill
-              className="object-cover"
-            />
+            {item?.packageImages?.[0]?.secure_url ? (
+              <Image
+                src={item.packageImages[0].secure_url}
+                alt={item.title}
+                fill
+                sizes="(max-w-7xl) 25vw, 100vw"
+                className="object-cover"
+                priority
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-xs text-slate-400">No Image</div>
+            )}
           </motion.div>
-          <div className="absolute top-4 right-4 bg-white/90 px-4 py-1 rounded-full text-sm font-semibold text-black backdrop-blur-sm">
-            ₹ {item?.price}
+          
+          {/* Elegant Price Floating Badge */}
+          <div className="absolute top-3.5 right-3.5 bg-slate-900/90 text-white font-black px-3.5 py-1.5 rounded-xl text-sm tracking-wide backdrop-blur-md shadow-sm">
+            ₹{item?.price?.toLocaleString("en-IN")}
           </div>
         </div>
-        <div className="p-3">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            {item?.title}
-          </h2>
-          <p className="text-gray-600 text-sm line-clamp-3 mb-2">
-            {item?.description}
-          </p>
-          <div className="flex items-center justify-between text-sm text-gray-700 mb-2">
-            <div className="flex items-center gap-2">
-              <Clock size={18} />
-              <span>{item?.duration} Days</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users size={18} />
-              <span>{item?.slots} Slots</span>
-            </div>
+
+        {/* Content Body Area */}
+        <div className="p-4 flex flex-col flex-grow">
+          {/* Subheader Title tag */}
+          <div className="flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-wider text-emerald-600 mb-1">
+            <MapPin className="w-3 h-3 stroke-[2.5]" /> Himachal Tour
           </div>
 
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            whileHover={{ scale: 1.03 }}
-            className="w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition"
-          >
-            View Details
-          </motion.button>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 line-clamp-1 mb-1.5 leading-tight">
+            {item?.title}
+          </h2>
+          
+          <p className="text-slate-500 text-sm font-medium line-clamp-3 mb-4 leading-relaxed">
+            {item?.description}
+          </p>
+
+          {/* Equal-Height Meta Push Container */}
+          <div className="mt-auto space-y-4">
+            {/* Quick Micro Context Info */}
+            <div className="flex items-center justify-between text-xs font-bold text-slate-700 bg-slate-50/80 rounded-xl p-2.5 border border-slate-100/50">
+              <div className="flex items-center gap-1.5 text-slate-600">
+                <Clock size={15} className="text-emerald-600 stroke-[2.5]" />
+                <span>{item?.duration} Days</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-slate-600">
+                <Users size={15} className="text-amber-500 stroke-[2.5]" />
+                <span>{item?.slots} Slots Left</span>
+              </div>
+            </div>
+
+            {/* Premium CTA Button Row */}
+            <div className="w-full bg-slate-900 text-white font-black text-center py-3 rounded-xl transitionshadow-sm text-sm tracking-wide">
+              View Details
+            </div>
+          </div>
         </div>
       </motion.div>
     </Link>

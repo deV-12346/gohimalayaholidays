@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import { useGetDestinationsQuery } from "@/services/destinations/destinationApi";
 import { Destination } from "@/services/destinations/destinationApi";
-import DestinationCard from "@/components/DestinationCard";
 import { Loader2 } from "lucide-react";
 import DestinationCardSkeleton from "../DestinationSkeleton";
+import DestinationCard from "../destinations/DestinationCard";
 
 export default function PopularDestinations() {
 
@@ -51,15 +51,11 @@ export default function PopularDestinations() {
             ))}
         </div>
         ) : (
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {destinations.map((destination, index:number) => (
-              <DestinationCard
-                key={index}
-                destination={destination}
-                index={index}
-              />
-            ))}
-        </div>
+         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full max-w-7xl mx-auto">
+        {destinations?.map((item) => (
+        <DestinationCard key={item._id} item={item} />
+        ))}
+       </div>
         )}
       </div>
     </section>

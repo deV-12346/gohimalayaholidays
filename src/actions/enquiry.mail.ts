@@ -5,7 +5,7 @@ export const sendEnquiryConfirmation = async (
   phoneNumber: string,
   message: string
 ) => {
-  await transporter.sendMail({
+  const res = await transporter.sendMail({
     from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "We've Received Your Enquiry – Go Himalaya Holidays",
@@ -91,6 +91,7 @@ export const sendEnquiryConfirmation = async (
       </div>
     `,
   });
+  console.log("res ",res)
 };
 
 
@@ -101,7 +102,7 @@ export const sendEnquiryAdminAlert = async (
   phoneNumber: string,
   message: string
 ) => {
-  await transporter.sendMail({
+  const res = await transporter.sendMail({
     from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
     to: adminemail,
     subject: `📩 New Enquiry from ${name}`,
@@ -187,4 +188,5 @@ export const sendEnquiryAdminAlert = async (
       </div>
     `,
   });
+  console.log("res",res)
 };
