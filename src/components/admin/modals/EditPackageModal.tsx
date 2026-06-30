@@ -66,7 +66,7 @@ export default function EditPackageModal({ pkg }: EditPackageModalProps) {
       typeof pkg.destinationId ===
       "string"
         ? pkg.destinationId
-        : pkg.destinationId._id;
+        : pkg.destinationId;
 
     setSelectedDestination(destId);
 
