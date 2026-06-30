@@ -63,5 +63,5 @@ export const POST = withErrorHandler(async (req:NextRequest)=>{
     return NextResponse.json({
         success:true,
         message:"Booking confirmed successfully"
-    })
+    },{status:201})
 })

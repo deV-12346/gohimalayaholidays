@@ -36,7 +36,15 @@ export const POST = withErrorHandler(async (req:NextRequest) =>{
         customer.otpExpiry = new Date(otpExpiry)
         await customer.save()
     }
-    await sendOTP(email,customerName,otp,otpExpiry)
+    try {
+      await sendOTP(email, customerName, otp, otpExpiry);
+    } catch (emailError) {
+      console.error("Email service failed temporarily:", emailError);
+      return NextResponse.json({
+        success: false,
+        message: "Failed to send verification email. Please click resend."
+      }, { status: 503 }); // 503 Service Unavailable
+    }
     return NextResponse.json({
         success:true,
         message:"OTP send successfully",

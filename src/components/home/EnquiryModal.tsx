@@ -9,14 +9,14 @@ import { useForm } from "react-hook-form"
 import FormField from "../admin/common/FormField"
 import { Button } from "../ui/button"
 import { toast } from "sonner"
+
 interface Props {
   open: boolean
   onClose: () => void
 }
 
 const EnquiryModal = ({ open, onClose }: Props) => {
-  const [createEnquiry, { isLoading }] =
-    useCreateEnquiryMutation()
+  const [createEnquiry, { isLoading }] = useCreateEnquiryMutation()
   const {
     register,
     formState: { errors },
@@ -32,7 +32,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
     }
   })
 
-  const handleCreateEnquiry = async (data: EnquiryInput)=>{
+  const handleCreateEnquiry = async (data: EnquiryInput) => {
     try {
       const res = await createEnquiry(data).unwrap()
       if (res.success) {
@@ -44,6 +44,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
       toast.error("Something went wrong")
     }
   }
+
   return (
     <AnimatePresence>
       {open && (
@@ -51,38 +52,41 @@ const EnquiryModal = ({ open, onClose }: Props) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 px-4"
+          // Added item centering alignment tweaks for small heights
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 p-4 overflow-y-auto"
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0, y: 40 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="relative w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl"
+            // Added max-h-[90vh], overflow-y-auto, and responsive width checks
+            className="relative w-[calc(100%-1rem)] sm:w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-white p-5 sm:p-8 shadow-2xl"
           >
-
-            {/* Close Button */}
+            {/* Close Button - Adjusted top positioning for layout integrity */}
             <button
+              type="button"
               onClick={onClose}
-              className="absolute right-4 top-0 rounded-full p-2 hover:bg-gray-100"
+              className="absolute right-4 top-4 rounded-full p-2 text-gray-500 hover:bg-gray-100 transition-colors"
             >
-              <X size={22} />
+              <X size={20} />
             </button>
 
-            <h2 className="text-2xl font-bold text-center">
-              Plan Your Himachal Trip
-            </h2>
+            {/* Header Content */}
+            <div className="pr-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 text-left sm:text-center">
+                Plan Your Himachal Trip
+              </h2>
+              <p className="mt-2 text-sm sm:text-base text-left sm:text-center text-gray-600">
+                Fill this form and get the best travel package deals.
+              </p>
+            </div>
 
-            <p className="mt-3 text-center text-gray-600">
-              Fill this form and get the best travel package deals.
-            </p>
-
-            {/* Form */}
+            {/* Form Container */}
             <form
               onSubmit={handleSubmit(handleCreateEnquiry)}
-              className="mt-6 space-y-4"
+              className="mt-5 sm:mt-6 space-y-4"
             >
-
               <FormField
                 label="Your Name"
                 name="name"
@@ -92,24 +96,27 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                 error={errors.name}
               />
 
-              <FormField
-                label="Email"
-                name="email"
-                placeholder="Enter your email"
-                required
-                register={register}
-                error={errors.email}
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  label="Email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                  register={register}
+                  error={errors.email}
+                />
 
-              <FormField
-                label="Phone Number"
-                name="phoneNumber"
-                placeholder="Enter your phone number"
-                required
-                register={register}
-                error={errors.phoneNumber}
-              />
+                <FormField
+                  label="Phone Number"
+                  name="phoneNumber"
+                  placeholder="Enter phone number"
+                  required
+                  register={register}
+                  error={errors.phoneNumber}
+                />
+              </div>
 
+              {/* Reduced rows slightly to save valuable vertical screen real estate on mobile */}
               <FormField
                 textarea={true}
                 label="Message"
@@ -117,17 +124,16 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                 placeholder="Write your message here..."
                 required
                 register={register}
-                rows={5}
+                rows={3} 
                 error={errors.message}
               />
+
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-auto py-3"
+                className="w-full h-auto py-3 text-base font-medium mt-2"
               >
-                {isLoading
-                  ? "Please Wait..."
-                  : "Enquiry Now"}
+                {isLoading ? "Please Wait..." : "Enquiry Now"}
               </Button>
             </form>
           </motion.div>

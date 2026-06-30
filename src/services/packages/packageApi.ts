@@ -9,7 +9,7 @@ export interface PackageImage {
 
 export interface Package {
   _id: string;
-  destinationId: string | { _id: string; title: string; destinationLocation: string };
+  destinationId: string 
   title: string;
   description: string;
   price: number;

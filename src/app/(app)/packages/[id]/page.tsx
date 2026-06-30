@@ -1,19 +1,22 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useGetPackageByIdQuery } from "@/services/packages/packageApi"; 
 import PackageHero from "@/components/packages/PackageHero";
 import PackageDetails from "@/components/packages/PackageDetails";
 import { Loader2, Compass } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import { BookingModal } from "@/components/BookingModal";
 
 interface PageProps {
   params: Promise<{ id: string }> | { id: string };
 }
 
 const Page = ({ params }: PageProps) => {
-  // Unwrapping params for Next.js 15+ compatibility
   const resolvedParams = React.use(Promise.resolve(params));
   const packageId = resolvedParams.id;
+
+  // 1. Lifted modal control state
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const { data, isLoading, error } = useGetPackageByIdQuery({ packageId });
 
@@ -39,12 +42,26 @@ const Page = ({ params }: PageProps) => {
   }
 
   const tourPackage = data.packages;
-
+  
   return (
-    <div className="min-h-screen pt-18 md:pt-20  pb-5">
+    <div className="min-h-screen pt-18 md:pt-20 pb-5">
       <Navbar transparent={true} />
       <PackageHero tour={tourPackage} />
-      <PackageDetails tour={tourPackage} />
+      
+      {/* 2. Pass the open trigger function down */}
+      <PackageDetails 
+        tour={tourPackage} 
+        onBookNow={() => setIsBookingModalOpen(true)} 
+      />
+      
+      {/* 3. Control modal state externally */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onOpenChange={setIsBookingModalOpen}
+        packageId={tourPackage._id}
+        destinationId={tourPackage.destinationId}
+        basePricePerPerson={tourPackage.price}
+      />
     </div>
   );
 };

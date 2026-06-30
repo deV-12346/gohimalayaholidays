@@ -51,6 +51,23 @@ export interface UpdatePaymentStatusRequest {
   paymentStatus: PaymentStatus;
 }
 
+export interface SendOtpRequest {
+  customerName: string;
+  phoneNumber: string;
+  email: string;
+  dob: string;
+}
+
+export interface VerifyOtpRequest {
+  email: string;
+  otp: string;
+  packageId: string;
+  destinationId: string;
+  totalPersons: number;
+  travelDate: string;
+  totalPrice: number;
+}
+
 export interface ApiResponse {
   success: boolean;
   message: string;
@@ -66,6 +83,7 @@ export const bookingApi = createApi({
   }),
   tagTypes: ["Booking"],
   endpoints: (builder) => ({
+    // Admin Queries & Mutations
     getBookings: builder.query<GetBookingsResponse, void>({
       query: () => ({
         url: "/admin/booking",
@@ -91,6 +109,25 @@ export const bookingApi = createApi({
       }),
       invalidatesTags: ["Booking"],
     }),
+
+    // Customer / Public Frontend Mutations
+    sendOtp: builder.mutation<ApiResponse, SendOtpRequest>({
+      query: (body) => ({
+        url: "/customer/send-otp", 
+        method: "POST",
+        body,
+      }),
+    }),
+
+    verifyOtp: builder.mutation<ApiResponse, VerifyOtpRequest>({
+      query: (body) => ({
+        url: "/customer/verify-account",
+        method: "POST",
+        body,
+      }),
+      // Automatically updates the Admin booking list after a new booking is confirmed
+      invalidatesTags: ["Booking"], 
+    }),
   }),
 });
 
@@ -98,4 +135,6 @@ export const {
   useGetBookingsQuery,
   useUpdateBookingStatusMutation,
   useUpdatePaymentStatusMutation,
+  useSendOtpMutation,
+  useVerifyOtpMutation,
 } = bookingApi;

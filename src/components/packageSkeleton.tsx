@@ -2,7 +2,7 @@
 
 export default function PackageCardSkeleton() {
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+    <div className="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
       
       {/* Image Skeleton */}
       <div className="h-56 w-full animate-pulse bg-gray-200" />
