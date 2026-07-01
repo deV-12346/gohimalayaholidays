@@ -12,7 +12,7 @@ import {
   useGetPackagesQuery,
   useDeletePackageMutation,
 } from "@/services/packages/packageApi";
-import type { Pkg } from "@/models/package.model"; // adjust import path to your actual Package type
+import { Package as Pkg} from "@/services/packages/packageApi";
 
 export default function PackagesPage() {
   const [page, setPage] = useState(1);

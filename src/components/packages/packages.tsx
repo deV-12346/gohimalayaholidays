@@ -3,7 +3,7 @@
 import { Package, useGetPackagesQuery } from '@/services/packages/packageApi'
 import PackageCard from './PackageCard'
 import { motion } from "framer-motion"
-import PackageCardSkeleton from '../packageSkeleton'
+import PackageCardSkeleton from '../layouts/packageSkeleton'
 
 const Packages = () => {
   const { data: packages, isLoading, isFetching } = useGetPackagesQuery(undefined, {
@@ -15,7 +15,7 @@ const Packages = () => {
   })
 
   return (
-    <div className="w-full bg-slate-50/50 px-4 sm:px-6 py-15 min-h-screen flex flex-col 
+    <div className="w-full bg-slate-50/50 px-6 py-4 min-h-screen flex flex-col 
     items-center">
       <div className="mx-auto w-full max-w-7xl mb-8">
         <motion.div
@@ -25,9 +25,6 @@ const Packages = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 uppercase tracking-widest mb-2 shadow-sm">
-            Go Himalayas Holidays
-          </span>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
             All Packages
           </h2>
@@ -41,7 +38,7 @@ const Packages = () => {
         {isLoading || isFetching ? (
           /* Grid auto-centering items on small devices */
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
-            {[1, 2, 3, 4].map((item) => (
+            {[1, 2, 3,4].map((item) => (
               <PackageCardSkeleton key={item} />
             ))}
           </div>

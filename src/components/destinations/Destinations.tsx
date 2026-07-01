@@ -4,8 +4,8 @@ import { useGetDestinationsQuery } from "@/services/destinations/destinationApi"
 import { Destination } from "@/services/destinations/destinationApi";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
-import DestinationCardSkeleton from "../DestinationSkeleton";
-import DestinationCard from "../DestinationCard";
+import DestinationCardSkeleton from "../layouts/DestinationSkeleton";
+import DestinationCard from "./DestinationCard";
 
 const DestinationsPage = () => {
   const {
@@ -19,7 +19,7 @@ const DestinationsPage = () => {
   }
   const destinations: Destination[] = data?.destinations || [];
   return (
-    <main className="w-full bg-white  px-6 py-24 min-h-screen flex justify-start
+    <main className="w-full bg-slate-50/50  px-6 py-4 min-h-screen flex justify-start
     items-center flex-col">
     <div className="mx-auto w-full max-w-7xl">
         <motion.div
@@ -43,13 +43,13 @@ const DestinationsPage = () => {
         </motion.div>
         {/* Skeleton Loading */}
         {isLoading ? (
-          <div className="w-full mt-14 grid-cols-1 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {[1,2,3,4,5,6].map((item) => (
+          <div className="w-full mt-4 grid-cols-1 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {[1,2,3,4].map((item) => (
               <DestinationCardSkeleton key={item} />
             ))}
           </div>
         ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full max-w-7xl mx-auto">
+        <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full max-w-7xl mx-auto">
         {destinations?.map((item) => (
         <DestinationCard key={item._id} item={item} />
         ))}

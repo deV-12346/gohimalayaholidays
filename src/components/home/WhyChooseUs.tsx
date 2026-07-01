@@ -54,37 +54,39 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="bg-gray-50 px-6 py-16">
+    <section className="bg-gray-50 px-6 py-8">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-gray-900">
             Why Choose Us
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl text-gray-600">
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-gray-600">
             Experience unforgettable journeys with premium services,
             comfortable stays, and trusted travel support.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((item, index) => {
             const Icon = item.icon
 
             return (
               <div
                 key={index}
-                className="group rounded-3xl bg-white p-8 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                className="group rounded-2xl bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
               >
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-100 text-orange-500 transition-all duration-300 group-hover:bg-orange-500 group-hover:text-white">
-                  <Icon size={32} />
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 text-orange-500 transition-all duration-300 group-hover:bg-orange-500 group-hover:text-white">
+                    <Icon size={24} />
+                  </div>
+
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {item.title}
+                  </h3>
                 </div>
 
-                <h3 className="mt-6 text-2xl font-semibold text-gray-900">
-                  {item.title}
-                </h3>
-
-                <p className="mt-4 leading-7 text-gray-600">
+                <p className="mt-4 text-sm leading-6 text-gray-600">
                   {item.desc}
                 </p>
               </div>

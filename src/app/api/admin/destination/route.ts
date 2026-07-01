@@ -6,6 +6,7 @@ import {  Types } from "mongoose";
 import { connectDb } from "@/libs/ConnectDb";
 import { withHandler } from "@/libs/withHandler";
 import { withErrorHandler } from "@/libs/withErrorHandler";
+import { pagination } from "@/libs/pagination";
 
 export const POST = withHandler(async (req:NextRequest,user) => {
         await connectDb()
@@ -68,7 +69,29 @@ export const POST = withHandler(async (req:NextRequest,user) => {
 
 export const GET = withErrorHandler(async (req:NextRequest,user) => {
         await connectDb()
-        const destinations = await destinationModel.find().sort({ updatedAt: -1 });
+        const searchParams = req.nextUrl.searchParams
+        const page = Number(searchParams.get("page")) || 1
+        const rowPerPage = Number(searchParams.get("limit")) || 10
+        const search = searchParams.get("search") || ""
+        const {limit,offset} = pagination(page,rowPerPage)
+              const filter = {
+                $or: [
+                  {
+                    title: {
+                      $regex: search,
+                      $options: "i",
+                    },
+                  },
+                  {
+                    destinationLocation: {     
+                    $regex: search,
+                    $options: "i",
+                    },
+                  },
+                ],
+              }
+        const totalCount = await destinationModel.countDocuments(filter)
+        const destinations = await destinationModel.find(filter).skip(offset).limit(limit).sort({ createdAt: -1 });
         if(!destinations){
             return NextResponse.json({
                 success:false,
@@ -78,7 +101,8 @@ export const GET = withErrorHandler(async (req:NextRequest,user) => {
         return NextResponse.json({
             success:true,
             message:"Destination fetched successfully",
-            destinations
+            destinations,
+            totalCount,
         })
 })
 export const PATCH = withHandler(async (req:NextRequest) => {

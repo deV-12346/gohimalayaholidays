@@ -13,7 +13,7 @@ import {
   useGetDestinationsQuery,
   useDeleteDestinationMutation,
 } from "@/services/destinations/destinationApi";
-import type { Destination } from "@/models/destination.model"; // adjust import path to your actual Destination type
+import { Destination } from "@/services/destinations/destinationApi";
 
 export default function DestinationsPage() {
   const [page, setPage] = useState(1);

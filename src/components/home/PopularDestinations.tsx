@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useGetDestinationsQuery } from "@/services/destinations/destinationApi";
 import { Destination } from "@/services/destinations/destinationApi";
 import { Loader2 } from "lucide-react";
-import DestinationCardSkeleton from "../DestinationSkeleton";
+import DestinationCardSkeleton from "../layouts/DestinationSkeleton";
 import DestinationCard from "../destinations/DestinationCard";
 
 export default function PopularDestinations() {
@@ -19,8 +19,7 @@ export default function PopularDestinations() {
     return <div>Error loading destinations.</div>;
   }
   const destinations: Destination[] =
-    data?.destinations.slice(0, 5) || [];
-
+    data?.destinations.slice(0, 4) || [];
   return (
     <section className="bg-white px-6 py-10">
       <div className="mx-auto max-w-7xl">
@@ -51,7 +50,7 @@ export default function PopularDestinations() {
             ))}
         </div>
         ) : (
-         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full max-w-7xl mx-auto">
+         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {destinations?.map((item) => (
         <DestinationCard key={item._id} item={item} />
         ))}

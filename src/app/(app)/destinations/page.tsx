@@ -1,9 +1,9 @@
 import DestinationsPage from '@/components/destinations/Destinations'
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/layouts/Navbar'
 const page = () => {  
   return (
     <div>
-      <Navbar transparent={true} />
+      <Navbar transparent={false} />
       <DestinationsPage/>
     </div>
   )

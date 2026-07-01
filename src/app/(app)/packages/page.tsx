@@ -1,4 +1,4 @@
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/layouts/Navbar'
 import Packages from '@/components/packages/packages'
 import React from 'react'
 
@@ -6,7 +6,7 @@ const page = () => {
   
   return (
     <div>
-      <Navbar transparent={true} />
+      <Navbar transparent={false} />
       <Packages/>
     </div>
   )

@@ -58,7 +58,7 @@ export const packageApi = createApi({
         method: "GET",
         params: {
           page: params?.page ?? 1,
-          limit: params?.limit ?? 10,
+          limit: params?.limit ?? 50,
           search: params?.search ?? "",
         },
       }),

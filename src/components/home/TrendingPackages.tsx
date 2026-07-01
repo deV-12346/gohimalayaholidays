@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { Loader2, ArrowRight } from "lucide-react"
 import PackageCard from "../packages/PackageCard"
-import PackageCardSkeleton from "../packageSkeleton"
+import PackageCardSkeleton from "../layouts/packageSkeleton"
 import { useGetPackagesQuery } from "@/services/packages/packageApi"
 import Link from "next/link"
 
@@ -20,7 +20,7 @@ export default function TrendingPackages() {
       isFetching,
       isError
     }) => ({
-      data: data?.packages ? data.packages.slice(0, 4) : [],
+      data: data?.packages ? data.packages.slice(0, 3) : [],
       isLoading,
       isFetching,
       isError
@@ -36,7 +36,7 @@ export default function TrendingPackages() {
   }
 
   return (
-    <section className="bg-white px-4 sm:px-6 py-12 w-full flex flex-col items-center">
+    <section className="bg-white px-4 sm:px-6 py-10 w-full flex flex-col items-center">
       <div className="w-full max-w-7xl">
         
         {/* Heading & Top CTA Section */}
@@ -73,13 +73,13 @@ export default function TrendingPackages() {
 
         {/* Responsive Grid Center Layout */}
         {isLoading ? (
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
             {[1, 2, 3, 4].map((item) => (
               <PackageCardSkeleton key={item} />
             ))}
           </div>
         ) : (
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
+          <div className=" grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
             {packages?.map((item) => (
               <PackageCard key={item._id} item={item} />
             ))}

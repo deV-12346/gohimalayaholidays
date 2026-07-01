@@ -4,6 +4,7 @@ export interface ApiResponse {
   success: boolean;
   message:string;
   equiries?: Enquiry[]
+  totalCount?: number
 }
 export interface EnquiryType {
     name:string;

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import BookingDetailsModal from "@/components/admin/modals/BookingDetailsModal";
 import DataTable, { DataTableColumn } from "@/components/admin/common/DataTable";
 import { useGetBookingsQuery } from "@/services/bookings/bookingApi";
-import type { Booking } from "@/models/booking.model"; // adjust import path to your actual Booking type
+import { Booking } from "@/services/bookings/bookingApi";
 
 const getStatusColor = (status: string) => {
   switch (status) {

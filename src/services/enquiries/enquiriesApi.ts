@@ -8,18 +8,13 @@ export interface GetEnquiriesRequest {
   search?: string;
 }
 
-export interface GetEnquiriesResponse extends ApiResponse {
-  equiries: EnquiryType[];
-  totalCount: number;
-}
-
 // ─── API Slice ────────────────────────────────────────────────────────────────
 export const enquiryApi = createApi({
   reducerPath: "enquiryApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
   tagTypes: ["Enquiries"],
   endpoints: (builder) => ({
-    getEnquiries: builder.query<GetEnquiriesResponse, GetEnquiriesRequest | void>({
+    getEnquiries: builder.query<ApiResponse, GetEnquiriesRequest | void>({
       query: (params) => ({
         url: "/admin/enquiries",
         method: "GET",

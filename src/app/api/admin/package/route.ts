@@ -6,6 +6,8 @@ import { packageModel } from "@/models/package.model";
 import {  Types } from "mongoose";
 import { destinationModel } from "@/models/destination.model";
 import { withErrorHandler } from "@/libs/withErrorHandler"
+import { pagination } from "@/libs/pagination";
+import { connectDb } from "@/libs/ConnectDb";
 export const POST = withHandler(async (req:NextRequest,user) => {
     const formData = await req.formData()
     const obj = {
@@ -57,7 +59,34 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     },{status:201})
 }) 
 export const GET = withErrorHandler(async (req:NextRequest)=>{
-    const packages = await packageModel.find().sort({ updatedAt: -1 });
+    connectDb()
+    const searchParams = req.nextUrl.searchParams
+    const page = Number(searchParams.get("page")) || 1
+    const rowPerPage = Number(searchParams.get("limit")) || 10
+    const search = searchParams.get("search") || ""
+    const {limit,offset} = pagination(page,rowPerPage)
+        const filter = {
+             $or: [
+                {
+                title: {
+                  $regex: search,
+                  $options: "i",
+                },
+              },
+              {
+                description: {     
+                $regex: search,
+                $options: "i",
+                },
+              },
+            ],
+    }
+    const totalCount = await packageModel.countDocuments(filter)
+    const packages = await packageModel.find(filter)
+    .populate("destinationId", "title")
+    .skip(offset)
+    .limit(limit)
+    .sort({ createdAt: -1 });
     if(!packages.length){
         return NextResponse.json({
             success:false,
@@ -67,7 +96,8 @@ export const GET = withErrorHandler(async (req:NextRequest)=>{
     return NextResponse.json({
      success:true,
      message:"Packages fecthed successfully",
-     packages
+     packages,
+     totalCount
     })
 })
 export const PATCH = withHandler(async (req:NextRequest, user) => {

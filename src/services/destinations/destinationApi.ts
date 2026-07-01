@@ -48,11 +48,11 @@ export const destinationApi = createApi({
   endpoints: (builder) => ({
     getDestinations: builder.query<GetDestinationsResponse, GetDestinationsRequest | void>({
       query: (params) => ({
-        url: "/destination",
+        url: "/admin/destination",
         method: "GET",
         params: {
           page: params?.page ?? 1,
-          limit: params?.limit ?? 10,
+          limit: params?.limit ?? 50,
           search: params?.search ?? "",
         },
       }),

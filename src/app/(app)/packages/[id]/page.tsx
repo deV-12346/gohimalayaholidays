@@ -4,7 +4,7 @@ import { useGetPackageByIdQuery } from "@/services/packages/packageApi";
 import PackageHero from "@/components/packages/PackageHero";
 import PackageDetails from "@/components/packages/PackageDetails";
 import { Loader2, Compass } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layouts/Navbar";
 import { BookingModal } from "@/components/BookingModal";
 
 interface PageProps {

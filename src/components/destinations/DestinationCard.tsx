@@ -1,10 +1,8 @@
-"use client"
-
-import Image from "next/image"
-import { MapPin, Compass, ArrowRight } from "lucide-react"
-import { motion } from "framer-motion"
-import Link from "next/link"
-
+"use client";
+import Image from "next/image";
+import { MapPin, Compass, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 import { Destination } from "@/services/destinations/destinationApi";
 
 interface DestinationCardProps {
@@ -13,14 +11,14 @@ interface DestinationCardProps {
 
 const DestinationCard = ({ item }: DestinationCardProps) => {
   return (
-    <Link href={`/destinations/${item._id}`} className="w-full max-w-[22rem] flex">
+    <div className="w-full max-w-[22rem] flex">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         whileHover={{ y: -8 }}
         transition={{ duration: 0.4 }}
         viewport={{ once: true }}
-        className="w-full flex flex-col cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-slate-100 transition-all duration-300 group"
+        className="w-full flex flex-col  bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-slate-100 transition-all duration-300 group"
       >
         {/* Top Image Banner Section */}
         <div className="relative h-52 w-full overflow-hidden bg-slate-100 flex-shrink-0">
@@ -85,16 +83,16 @@ const DestinationCard = ({ item }: DestinationCardProps) => {
             )}
 
             {/* Premium CTA Row */}
-            <div className="w-full bg-slate-900 text-white font-black text-center py-3 rounded-xl transition-all duration-300 group-hover:bg-emerald-600 shadow-sm text-sm tracking-wide flex items-center justify-center gap-1.5">
+            {/* <div className="w-full bg-slate-900 text-white font-black text-center py-3 rounded-xl transition-all duration-300 group-hover:bg-emerald-600 shadow-sm text-sm tracking-wide flex items-center justify-center gap-1.5">
               Explore Circuit 
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </div>
+            </div> */}
           </div>
 
         </div>
       </motion.div>
-    </Link>
-  )
-}
+    </div>
+  );
+};
 
-export default DestinationCard
+export default DestinationCard;

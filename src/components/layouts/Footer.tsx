@@ -3,12 +3,13 @@ import {
   MapPin,
   Phone,
   Mail,
-  Linkedin,
-  Facebook,
-  Instagram,
-  Youtube,
 } from "lucide-react";
-
+import {
+  FaLinkedin,
+  FaFacebook,
+  FaInstagram,
+  FaYoutube,
+} from "react-icons/fa";
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Destinations", href: "/destinations" },
@@ -18,9 +19,9 @@ const quickLinks = [
 ];
 
 const socialLinks = [
-  { label: "Facebook", href: "https://facebook.com/YOUR-PAGE", icon: Facebook },
-  { label: "Instagram", href: "https://instagram.com/YOUR-HANDLE", icon: Instagram },
-  { label: "YouTube", href: "https://youtube.com/@YOUR-CHANNEL", icon: Youtube },
+  { label: "Facebook", href: "https://facebook.com/YOUR-PAGE", icon: FaFacebook },
+  { label: "Instagram", href: "https://instagram.com/YOUR-HANDLE", icon: FaInstagram },
+  { label: "YouTube", href: "https://youtube.com/@YOUR-CHANNEL", icon: FaInstagram },
 ];
 
 export default function Footer() {
@@ -202,7 +203,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 font-medium text-gray-400 transition-colors hover:text-cyan-400"
           >
-            <Linkedin className="h-3.5 w-3.5" />
+            <FaLinkedin className="h-3.5 w-3.5" />
           </a>
         </p>
       </div>

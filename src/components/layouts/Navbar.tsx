@@ -35,17 +35,17 @@ const Navbar = ({ transparent = false }: { transparent?: boolean }) => {
   return (
     <>
       <header className={`${transparent ? 'absolute' : 'sticky'} top-0 left-0 z-50 w-full px-3 md:px-6 py-3`}>
-        <nav className="
+        <nav className={`
+          ${transparent ? ' bg-white' : 'bg-white/10'}
           max-w-5xl mx-auto
           flex items-center justify-between
-          bg-white/10
           backdrop-blur-xl
           border border-white/20
           rounded-2xl
           px-4 md:px-6
           py-3
           shadow-[0_8px_32px_rgba(0,0,0,0.12)]
-        ">
+        `}>
 
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image

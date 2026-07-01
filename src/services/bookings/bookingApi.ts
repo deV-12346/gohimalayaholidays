@@ -82,7 +82,7 @@ export const bookingApi = createApi({
   tagTypes: ["Booking"],
   endpoints: (builder) => ({
     // Admin Queries & Mutations
-    getBookings: builder.query<GetBookingsResponse, GetBookingsRequest | void>({
+    getBookings: builder.query<GetBookingsResponse, GetBookingsRequest>({
       query: (params) => ({
         url: "/admin/booking",
         method: "GET",

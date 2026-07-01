@@ -27,7 +27,7 @@ export default function Testimonials() {
 
   return (
 
-    <section className="bg-gray-50 px-6 py-10">
+    <section className="bg-gray-50 px-6 py-8">
 
       <div className="mx-auto max-w-7xl">
 
@@ -44,14 +44,14 @@ export default function Testimonials() {
             What Our Travelers Say
           </h2>
 
-          <p className="mt-4 text-gray-600">
+          <p className="mt-2 text-gray-600">
             Real experiences from our happy travelers
           </p>
 
         </motion.div>
 
         {/* Cards */}
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 
           {testimonials.map((item, index) => (
 
