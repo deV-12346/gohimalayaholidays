@@ -83,7 +83,7 @@ export const GET = withErrorHandler(async (req:NextRequest)=>{
     }
     const totalCount = await packageModel.countDocuments(filter)
     const packages = await packageModel.find(filter)
-    .populate("destinationId", "title")
+    .populate("destinationId", "destinationLocation")
     .skip(offset)
     .limit(limit)
     .sort({ createdAt: -1 });

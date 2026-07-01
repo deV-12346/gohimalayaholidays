@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Clock, Users, MapPin } from "lucide-react"
+import { Clock, Users, MapPin, Moon, Sun } from "lucide-react"
 import { motion } from "framer-motion"
 import { Package } from "@/services/packages/packageApi"
 import Link from "next/link"
@@ -64,8 +64,14 @@ const PackageCard = ({ item }: { item: Package }) => {
             {/* Quick Micro Context Info */}
             <div className="flex items-center justify-between text-xs font-bold text-slate-700 bg-slate-50/80 rounded-xl p-2.5 border border-slate-100/50">
               <div className="flex items-center gap-1.5 text-slate-600">
-                <Clock size={15} className="text-emerald-600 stroke-[2.5]" />
-                <span>{item?.duration} Days</span>
+                <div className="flex gap-1 ">
+                  <Sun size={15} className="text-emerald-600 stroke-[2.5]" />
+                  <span>{item?.duration} Days</span>
+                </div>
+                <div className="flex gap-1" >
+                <Moon size={15} className="text-emerald-600 stroke-[2.5]" />
+                <span>{item?.duration -1 } Nights</span>
+                </div>
               </div>
               <div className="flex items-center gap-1.5 text-slate-600">
                 <Users size={15} className="text-amber-500 stroke-[2.5]" />

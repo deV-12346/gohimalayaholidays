@@ -16,7 +16,7 @@ export interface Package extends Document{
 const packageSchema:Schema<Package> = new Schema({
     destinationId:{
         type:Schema.Types.ObjectId,
-        ref:"destination",
+        ref:"Destination",
         required:true,
     },
     title:{

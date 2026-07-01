@@ -19,9 +19,9 @@ const quickLinks = [
 ];
 
 const socialLinks = [
-  { label: "Facebook", href: "https://facebook.com/YOUR-PAGE", icon: FaFacebook },
-  { label: "Instagram", href: "https://instagram.com/YOUR-HANDLE", icon: FaInstagram },
-  { label: "YouTube", href: "https://youtube.com/@YOUR-CHANNEL", icon: FaInstagram },
+  { label: "Facebook", href: "https://facebook.com", icon: FaFacebook },
+  { label: "Instagram", href: "https://instagram.com", icon: FaInstagram },
+  // { label: "YouTube", href: "https://youtube.com/@YOUR-CHANNEL", icon: FaInstagram },
 ];
 
 export default function Footer() {
@@ -108,8 +108,8 @@ export default function Footer() {
                     bg-white/5
                     text-gray-400
                     transition-colors
-                    hover:border-cyan-400/40
-                    hover:text-cyan-400
+                    // hover:border-cyan-400/40
+                    hover:text-white
                   "
                 >
                   <Icon className="h-4 w-4" />
@@ -130,7 +130,7 @@ export default function Footer() {
               <li key={label}>
                 <Link
                   href={href}
-                  className="text-sm text-gray-400 transition-colors hover:text-cyan-400 sm:text-base"
+                  className="text-sm text-gray-400 transition-colors hover:text-white sm:text-base"
                 >
                   {label}
                 </Link>
@@ -147,7 +147,7 @@ export default function Footer() {
           </p>
           <div className="mt-4 flex flex-col items-center gap-3 text-sm text-gray-400 sm:items-start sm:text-base">
             <div className="flex items-start gap-2">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-white" />
               <span>Go Himalaya Holidays, VPO Deola, Distt. Shimla, HP 171007</span>
             </div>
 
@@ -155,7 +155,7 @@ export default function Footer() {
               href="mailto:gohimalayaholidays.team@gmail.com"
               className="flex items-center gap-2 transition-colors hover:text-white"
             >
-              <Mail className="h-4 w-4 shrink-0 text-cyan-400" />
+              <Mail className="h-4 w-4 shrink-0 text-white" />
               <span>gohimalayaholidays.team@gmail.com</span>
             </a>
 
@@ -163,7 +163,7 @@ export default function Footer() {
               href="tel:+917018674227"
               className="flex items-center gap-2 transition-colors hover:text-white"
             >
-              <Phone className="h-4 w-4 shrink-0 text-cyan-400" />
+              <Phone className="h-4 w-4 shrink-0 text-white" />
               <span>+91 70186 74227</span>
               <span>+91 78766 02413</span>
             </a>
@@ -198,7 +198,7 @@ export default function Footer() {
         <p className="flex items-center gap-1.5">
           Developed by
           <a
-            href="https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME"
+            href="https://www.linkedin.com/in/dev-raj-b0b9a02b5/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 font-medium text-gray-400 transition-colors hover:text-cyan-400"

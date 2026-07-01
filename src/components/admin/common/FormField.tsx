@@ -38,7 +38,7 @@ export default function FormField({
   multiple = false,
 }: FormFieldProps) {
   return (
-    <div className="space-y-1.5 w-full">
+    <div className="space-y-1.5  w-full">
       <Label
         htmlFor={name}
         className="text-sm font-medium text-gray-700"
@@ -53,19 +53,18 @@ export default function FormField({
           rows={rows}
           {...register(name)}
           className="
-            w-full
-            rounded-lg
-            border
-            border-gray-200
-            bg-white
-            text-sm
-            text-gray-900
-            placeholder:text-gray-400
-            focus:border-orange-400
-            focus:ring-2
-            focus:ring-orange-100
-            min-h-[120px]
-          "
+           w-full
+           rounded-lg
+           border
+           border-white/10
+           bg-white/5
+           text-white
+           placeholder:text-gray-400
+           focus:border-orange-400
+           focus:ring-2
+           focus:ring-orange-100
+          min-h-[120px]
+         "
         />
       ) : (
         <Input
@@ -76,19 +75,19 @@ export default function FormField({
           multiple={multiple}
           {...register(name)}
           className="
-            h-11
-            w-full
-            rounded-lg
-            border
-            border-gray-200
-            bg-white
-            text-sm
-            text-gray-900
-            placeholder:text-gray-400
-            focus:border-orange-400
-            focus:ring-2
-            focus:ring-orange-100
-          "
+           h-11
+           w-full
+           rounded-lg
+           border
+           border-white/10
+           bg-white/5
+           text-white
+           text-sm
+           placeholder:text-gray-400
+           focus:border-orange-400
+           focus:ring-2
+           focus:ring-orange-100
+         "
         />
       )}
 

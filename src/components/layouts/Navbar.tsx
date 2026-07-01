@@ -80,7 +80,7 @@ const Navbar = ({ transparent = false }: { transparent?: boolean }) => {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="
+            <Link href={"/packages"} className="
               hidden md:flex
               items-center gap-2
               bg-black text-white
@@ -92,7 +92,7 @@ const Navbar = ({ transparent = false }: { transparent?: boolean }) => {
             ">
               Book Now
               <ChevronRight size={16} />
-            </button>
+            </Link>
 
             <button
               onClick={() => setMenuOpen(true)}
