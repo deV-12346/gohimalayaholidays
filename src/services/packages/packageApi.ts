@@ -1,15 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface PackageImage {
   secure_url: string;
   public_id: string;
 }
-
 export interface Package {
   _id: string;
-  destinationId: string 
+  destinationId: string;
   title: string;
   description: string;
   price: number;
@@ -22,11 +20,19 @@ export interface Package {
   updatedAt: string;
 }
 
+export interface GetPackagesRequest {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
 export interface GetPackagesResponse {
   success: boolean;
   message: string;
   packages: Package[];
+  totalCount: number;
 }
+
 export interface GetPackagesByIdResponse {
   success: boolean;
   message: string;
@@ -38,7 +44,6 @@ export interface ApiResponse {
 }
 
 // ─── API Slice ────────────────────────────────────────────────────────────────
-
 export const packageApi = createApi({
   reducerPath: "packageApi",
   baseQuery: fetchBaseQuery({
@@ -47,14 +52,18 @@ export const packageApi = createApi({
   }),
   tagTypes: ["Package"],
   endpoints: (builder) => ({
-    getPackages: builder.query<GetPackagesResponse, void>({
-      query: () => ({
+    getPackages: builder.query<GetPackagesResponse, GetPackagesRequest | void>({
+      query: (params) => ({
         url: "/admin/package",
         method: "GET",
+        params: {
+          page: params?.page ?? 1,
+          limit: params?.limit ?? 10,
+          search: params?.search ?? "",
+        },
       }),
       providesTags: ["Package"],
     }),
-
     createPackage: builder.mutation<ApiResponse, FormData>({
       query: (formData) => ({
         url: "/admin/package",
@@ -63,7 +72,6 @@ export const packageApi = createApi({
       }),
       invalidatesTags: ["Package"],
     }),
-
     updatePackage: builder.mutation<ApiResponse, FormData>({
       query: (formData) => ({
         url: "/admin/package",
@@ -72,7 +80,6 @@ export const packageApi = createApi({
       }),
       invalidatesTags: ["Package"],
     }),
-
     deletePackage: builder.mutation<ApiResponse, { packageId: string }>({
       query: (body) => ({
         url: "/admin/package",
@@ -81,11 +88,11 @@ export const packageApi = createApi({
       }),
       invalidatesTags: ["Package"],
     }),
-    getPackageById: builder.query<GetPackagesByIdResponse,{ packageId: string }>({
-      query: ({packageId}) => ({
-      url:`/package/${packageId}`,
-      method:"GET",
-      })
+    getPackageById: builder.query<GetPackagesByIdResponse, { packageId: string }>({
+      query: ({ packageId }) => ({
+        url: `/package/${packageId}`,
+        method: "GET",
+      }),
     }),
   }),
 });
@@ -95,5 +102,5 @@ export const {
   useCreatePackageMutation,
   useUpdatePackageMutation,
   useDeletePackageMutation,
-  useGetPackageByIdQuery
+  useGetPackageByIdQuery,
 } = packageApi;
