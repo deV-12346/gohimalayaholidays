@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface Destination {
   _id: string;
   title: string;
@@ -15,10 +14,17 @@ export interface Destination {
   updatedAt: string;
 }
 
+export interface GetDestinationsRequest {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
 export interface GetDestinationsResponse {
   success: boolean;
   message: string;
   destinations: Destination[];
+  totalCount: number;
 }
 
 export interface CreateDestinationResponse {
@@ -26,14 +32,12 @@ export interface CreateDestinationResponse {
   message: string;
   newDestination: Destination;
 }
-
 export interface ApiResponse {
   success: boolean;
   message: string;
 }
 
 // ─── API Slice ────────────────────────────────────────────────────────────────
-
 export const destinationApi = createApi({
   reducerPath: "destinationApi",
   baseQuery: fetchBaseQuery({
@@ -42,14 +46,18 @@ export const destinationApi = createApi({
   }),
   tagTypes: ["Destination"],
   endpoints: (builder) => ({
-    getDestinations: builder.query<GetDestinationsResponse, void>({
-      query: () => ({
+    getDestinations: builder.query<GetDestinationsResponse, GetDestinationsRequest | void>({
+      query: (params) => ({
         url: "/destination",
         method: "GET",
+        params: {
+          page: params?.page ?? 1,
+          limit: params?.limit ?? 10,
+          search: params?.search ?? "",
+        },
       }),
       providesTags: ["Destination"],
     }),
-
     createDestination: builder.mutation<CreateDestinationResponse, FormData>({
       query: (formData) => ({
         url: "/admin/destination",
@@ -58,7 +66,6 @@ export const destinationApi = createApi({
       }),
       invalidatesTags: ["Destination"],
     }),
-
     updateDestination: builder.mutation<ApiResponse, FormData>({
       query: (formData) => ({
         url: "/admin/destination",
@@ -67,7 +74,6 @@ export const destinationApi = createApi({
       }),
       invalidatesTags: ["Destination"],
     }),
-
     deleteDestination: builder.mutation<ApiResponse, { destinationId: string }>({
       query: (body) => ({
         url: "/admin/destination",
