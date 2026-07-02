@@ -11,7 +11,9 @@ export interface Package extends Document{
     slots:number;
     includedService:string[];
     excludedService:string[];
-    packageImages:CloudinaryResult[]
+    packageImages:CloudinaryResult[],
+    placesCovered:string[],
+    itinerary:{day:Number, description:string}[]
 }
 const packageSchema:Schema<Package> = new Schema({
     destinationId:{
@@ -64,10 +66,26 @@ const packageSchema:Schema<Package> = new Schema({
             required:true,
         }
     ],
+    placesCovered:[
+        {
+            type:String,
+            required:true,
+        }
+    ],
+    itinerary:[{
+        day:{
+            type:String,
+            required:true,
+        },
+        description:{
+            type:String,
+            required:true
+        }
+    }],
 },{timestamps:true})
 
 export const packageModel =
-  (models.package as Model<Package>) ||
-  model<Package>("package", packageSchema);
+  (models.Package as Model<Package>) ||
+  model<Package>("Package", packageSchema);
 
 export default packageModel;

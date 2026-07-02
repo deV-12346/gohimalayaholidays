@@ -1,6 +1,6 @@
 import { connectDb } from "@/libs/ConnectDb";
 import { withErrorHandler } from "@/libs/withErrorHandler";
-import { destinationModel } from "@/models/destination.model";
+import destinationModel  from "@/models/destination.model";
 import packageModel from "@/models/package.model";
 import { NextRequest, NextResponse } from "next/server";
 

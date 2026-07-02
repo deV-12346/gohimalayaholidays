@@ -18,6 +18,8 @@ export interface Package {
   packageImages: PackageImage[];
   createdAt: string;
   updatedAt: string;
+  placesCovered:string[];
+  itinerary:{}[]
 }
 
 export interface GetPackagesRequest {

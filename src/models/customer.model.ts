@@ -40,7 +40,7 @@ const customerSchema:Schema<Customer> = new Schema({
     }
 },{timestamps:true})
 const customerModel =
-  (models.customer as Model<Customer>) ||
-  model<Customer>("customer", customerSchema);
+(models.Customer as Model<Customer>) ||
+model<Customer>("Customer", customerSchema)
 
 export default customerModel;

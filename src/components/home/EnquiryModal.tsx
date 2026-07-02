@@ -94,6 +94,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                 required
                 register={register}
                 error={errors.name}
+                showBorder={true}
               />
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -104,6 +105,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                   required
                   register={register}
                   error={errors.email}
+                  showBorder={true}
                 />
 
                 <FormField
@@ -113,6 +115,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                   required
                   register={register}
                   error={errors.phoneNumber}
+                  showBorder={true}
                 />
               </div>
 
@@ -126,6 +129,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                 register={register}
                 rows={3} 
                 error={errors.message}
+                showBorder={true}
               />
 
               <Button

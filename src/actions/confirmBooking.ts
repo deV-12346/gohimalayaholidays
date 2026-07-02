@@ -1,8 +1,7 @@
-import { transporter }
-from "@/config/Nodemailer"
+import { transporter } from "@/config/nodemailer"
 
-export const confirmBooking = async (customerName: string,packageName: string,email: string) => {
-    await transporter.sendMail({
+export const confirmBooking = async (customerName: string, packageName: string, email: string) => {
+  await transporter.sendMail({
     from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "Booking Confirmed 🎉",

@@ -51,10 +51,11 @@ export const POST = withErrorHandler(async (req:NextRequest)=>{
             message:"Package not found"
         })
     }
+    const pkgId = await packageModel.findById(packageId)
     const booking = await bookingModel.create({
         customerId: new Types.ObjectId(customer._id),
-        packageId,
-        destinationId,
+        packageId:pkgId?.id,
+        destinationId:pkgId?.destinationId,
         totalPersons,
         travelDate,
         totalPrice

@@ -15,17 +15,17 @@ const bookingSchema:Schema<Booking> = new Schema({
     packageId:{
         type:Schema.Types.ObjectId,
         required:true,
-        ref:"package"
+        ref:"Package"
     },
     destinationId:{
         type:Schema.Types.ObjectId,
         required:true,
-        ref:"destination"
+        ref:"Destination"
     },
     customerId:{
         type:Schema.Types.ObjectId,
         required:true,
-        ref:"customer"
+        ref:"Customer"
     },
     travelDate:{
         type:Date,
@@ -60,7 +60,7 @@ const bookingSchema:Schema<Booking> = new Schema({
     }
 },{timestamps:true})
 const bookingModel =
-  (models.booking as Model<Booking>) ||
-  model<Booking>("booking", bookingSchema);
+  (models.Booking as Model<Booking>) ||
+  model<Booking>("Booking", bookingSchema);
 
 export default bookingModel;

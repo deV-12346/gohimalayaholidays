@@ -1,4 +1,4 @@
-import { transporter } from "@/config/Nodemailer";
+import { transporter } from "@/config/nodemailer"
 export const sendEnquiryConfirmation = async (
   name: string,
   email: string,
@@ -91,14 +91,14 @@ export const sendEnquiryConfirmation = async (
       </div>
     `,
   });
-  console.log("res ",res)
+  console.log("res ", res)
 };
 
 
 export const sendEnquiryAdminAlert = async (
   name: string,
   email: string,
-  adminemail:string,
+  adminemail: string,
   phoneNumber: string,
   message: string
 ) => {
@@ -188,5 +188,5 @@ export const sendEnquiryAdminAlert = async (
       </div>
     `,
   });
-  console.log("res",res)
+  console.log("res", res)
 };

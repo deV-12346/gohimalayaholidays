@@ -6,40 +6,40 @@ import { signIn } from "next-auth/react"
 import { useState } from "react"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import { useRouter } from "next/navigation"
-import {toast} from "sonner"
-import {useForm} from "react-hook-form"
-import {zodResolver} from "@hookform/resolvers/zod"
+import { toast } from "sonner"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 import { signinSchema } from "@/schema/sign-in.schema"
 export default function SignInPage() {
-  const {register,handleSubmit,formState:{errors}} = useForm<z.infer <typeof signinSchema>>({
-    resolver:zodResolver(signinSchema),
-    defaultValues:{
-      identifier:"",
-      password:""
+  const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof signinSchema>>({
+    resolver: zodResolver(signinSchema),
+    defaultValues: {
+      identifier: "",
+      password: ""
     },
   })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const onSubmit = async (data:z.infer<typeof signinSchema>) => {
-      setLoading(true)
-      const res = await signIn("credentials", {
-        identifier: data.identifier,
-        password: data.password,
-        redirect:false
-      })
-      console.log(res)
-      if (res?.error) {
-            setLoading(false)
-            toast.error(res.error)
-      }
-      if (res?.ok) {
-          setLoading(false)
-          toast.success("Log in success")
-          router.replace("/admin/dashboard")
-      }
+  const onSubmit = async (data: z.infer<typeof signinSchema>) => {
+    setLoading(true)
+    const res = await signIn("credentials", {
+      identifier: data.identifier,
+      password: data.password,
+      redirect: false
+    })
+    console.log(res)
+    if (res?.error) {
+      setLoading(false)
+      toast.error(res.error)
+    }
+    if (res?.ok) {
+      setLoading(false)
+      toast.success("Log in success")
+      router.replace("/admin/dashboard")
+    }
   }
 
   return (
@@ -151,13 +151,13 @@ export default function SignInPage() {
                   placeholder:text-gray-400
                 "
               />
-              </div>
-              {
-                errors.identifier && (
-                  <span className="text-sm text-red-400 
+            </div>
+            {
+              errors.identifier && (
+                <span className="text-sm text-red-400 
                   font-medium">{errors.identifier.message}</span>
-                )
-              }
+              )
+            }
           </div>
 
           {/* Password */}
@@ -214,7 +214,7 @@ export default function SignInPage() {
                   setShowPassword(!showPassword)
                 }
               >
-             
+
                 {
                   showPassword
                     ? (
@@ -234,12 +234,12 @@ export default function SignInPage() {
               </button>
 
             </div>
-             {
-                errors.password && (
-                  <span className="text-sm text-red-400 
+            {
+              errors.password && (
+                <span className="text-sm text-red-400 
                   font-medium">{errors.password.message}</span>
-                )
-              }
+              )
+            }
           </div>
 
           {/* Button */}

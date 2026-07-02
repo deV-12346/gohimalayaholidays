@@ -48,6 +48,8 @@ const destinationSchema:Schema<Destination> = new Schema({
         required:true
     }
 },{timestamps:true})
-export const destinationModel =
-  models.Destination as Model<Destination> ||
-  model<Destination>("Destination", destinationSchema)
+const destinationModel =
+  (models.Destination as Model<Destination>) ||
+  model<Destination>("Destination", destinationSchema);
+
+export default destinationModel;

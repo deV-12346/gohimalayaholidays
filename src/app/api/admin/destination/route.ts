@@ -1,12 +1,12 @@
 import { destinationSchema } from "@/schema/destination.model";
 import { NextRequest, NextResponse } from "next/server";
-import { destinationModel } from "@/models/destination.model";
 import { CloudinaryResult, deleteFromCloudinary, uploadOnCloudinary } from "@/libs/cloudinary";
 import {  Types } from "mongoose";
 import { connectDb } from "@/libs/ConnectDb";
 import { withHandler } from "@/libs/withHandler";
 import { withErrorHandler } from "@/libs/withErrorHandler";
 import { pagination } from "@/libs/pagination";
+import destinationModel from "@/models/destination.model";
 
 export const POST = withHandler(async (req:NextRequest,user) => {
         await connectDb()

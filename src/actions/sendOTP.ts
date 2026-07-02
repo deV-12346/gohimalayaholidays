@@ -1,11 +1,11 @@
-import { transporter } from "@/config/Nodemailer"
+import { transporter } from "@/config/nodemailer"
 
-export const sendOTP = async(email:string,customerName:string,otp:number,otpExpiry:Date)=>{
-    await transporter.sendMail({
-        from:`"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
-        to:email,
-        subject: "Please Verify your Email",
-        html: `
+export const sendOTP = async (email: string, customerName: string, otp: number, otpExpiry: Date) => {
+  await transporter.sendMail({
+    from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: "Please Verify your Email",
+    html: `
       <div
         style="
           max-width:600px;
@@ -96,5 +96,5 @@ export const sendOTP = async(email:string,customerName:string,otp:number,otpExpi
         </div>
       </div>
     `,
-    })
+  })
 }

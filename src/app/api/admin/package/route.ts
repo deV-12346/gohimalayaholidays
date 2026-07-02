@@ -4,10 +4,10 @@ import { NextRequest, NextResponse } from "next/server"
 import { CloudinaryResult, deleteFromCloudinary, uploadOnCloudinary } from "@/libs/cloudinary";
 import { packageModel } from "@/models/package.model";
 import {  Types } from "mongoose";
-import { destinationModel } from "@/models/destination.model";
 import { withErrorHandler } from "@/libs/withErrorHandler"
 import { pagination } from "@/libs/pagination";
 import { connectDb } from "@/libs/ConnectDb";
+import destinationModel from "@/models/destination.model";
 export const POST = withHandler(async (req:NextRequest,user) => {
     const formData = await req.formData()
     const obj = {
@@ -19,10 +19,14 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     duration: formData.get("duration"),
     includedService: formData.getAll("includedService"),
     excludedService: formData.getAll("excludedService"),
-    packageImages : formData.getAll("packageImages") 
+    placesCovered : formData.getAll("placesCovered"),
+    packageImages : formData.getAll("packageImages")
     .filter((item): item is File => item instanceof File)
     }
-    const result = await packageSchema.safeParse(obj)
+    let itineraryRaw =  formData.getAll("itinerary")
+    const  itineraries = itineraryRaw.map((item)=>  typeof item === "string" ? JSON.parse(item) : item)
+    const result = await packageSchema.safeParse({itinerary:itineraries,...obj})
+    console.log(result.data)
     if(!result.success || result.error){
         return NextResponse.json({
         succcess:false,
@@ -30,7 +34,7 @@ export const POST = withHandler(async (req:NextRequest,user) => {
        },{status:400})
     }
     const {destinationId,title,description,price,slots,duration,
-    includedService,excludedService,packageImages} = result.data
+    includedService,excludedService,packageImages,placesCovered,itinerary} = result.data
     const destination = await destinationModel.findById(destinationId)
     if(!destination){
         return NextResponse.json({
@@ -46,12 +50,14 @@ export const POST = withHandler(async (req:NextRequest,user) => {
         destinationId:new Types.ObjectId(destinationId),
         title,
         description,
-        price,
-        slots,
-        duration,
+        price:Number(price),
+        slots:Number(slots),
+        duration:Number(duration),
         includedService,
         excludedService,
-        packageImages:images
+        packageImages:images,
+        placesCovered,
+        itinerary
     })
     return NextResponse.json({
         succcess:true,
@@ -122,13 +128,15 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
     const destinationId = formData.get("destinationId") as string
     const title = formData.get("title") as string
     const description = formData.get("description") as string
-    const price = Number(formData.get("price"))
-    const slots = Number(formData.get("slots"))
-    const duration = Number(formData.get("duration"))
-    const includedService = JSON.parse(formData.get("includedService") as string)
-    const excludedService = JSON.parse(formData.get("excludedService") as string)
-    const newImages = formData.getAll("packageImages").filter((item): item is File => item instanceof File)
-
+    const price = formData.get("price")
+    const slots =  formData.get("slots")
+    const duration = formData.get("duration")
+    const includedService= formData.getAll("includedService")  as string[]
+    const excludedService= formData.getAll("excludedService") as string[]
+    const placesCovered = formData.getAll("placesCovered") as string[]
+    const packageImages = formData.getAll("packageImages").filter((item): item is File => item instanceof File)
+    let itineraryRaw =  formData.getAll("itinerary")
+    const  itinerary = itineraryRaw.map((item)=>  typeof item === "string" ? JSON.parse(item) : item)
     // Validate destination
     if(destinationId){
         const destination = await destinationModel.findById(destinationId)
@@ -142,7 +150,14 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
 
     // Upload new images if provided
     let updatedImages = dbPackage.packageImages
-    if(newImages.length > 0){
+    const result = packageSchema.safeParse({destinationId,title,description,price,slots,duration,includedService,excludedService,packageImages,itinerary,placesCovered})
+    if(!result.success || result.error){
+        return NextResponse.json({
+        succcess:false,
+        message:result.error.issues[0].message
+       },{status:400})
+    }
+    if(packageImages.length > 0){
         // Delete old images from cloudinary
         await Promise.allSettled(
             dbPackage.packageImages.map(async (img)=>(
@@ -151,22 +166,22 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
         )
         // Upload new images
         const images: CloudinaryResult[] = await Promise.all(
-            newImages.map((image) => uploadOnCloudinary(image, "packages"))
+            packageImages.map((image) => uploadOnCloudinary(image, "packages"))
         )
         updatedImages = images
     }
-
     // Update package
     dbPackage.destinationId = destinationId ? new Types.ObjectId(destinationId) : dbPackage.destinationId
     dbPackage.title = title || dbPackage.title
     dbPackage.description = description || dbPackage.description
-    dbPackage.price = price || dbPackage.price
-    dbPackage.slots = slots || dbPackage.slots
-    dbPackage.duration = duration || dbPackage.duration
+    dbPackage.price = Number(price) || dbPackage.price
+    dbPackage.slots = Number(slots) || dbPackage.slots
+    dbPackage.duration = Number(duration) || dbPackage.duration
     dbPackage.includedService = includedService || dbPackage.includedService
     dbPackage.excludedService = excludedService || dbPackage.excludedService
     dbPackage.packageImages = updatedImages
-
+    dbPackage.placesCovered = placesCovered || dbPackage.placesCovered
+    dbPackage.itinerary = itinerary || dbPackage.itinerary
     await dbPackage.save()
 
     return NextResponse.json({

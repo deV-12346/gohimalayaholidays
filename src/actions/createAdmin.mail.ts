@@ -1,15 +1,15 @@
-import { transporter } from "@/config/Nodemailer"
+import { transporter } from "@/config/nodemailer"
 
-export const createAdminAccount = async(
-    adminName:string,
-    email:string,
-    password:string
-) =>{
-      const res = await transporter.sendMail({
-        from:`"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
-        to:email,
-        subject: "Account created successfully",
-        html: `
+export const createAdminAccount = async (
+  adminName: string,
+  email: string,
+  password: string
+) => {
+  const res = await transporter.sendMail({
+    from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: "Account created successfully",
+    html: `
         <div
           style="
             max-width:600px;
@@ -189,5 +189,5 @@ export const createAdminAccount = async(
         </div>
 
       `,
-    })
+  })
 }

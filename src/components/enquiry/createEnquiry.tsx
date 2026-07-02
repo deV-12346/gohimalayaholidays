@@ -40,6 +40,7 @@ const CreateEnquiry = () => {
         required
         register={register}
         error={errors.name}
+        showBorder={true}
         />
          <FormField
         label="Email"
@@ -48,6 +49,7 @@ const CreateEnquiry = () => {
         required
         register={register}
         error={errors.email}
+        showBorder={true}
         />
         <FormField
         label="Phone Number"
@@ -56,6 +58,7 @@ const CreateEnquiry = () => {
         required
         register={register}
         error={errors.phoneNumber}
+        showBorder={true}
         />
         <FormField
         textarea={true}
@@ -66,6 +69,7 @@ const CreateEnquiry = () => {
         register={register}
         rows={6}
         error={errors.message}
+        showBorder={true}
         />
 
         <Button type='submit' disabled={isLoading}  className="w-full h-auto py-2">

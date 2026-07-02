@@ -11,6 +11,7 @@ import {
 } from "react-hook-form";
 
 interface FormFieldProps {
+  showBorder?:boolean;
   label: string;
   name: string;
   type?: string;
@@ -25,6 +26,7 @@ interface FormFieldProps {
 }
 
 export default function FormField({
+  showBorder=false,
   label,
   name,
   type = "text",
@@ -37,13 +39,33 @@ export default function FormField({
   accept,
   multiple = false,
 }: FormFieldProps) {
+  const fieldStyles = `
+    w-full
+    rounded-xl
+    ${showBorder ? "border border-zinc-300" : "border border-transparent"}
+    bg-white/10
+    px-4
+    text-sm
+    text-white
+    placeholder:text-zinc-400
+    transition-all
+    duration-200
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-orange-500/30
+    focus-visible:border-orange-500
+    disabled:cursor-not-allowed
+    disabled:opacity-50
+  `;
+
   return (
-    <div className="space-y-1.5  w-full">
+    <div className="w-full space-y-2">
       <Label
         htmlFor={name}
-        className="text-sm font-medium text-gray-700"
+        className="text-sm font-medium text-white"
       >
-        {label} {required && <span className="text-red-500">*</span>}
+        {label}
+        {required && <span className="ml-1 text-red-500">*</span>}
       </Label>
 
       {textarea ? (
@@ -52,19 +74,7 @@ export default function FormField({
           placeholder={placeholder}
           rows={rows}
           {...register(name)}
-          className="
-           w-full
-           rounded-lg
-           border
-           border-white/10
-           bg-white/5
-           text-white
-           placeholder:text-gray-400
-           focus:border-orange-400
-           focus:ring-2
-           focus:ring-orange-100
-          min-h-[120px]
-         "
+          className={`${fieldStyles} min-h-[120px] py-3`}
         />
       ) : (
         <Input
@@ -74,25 +84,12 @@ export default function FormField({
           accept={accept}
           multiple={multiple}
           {...register(name)}
-          className="
-           h-11
-           w-full
-           rounded-lg
-           border
-           border-white/10
-           bg-white/5
-           text-white
-           text-sm
-           placeholder:text-gray-400
-           focus:border-orange-400
-           focus:ring-2
-           focus:ring-orange-100
-         "
+          className={`${fieldStyles} h-12`}
         />
       )}
 
       {error && (
-        <p className="text-xs text-red-500">
+        <p className="text-xs font-medium text-red-500">
           {typeof error === "string"
             ? error
             : String(error.message || "Invalid input")}

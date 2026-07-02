@@ -5,7 +5,7 @@ import PackageHero from "@/components/packages/PackageHero";
 import PackageDetails from "@/components/packages/PackageDetails";
 import { Loader2, Compass } from "lucide-react";
 import Navbar from "@/components/layouts/Navbar";
-import { BookingModal } from "@/components/BookingModal";
+import { BookingModal } from "@/components/admin/modals/BookingModal";
 
 interface PageProps {
   params: Promise<{ id: string }> | { id: string };
