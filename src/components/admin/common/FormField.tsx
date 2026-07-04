@@ -23,9 +23,11 @@ interface FormFieldProps {
   rows?: number;
   accept?: string;
   multiple?: boolean;
+  isEnquiryModal?:Boolean
 }
 
 export default function FormField({
+  isEnquiryModal=false,
   showBorder=false,
   label,
   name,
@@ -62,7 +64,7 @@ export default function FormField({
     <div className="w-full space-y-2">
       <Label
         htmlFor={name}
-        className="text-sm font-medium text-white"
+        className={`${isEnquiryModal ?  "text-gray-700 " :  "text-white "} text-sm font-medium`}
       >
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}

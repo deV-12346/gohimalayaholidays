@@ -5,6 +5,7 @@ import {
   Clock,
   Users,
   ArrowLeft,
+  ArrowRight,
   MapPin,
   Hotel,
   UtensilsCrossed,
@@ -18,9 +19,10 @@ interface PackageHeroProps {
 }
 
 const PackageHero: React.FC<PackageHeroProps> = ({ tour }) => {
+  console.log("tour ",tour)
   const images = tour.packageImages || [];
   const [activeImage, setActiveImage] = useState(images[0]?.secure_url || "");
-
+  const places = tour.placesCovered || [];
   return (
     <section className="relative bg-white border-b border-slate-100">
       {/* Upper Navigation/Breadcrumb Hook */}
@@ -82,28 +84,52 @@ const PackageHero: React.FC<PackageHeroProps> = ({ tour }) => {
           {/* Right Column: Title block and core info cards */}
           <div className="lg:col-span-5 flex flex-col justify-center lg:pl-4">
             <div className="flex items-center gap-3 mb-3">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-700 tracking-wider uppercase shadow-sm">
+              <span className="inline-flex items-center text-xs font-semibold text-black ">
                 Premium Getaway
               </span>
 
-              <span className="inline-flex items-center text-sm text-slate-600 font-semibold gap-1.5">
-                <MapPin className="w-4 h-4 text-emerald-600" />
-                Himalaya Holidays
+              <span className="inline-flex items-center text-sm text-gray-600 font-semibold gap-1.5">
+                <MapPin className="w-4 h-4 text-gray-800" />
+              {tour?.destinationId?.destinationLocation}
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-3 leading-tight">
-              {tour.title}
+            <h1 className="text-xl sm:text-2xl md:text-5xl font-black text-slate-900 tracking-tight mb-2 leading-tight">
+              {tour?.title}
             </h1>
 
-            <p className="text-slate-600 text-base md:text-lg leading-relaxed mb-5 font-medium line-clamp-5">
-              {tour.description}
-            </p>
+            {/* Places Covered — step-by-step route flow */}
+            <div className="bg-white flex flex-col gap-1  py-2 rounded border-b">
+              <h3 className="text-xl font-semibold text-slate-900  flex items-center gap-1">
+                <MapPin className="w-4 h-4 text-gray-900" />
+                Places Covered
+              </h3>
+
+              {places.length === 0 ? (
+                <p className="text-slate-500 text-base font-medium">
+                  No places listed for this package.
+                </p>
+              ) : (
+                <div className="flex flex-wrap items-center gap-y-1 my-1 BORDER-2">
+                  {places.map((place, index) => (
+                    <React.Fragment key={`${place}-${index}`}>
+                      <span className="inline-flex items-center gap-1.5 text-black text-md font-normal">
+                        {place}
+                      </span>
+
+                      {index < places.length - 1 && (
+                        <ArrowRight className="w-4 h-4 text-black mx-1.5 flex-shrink-0" />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Quick Context Chips */}
             <div className="grid grid-cols-2 gap-3 mt-2">
               {/* Duration Card */}
-              <div className="relative group/card flex items-center gap-3.5 p-3.5 rounded-xl bg-gradient-to-br from-slate-50 to-white border border-slate-100 hover:border-emerald-100 transition-all duration-300 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.05)] hover:shadow-md">
+              <div className="relative group/card flex items-center gap-3.5 p-3.5 rounded bg-gradient-to-br from-slate-50 to-white border border-slate-100 hover:border-emerald-100 transition-all duration-300 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.05)] hover:shadow-md">
                 {/* Decorative Top Accent Line */}
                 <div className="absolute top-0 left-4 right-4 h-[2px] bg-transparent group-hover/card:bg-emerald-500 rounded-full transition-all duration-300" />
 
@@ -112,13 +138,13 @@ const PackageHero: React.FC<PackageHeroProps> = ({ tour }) => {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <span className="block text-[11px] font-extrabold uppercase tracking-widest text-black mb-0.5">
+                  <span className="block text-[11px] font-normal  tracking-widest text-black mb-0.5">
                     Duration
                   </span>
 
-                  <span className="block text-lg font-black text-slate-800 leading-none">
+                  <span className="block text-lg font-normal text-slate-800 leading-none">
                     {tour.duration}{" "}
-                    <span className="text-xs font-bold text-slate-500 tracking-normal">
+                    <span className="text-xs font-normal text-slate-500 tracking-normal">
                       Days
                     </span>
                   </span>
@@ -128,7 +154,7 @@ const PackageHero: React.FC<PackageHeroProps> = ({ tour }) => {
                 <div className="absolute right-0 top-1/4 bottom-1/4 w-[1px] bg-slate-100 group-hover/card:bg-transparent transition-colors" />
               </div>
 
-              <div className="relative group/card flex items-center gap-3.5 p-3.5 rounded-xl bg-gradient-to-br from-slate-50 to-white border border-slate-100 hover:border-amber-100 transition-all duration-300 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.05)] hover:shadow-md">
+              <div className="relative group/card flex items-center gap-3.5 p-3.5 rounded bg-gradient-to-br from-slate-50 to-white border border-slate-100 hover:border-amber-100 transition-all duration-300 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.05)] hover:shadow-md">
                 {/* Decorative Top Accent Line */}
                 <div className="absolute top-0 left-4 right-4 h-[2px] bg-transparent group-hover/card:bg-amber-500 rounded-full transition-all duration-300" />
 
@@ -143,19 +169,19 @@ const PackageHero: React.FC<PackageHeroProps> = ({ tour }) => {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <span className="block text-[11px] font-extrabold uppercase tracking-widest text-black mb-0.5">
+                  <span className="block text-[11px] font-normal uppercase tracking-widest text-black mb-0.5">
                     Availability
                   </span>
 
                   <span
-                    className={`block text-lg font-black leading-none ${
+                    className={`block text-lg font-normal leading-none ${
                       tour.slots > 0 ? "text-slate-800" : "text-rose-600"
                     }`}
                   >
                     {tour.slots > 0 ? (
                       <>
                         {tour.slots}{" "}
-                        <span className="text-xs font-bold text-slate-500 tracking-normal">
+                        <span className="text-xs font-normal text-slate-500 tracking-normal">
                           Left
                         </span>
                       </>
@@ -168,7 +194,7 @@ const PackageHero: React.FC<PackageHeroProps> = ({ tour }) => {
             </div>
 
             {/* Services Section */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 border border-slate-200 rounded-2xl p-4 bg-white shadow-sm">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-3 border border-slate-200 rounded p-4 bg-white shadow-sm">
               <div className="flex flex-col items-center text-center">
                 <Hotel className="w-8 h-8 text-black mb-2 stroke-[2]" />
                 <span className="text-sm font-medium text-slate-800">

@@ -1,5 +1,5 @@
 import { withHandler } from "@/libs/withHandler"
-import { packageSchema } from "@/schema/package.schema"
+import { packageSchema,editPackageSchema } from "@/schema/package.schema"
 import { NextRequest, NextResponse } from "next/server"
 import { CloudinaryResult, deleteFromCloudinary, uploadOnCloudinary } from "@/libs/cloudinary";
 import { packageModel } from "@/models/package.model";
@@ -46,6 +46,7 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     packageImages.map((image) =>
        uploadOnCloudinary(image, "packages")
     ))
+    console.log("placesCovered",placesCovered)
     await packageModel.create({
         destinationId:new Types.ObjectId(destinationId),
         title,
@@ -89,7 +90,7 @@ export const GET = withErrorHandler(async (req:NextRequest)=>{
     }
     const totalCount = await packageModel.countDocuments(filter)
     const packages = await packageModel.find(filter)
-    .populate("destinationId", "destinationLocation")
+    .populate("destinationId", "destinationLocation title")
     .skip(offset)
     .limit(limit)
     .sort({ createdAt: -1 });
@@ -109,7 +110,7 @@ export const GET = withErrorHandler(async (req:NextRequest)=>{
 export const PATCH = withHandler(async (req:NextRequest, user) => {
     const formData = await req.formData()
     const packageId = formData.get("packageId") as string
-    
+     
     if(!packageId){
         return NextResponse.json({
             success:false,
@@ -124,7 +125,7 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
             message:"Package not found"
         },{status:404})
     }
-
+   
     const destinationId = formData.get("destinationId") as string
     const title = formData.get("title") as string
     const description = formData.get("description") as string
@@ -147,10 +148,10 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
             },{status:404})
         }
     }
-
+     console.log("placesCovered",placesCovered)
     // Upload new images if provided
     let updatedImages = dbPackage.packageImages
-    const result = packageSchema.safeParse({destinationId,title,description,price,slots,duration,includedService,excludedService,packageImages,itinerary,placesCovered})
+    const result = editPackageSchema.safeParse({destinationId,title,description,price,slots,duration,includedService,excludedService,packageImages,itinerary,placesCovered})
     if(!result.success || result.error){
         return NextResponse.json({
         succcess:false,

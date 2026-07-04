@@ -17,7 +17,7 @@ const Packages = () => {
   return (
     <div className="w-full bg-slate-50/50 px-6 py-4 min-h-screen flex flex-col 
     items-center">
-      <div className="mx-auto w-full max-w-7xl mb-8">
+      <div className="mx-auto w-full max-w-7xl mb-5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -4,7 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { ReduxProvider } from "@/redux/ReduxProvider";
-
+import { Inter } from "next/font/google";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const outfit = Outfit({ 

@@ -88,6 +88,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
               className="mt-5 sm:mt-6 space-y-4"
             >
               <FormField
+                isEnquiryModal={true}
                 label="Your Name"
                 name="name"
                 placeholder="Enter your name"
@@ -99,6 +100,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField
+                  isEnquiryModal={true}
                   label="Email"
                   name="email"
                   placeholder="Enter your email"
@@ -109,6 +111,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                 />
 
                 <FormField
+                  isEnquiryModal={true}
                   label="Phone Number"
                   name="phoneNumber"
                   placeholder="Enter phone number"
@@ -121,6 +124,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
 
               {/* Reduced rows slightly to save valuable vertical screen real estate on mobile */}
               <FormField
+                isEnquiryModal={true}
                 textarea={true}
                 label="Message"
                 name="message"

@@ -1,65 +1,75 @@
 "use client";
-import React, { useState } from "react";
-import { useGetPackageByIdQuery } from "@/services/packages/packageApi"; 
-import PackageHero from "@/components/packages/PackageHero";
-import PackageDetails from "@/components/packages/PackageDetails";
+
+import React, { use, useState } from "react";
 import { Loader2, Compass } from "lucide-react";
 import Navbar from "@/components/layouts/Navbar";
+import PackageHero from "@/components/packages/PackageHero";
+import PackageDetails from "@/components/packages/PackageDetails";
+import PackageItinerary from "@/components/packages/PackageItinerary";
 import { BookingModal } from "@/components/admin/modals/BookingModal";
+import { useGetPackageByIdQuery } from "@/services/packages/packageApi";
 
 interface PageProps {
-  params: Promise<{ id: string }> | { id: string };
+  params: Promise<{
+    id: string;
+  }>;
 }
 
 const Page = ({ params }: PageProps) => {
-  const resolvedParams = React.use(Promise.resolve(params));
+  const resolvedParams = use(params);
   const packageId = resolvedParams.id;
 
-  // 1. Lifted modal control state
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-  const { data, isLoading, error } = useGetPackageByIdQuery({ packageId });
+  const { data, isLoading, error } = useGetPackageByIdQuery({
+    packageId,
+  });
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
-        <Loader2 className="h-10 w-10 animate-spin text-emerald-600 mb-4" />
-        <p className="text-slate-600 font-medium">Loading your next adventure...</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50">
+        <Loader2 className="mb-4 h-10 w-10 animate-spin text-emerald-600" />
+        <p className="font-medium text-slate-600">
+          Loading your next adventure...
+        </p>
       </div>
     );
   }
 
   if (error || !data?.success || !data.packages) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 px-4">
-        <Compass className="h-16 w-16 text-slate-400 mb-4 stroke-[1.5]" />
-        <h2 className="text-2xl font-bold text-slate-800 mb-2">Package Not Found</h2>
-        <p className="text-slate-600 text-center max-w-md">
-          We couldn't retrieve the details for this trip. It might have expired or been removed.
+      <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4">
+        <Compass className="mb-4 h-16 w-16 stroke-[1.5] text-slate-400" />
+        <h2 className="mb-2 text-2xl font-bold text-slate-800">
+          Package Not Found
+        </h2>
+        <p className="max-w-md text-center text-slate-600">
+          We couldn't retrieve the details for this trip.
         </p>
       </div>
     );
   }
 
   const tourPackage = data.packages;
-  
+
   return (
-    <div className="min-h-screen pt-18 md:pt-20 pb-5">
-      <Navbar transparent={true} />
+    <div className="min-h-screen bg-white pt-18 pb-5 md:pt-20">
+      <Navbar transparent />
+
       <PackageHero tour={tourPackage} />
-      
-      {/* 2. Pass the open trigger function down */}
-      <PackageDetails 
-        tour={tourPackage} 
-        onBookNow={() => setIsBookingModalOpen(true)} 
+
+      <PackageDetails
+        tour={tourPackage}
+        onBookNow={() => setIsBookingModalOpen(true)}
       />
-      
-      {/* 3. Control modal state externally */}
+
+      <PackageItinerary tour={tourPackage} />
+
       <BookingModal
         isOpen={isBookingModalOpen}
         onOpenChange={setIsBookingModalOpen}
         packageId={tourPackage._id}
-        destinationId={tourPackage.destinationId}
+        destinationId={tourPackage?.destinationId?._id}
         basePricePerPerson={tourPackage.price}
       />
     </div>

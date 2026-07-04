@@ -1,6 +1,6 @@
 import React from "react";
 import { Package } from "@/services/packages/packageApi";
-import { ShieldCheck, HelpCircle } from "lucide-react";
+import { ShieldCheck, HelpCircle, MapPin } from "lucide-react";
 
 interface PackageDetailsProps {
   tour: Package;
@@ -8,25 +8,26 @@ interface PackageDetailsProps {
 }
 
 const PackageDetails: React.FC<PackageDetailsProps> = ({ tour, onBookNow }) => {
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         
         {/* Left Hand: Inclusions / Exclusions Overview */}
-        <div className="lg:col-span-8 space-y-4">
-          <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-            <h3 className="text-2xl font-black text-slate-900 mb-3">Journey Description</h3>
+        <div className="lg:col-span-8 space-y-2">
+          <div className="bg-white p-2">
+            <h3 className="text-2xl font-semibold text-slate-900 mb-3">Journey Description</h3>
             <p className="text-slate-600 text-base md:text-lg leading-relaxed whitespace-pre-line font-medium">
               {tour.description}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-black text-slate-900 mb-4 flex items-center gap-2.5">Included Services</h3>
-              <ul className="space-y-3">
+              <h3 className="text-xl font-semibold text-slate-900 mb-4 flex items-center gap-2.5">Included Services</h3>
+              <ul className="space-y-2">
                 {tour.includedService.map((service, index) => (
-                  <li key={index} className="flex items-start gap-3 text-base font-semibold text-slate-700">
+                  <li key={index} className="flex items-start gap-2 text-base text-slate-700">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0" />
                     {service}
                   </li>
@@ -34,11 +35,11 @@ const PackageDetails: React.FC<PackageDetailsProps> = ({ tour, onBookNow }) => {
               </ul>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-black text-slate-900 mb-4 flex items-center gap-2.5">Excluded Services</h3>
-              <ul className="space-y-3">
+            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2 flex items-center gap-2.5">Excluded Services</h3>
+              <ul className="space-y-2">
                 {tour.excludedService.map((service, index) => (
-                  <li key={index} className="flex items-start gap-3 text-base font-semibold text-slate-700">
+                  <li key={index} className="flex items-start gap-2 text-base  text-slate-700">
                     <span className="w-2 h-2 rounded-full bg-rose-400 mt-2 flex-shrink-0" />
                     {service}
                   </li>
@@ -52,7 +53,7 @@ const PackageDetails: React.FC<PackageDetailsProps> = ({ tour, onBookNow }) => {
         <div className="lg:col-span-4 lg:sticky lg:top-5">
           <div className="bg-white rounded-2xl border border-slate-200/80 shadow-lg p-6 overflow-hidden relative">
             <div className="mb-4">
-              <span className="text-xs font-bold uppercase text-black">Total Investment</span>
+              <span className="text-xs font-normal uppercase text-black">Total Investment</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="text-4xl font-black text-slate-900 tracking-tight">₹{tour.price.toLocaleString("en-IN")}</span>
                 <span className="text-sm font-bold text-slate-500">/ traveler</span>
@@ -60,13 +61,13 @@ const PackageDetails: React.FC<PackageDetailsProps> = ({ tour, onBookNow }) => {
             </div>
 
             <div className="space-y-2.5 mb-5 pt-3 border-t border-slate-300">
-              <div className="flex justify-between text-sm font-semibold text-black">
+              <div className="flex justify-between text-sm font-normal text-black">
                 <span>Base Fare</span>
                 <span className="text-slate-800">₹{(tour.price * 0.92).toFixed(0)}</span>
               </div>
-              <div className="flex justify-between text-sm font-semibold text-black">
+              <div className="flex justify-between text-sm font-normal text-black">
                 <span>Taxes & Operator fees</span>
-                <span className="text-emerald-600 font-bold">Included</span>
+                <span className="text-gray-600 font-bold">Included</span>
               </div>
             </div>
 
@@ -74,9 +75,9 @@ const PackageDetails: React.FC<PackageDetailsProps> = ({ tour, onBookNow }) => {
             <button 
               onClick={onBookNow}
               disabled={tour.slots === 0}
-              className={`w-full py-4 px-4 rounded-xl font-black tracking-wide text-center text-base shadow-md transition-all ${
+              className={`w-full py-4 px-4 rounded-xl font-normal tracking-wide text-center text-base  transition-all cursor-pointer ${
                 tour.slots > 0 
-                  ? "bg-black hover:bg-gray-800 text-white shadow-emerald-600/20 hover:shadow-xl active:scale-[0.99]" 
+                  ? "bg-black hover:bg-gray-800 text-white hover:shadow-xl active:scale-[0.99]" 
                   : "bg-slate-200 text-slate-400 cursor-not-allowed"
               }`}
             >

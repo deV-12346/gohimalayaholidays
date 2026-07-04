@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 
 import FormField from "../common/FormField";
-import { packageSchema, PackageType } from "@/schema/package.schema";
+import { editPackageSchema, PackageType } from "@/schema/package.schema";
 import { useUpdatePackageMutation } from "@/services/packages/packageApi";
 import { useGetDestinationsQuery } from "@/services/destinations/destinationApi";
 import DynamicInputFields from "../common/DynamicInputField";
@@ -58,9 +58,9 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
     setValue,
     getValues,
   } = useForm<PackageType>({
-    resolver: zodResolver(packageSchema),
+    resolver: zodResolver(editPackageSchema),
     defaultValues: {
-      destinationId: packageData?.destinationId ?? "--",
+      destinationId: packageData?.destinationId._id ?? "--",
       title: packageData?.title ?? "--",
       description: packageData?.description ?? "--",
       price: String(packageData?.price),
@@ -70,9 +70,7 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
       excludedService: packageData?.excludedService?.length ? packageData?.excludedService : [""],
       packageImages: [], // only NEW files live here; existing images tracked separately
       placesCovered: packageData?.placesCovered?.length ? packageData?.placesCovered : [""],
-      itinerary: packageData?.itinerary?.length
-        ? packageData?.itinerary
-        : [{ day: 1, description: "" }],
+      itinerary: packageData?.itinerary ?? {day:1,description:""}
     },
   });
 
@@ -80,12 +78,12 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
   const destinationId = useWatch({ control, name: "destinationId" });
 
   const { fields: itineraryFields } = useFieldArray({ control, name: "itinerary" as any });
-
+  console.log("errors",errors)
   // re-sync form + local image state whenever modal opens or packageData changes
   useEffect(() => {
     if (open) {
       reset({
-        destinationId: packageData.destinationId,
+        destinationId: packageData.destinationId._id,
         title: packageData.title,
         description: packageData.description,
         price: String(packageData.price),

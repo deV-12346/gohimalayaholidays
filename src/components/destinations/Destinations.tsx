@@ -22,6 +22,7 @@ const DestinationsPage = () => {
     <main className="w-full bg-slate-50/50  px-6 py-4 min-h-screen flex justify-start
     items-center flex-col">
     <div className="mx-auto w-full max-w-7xl">
+      <div className="mx-auto w-full max-w-7xl mb-5">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -29,18 +30,17 @@ const DestinationsPage = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="flex items-center justify-center gap-3">
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
               All Destinations
             </h2>
             {isFetching && !isLoading && (
               <Loader2 className="h-5 w-5 animate-spin text-indigo-600" />
             )}
-          </div>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 font-medium max-w-xl mx-auto">
             Explore all the beautiful places of Himachal Pradesh
           </p>
         </motion.div>
+        </div>
         {/* Skeleton Loading */}
         {isLoading ? (
           <div className="w-full mt-4 grid-cols-1 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

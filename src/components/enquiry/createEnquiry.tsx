@@ -34,6 +34,7 @@ const CreateEnquiry = () => {
     <div >
       <form onSubmit={handleSubmit(handleCreateEnquiry)} className="space-y-2 w-full">
         <FormField
+        isEnquiryModal={true}
         label="Your Name"
         name="name"
         placeholder="Enter your name"
@@ -43,6 +44,7 @@ const CreateEnquiry = () => {
         showBorder={true}
         />
          <FormField
+        isEnquiryModal={true}
         label="Email"
         name="email"
         placeholder="Enter your email"
@@ -52,6 +54,7 @@ const CreateEnquiry = () => {
         showBorder={true}
         />
         <FormField
+         isEnquiryModal={true}
         label="Phone Number"
         name="phoneNumber"
         placeholder="Enter your phone number"
@@ -61,6 +64,7 @@ const CreateEnquiry = () => {
         showBorder={true}
         />
         <FormField
+        isEnquiryModal={true}
         textarea={true}
         label="Message"
         name="message"

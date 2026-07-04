@@ -18,7 +18,7 @@ export const GET = withErrorHandler(async (req:NextRequest,{params,}: {
             message:"Package ID is missing"
         },{status:404})
     }
-    const packages = await packageModel.findById(packageId)
+    const packages = await packageModel.findById(packageId).populate("destinationId", "title descrition destinationLocation")
     if(!packages){
         return NextResponse.json({
             success:false,

@@ -7,7 +7,7 @@ export interface PackageImage {
 }
 export interface Package {
   _id: string;
-  destinationId: string;
+  destinationId: {_id:string, title:string,destinationLocation:string};
   title: string;
   description: string;
   price: number;
@@ -19,7 +19,7 @@ export interface Package {
   createdAt: string;
   updatedAt: string;
   placesCovered:string[];
-  itinerary:{}[]
+  itinerary:{day: number, description:string}[]
 }
 
 export interface GetPackagesRequest {
