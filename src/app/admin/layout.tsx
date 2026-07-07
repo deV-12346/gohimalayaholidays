@@ -1,20 +1,16 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/option";
 import AdminLayoutClient from "./AdminLayoutClient";
+import AuthProvider from "@/providers/AuthProvider";
 
-export default async function AdminLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
-  const session = await getServerSession(authOptions);
-
   return (
-    <AdminLayoutClient
-      user={session?.user}
-    >
-      {children}
-    </AdminLayoutClient>
+    <AuthProvider>
+      <AdminLayoutClient>
+        {children}
+      </AdminLayoutClient>
+    </AuthProvider>
   );
 }

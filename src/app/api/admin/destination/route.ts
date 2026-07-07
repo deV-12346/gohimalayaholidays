@@ -1,4 +1,4 @@
-import { destinationSchema } from "@/schema/destination.model";
+import { destinationSchema, updateDestinationSchema } from "@/schema/destination.model";
 import { NextRequest, NextResponse } from "next/server";
 import { CloudinaryResult, deleteFromCloudinary, uploadOnCloudinary } from "@/libs/cloudinary";
 import {  Types } from "mongoose";
@@ -121,7 +121,7 @@ export const PATCH = withHandler(async (req:NextRequest) => {
         const image = formData.get('image') as File | null
         const popularPlacesRaw = formData.get('popularPlaces') as string | null
         const popularPlaces = popularPlacesRaw   ? JSON.parse(popularPlacesRaw) : []
-        const result = destinationSchema.safeParse({
+        const result = updateDestinationSchema.safeParse({
             title,
             description,
             destinationLocation,

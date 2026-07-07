@@ -60,7 +60,7 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
   } = useForm<PackageType>({
     resolver: zodResolver(editPackageSchema),
     defaultValues: {
-      destinationId: packageData?.destinationId._id ?? "--",
+      destinationId: packageData?.destinationId?._id ?? "--",
       title: packageData?.title ?? "--",
       description: packageData?.description ?? "--",
       price: String(packageData?.price),

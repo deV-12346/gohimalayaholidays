@@ -16,6 +16,7 @@ const quickLinks = [
   { label: "Packages", href: "/packages" },
   { label: "About Us", href: "/about-us" },
   { label: "Contact Us", href: "/enquiry" },
+  { label: "Admin Sign-in", href: "/sign-in" },
 ];
 
 const socialLinks = [
@@ -148,7 +149,7 @@ export default function Footer() {
           <div className="mt-4 flex flex-col items-center gap-3 text-sm text-gray-400 sm:items-start sm:text-base">
             <div className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-white" />
-              <span>Go Himalaya Holidays, VPO Deola, Distt. Shimla, HP 171007</span>
+              <span>Go Himalaya Holidays, Vill. Shari PO Thaila, Distt. Shimla, HP 171007</span>
             </div>
 
             <a
@@ -156,7 +157,7 @@ export default function Footer() {
               className="flex items-center gap-2 transition-colors hover:text-white"
             >
               <Mail className="h-4 w-4 shrink-0 text-white" />
-              <span>gohimalayaholidays.team@gmail.com</span>
+              <span>info@gohimalayaholidays.com</span>
             </a>
 
             <a

@@ -26,7 +26,7 @@ const PackageItinerary: React.FC<PackageItineraryProps> = ({ tour }) => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-4">
+    <div className="mx-auto px-4 sm:px-6 lg:px-8 my-4 ">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Left: Day-wise Itinerary Accordion */}
         <div className="lg:col-span-8 bg-white p-6">

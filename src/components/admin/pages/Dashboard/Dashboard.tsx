@@ -12,7 +12,8 @@ import {
   useGetDashboardStatsQuery,
 } from "@/services/adminDashboard/dashboardSlice";
 import StatCard from "../../dashboard/StatCard";
-import AdminActions from "../../dashboard/AddAdmin";
+import AdminActions from "../../dashboard/AdminAction";
+
 
 
 
@@ -153,7 +154,7 @@ export default function Dashboard() {
 
           const value =
             stats?.[
-              item.key as keyof typeof stats
+            item.key as keyof typeof stats
             ];
 
           return (
@@ -162,7 +163,7 @@ export default function Dashboard() {
               title={item.title}
               value={
                 item.key ===
-                "totalRevenue"
+                  "totalRevenue"
 
                   ? `₹${value}`
 

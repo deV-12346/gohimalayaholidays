@@ -10,9 +10,9 @@ import TopSightseeings from "@/components/home/SightseeingPlaces"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white text-gray-900">
+    <main className="min-h-screen bg-white text-gray-900 space-y-2">
       <Navbar transparent={true} />
-      <HeroSection />
+      <HeroSection  />
       <PopularDestinations />
       <WhyChooseUs />
       <TrendingPackages />

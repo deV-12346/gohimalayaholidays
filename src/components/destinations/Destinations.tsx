@@ -36,9 +36,9 @@ const DestinationsPage = () => {
             {isFetching && !isLoading && (
               <Loader2 className="h-5 w-5 animate-spin text-indigo-600" />
             )}
-          <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 font-medium max-w-xl mx-auto">
-            Explore all the beautiful places of Himachal Pradesh
-          </p>
+          <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 font-medium max-w-2xl mx-auto">
+        Explore handpicked destinations filled with natural beauty, adventure, culture, and unforgettable memories.
+        </p>
         </motion.div>
         </div>
         {/* Skeleton Loading */}

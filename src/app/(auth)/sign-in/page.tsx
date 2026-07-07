@@ -45,8 +45,8 @@ export default function SignInPage() {
   return (
 
     <section className="relative flex min-h-screen items-center 
-    justify-center overflow-hidden bg-black px-6">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+    justify-center overflow-hidden bg-white px-6">
+      <div className="absolute inset-0  backdrop-blur-sm text-black" />
       {/* Card */}
       <div
         className="
@@ -56,7 +56,7 @@ export default function SignInPage() {
           rounded-3xl
           border
           border-white/10
-          bg-white/10
+          bg-gray-600
           p-8
           shadow-2xl
           backdrop-blur-xl

@@ -5,7 +5,7 @@
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsappButton() {
-    const phoneNumber="917876602413";
+    const phoneNumber="917807506312";
     const message =encodeURIComponent(`Hello Go Himalaya Holidays,I want to enquire about your travel packages.`);
     const whatsappUrl=`https://wa.me/${phoneNumber}?text=${message}`;
     return (

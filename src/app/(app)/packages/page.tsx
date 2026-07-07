@@ -1,15 +1,19 @@
 import Navbar from '@/components/layouts/Navbar'
 import Packages from '@/components/packages/packages'
-import React from 'react'
 
-const page = () => {
-  
+interface PageProps {
+  searchParams: Promise<{ destination?: string }>
+}
+
+const Page = async ({ searchParams }: PageProps) => {
+  const { destination: destinationId } = await searchParams
+
   return (
     <div>
       <Navbar transparent={false} />
-      <Packages/>
+      <Packages destinationId={destinationId} />
     </div>
   )
 }
 
-export default page
+export default Page

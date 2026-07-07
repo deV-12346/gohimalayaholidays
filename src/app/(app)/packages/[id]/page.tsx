@@ -8,6 +8,7 @@ import PackageDetails from "@/components/packages/PackageDetails";
 import PackageItinerary from "@/components/packages/PackageItinerary";
 import { BookingModal } from "@/components/admin/modals/BookingModal";
 import { useGetPackageByIdQuery } from "@/services/packages/packageApi";
+import RelatedPackage from "@/components/packages/RelatedPackage";
 
 interface PageProps {
   params: Promise<{
@@ -35,7 +36,6 @@ const Page = ({ params }: PageProps) => {
       </div>
     );
   }
-
   if (error || !data?.success || !data.packages) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4">
@@ -49,22 +49,17 @@ const Page = ({ params }: PageProps) => {
       </div>
     );
   }
-
   const tourPackage = data.packages;
-
   return (
-    <div className="min-h-screen bg-white pt-18 pb-5 md:pt-20">
+    <div className="min-h-screen bg-white pt-18 pb-5 md:pt-20  flex justify-center items-center">
+      <div className="max-w-7xl border">
       <Navbar transparent />
-
       <PackageHero tour={tourPackage} />
-
       <PackageDetails
         tour={tourPackage}
         onBookNow={() => setIsBookingModalOpen(true)}
       />
-
       <PackageItinerary tour={tourPackage} />
-
       <BookingModal
         isOpen={isBookingModalOpen}
         onOpenChange={setIsBookingModalOpen}
@@ -72,6 +67,8 @@ const Page = ({ params }: PageProps) => {
         destinationId={tourPackage?.destinationId?._id}
         basePricePerPerson={tourPackage.price}
       />
+      <RelatedPackage   destinationId={data.packages.destinationId._id} packageId={data.packages._id}/>
+      </div>
     </div>
   );
 };

@@ -33,7 +33,7 @@ export default function HeroSection() {
   }));
 
   return (
-    <section className="relative h-screen overflow-hidden" style={{ background: "#0a0818" }}>
+    <section className="relative px-0 py-0 h-screen overflow-hidden" style={{ background: "#0a0818" }}>
       {/* ── Sky gradient ── */}
       <div
         className="absolute inset-0"
@@ -234,7 +234,7 @@ export default function HeroSection() {
         <div className="max-w-4xl text-center">
 
           {/* Eyebrow label */}
-          <div
+          {/* <div
             className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
             style={{
               background: "rgba(255,255,255,0.08)",
@@ -245,7 +245,7 @@ export default function HeroSection() {
           >
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#a78bfa", display: "inline-block", animation: "pulse 2s infinite" }} />
             Himachal Pradesh · India
-          </div>
+          </div> */}
 
           {/* Headline */}
           <h1
@@ -269,7 +269,7 @@ export default function HeroSection() {
               Beauty
             </span>{" "}
             <br />
-            Of Himachal
+            Of Himalaya
           </h1>
 
           {/* Subheading */}

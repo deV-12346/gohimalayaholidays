@@ -21,8 +21,8 @@ export default function PopularDestinations() {
   const destinations: Destination[] =
     data?.destinations.slice(0, 4) || [];
   return (
-    <section className="bg-white px-6 py-10">
-      <div className="mx-auto max-w-7xl">
+    <section>
+      <div className="mx-auto max-w-7xl px-4  py-2">
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -31,16 +31,18 @@ export default function PopularDestinations() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="flex items-center justify-center gap-3">
-            <h2 className="text-4xl font-bold">
-              Popular Destinations
-            </h2>
-            {isFetching && !isLoading && (
-              <Loader2 className="h-5 w-5 animate-spin text-indigo-600" />
-            )}
+           <div>
+            <div className="flex items-center gap-3 flex flex-col items-center ">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight text-center">
+                Popular Destinations
+              </h2>
+              {isFetching && !isLoading && (
+                <Loader2 className="h-5 w-5 animate-spin text-emerald-600" />
+              )}
+            </div>
           </div>
           <p className="mt-4 text-gray-600">
-            Explore the most beautiful places of Himachal Pradesh
+          Explore handpicked destinations filled with natural beauty, adventure, culture, and unforgettable memories.
           </p>
         </motion.div>
         {isLoading ? (
@@ -50,7 +52,7 @@ export default function PopularDestinations() {
             ))}
         </div>
         ) : (
-         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+         <div className="mt-6  grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
         {destinations?.map((item) => (
         <DestinationCard key={item._id} item={item} />
         ))}

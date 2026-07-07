@@ -52,18 +52,16 @@ const EnquiryModal = ({ open, onClose }: Props) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          // Added item centering alignment tweaks for small heights
-          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 p-4 overflow-y-auto"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0, y: 40 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            // Added max-h-[90vh], overflow-y-auto, and responsive width checks
-            className="relative w-[calc(100%-1rem)] sm:w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-white p-5 sm:p-8 shadow-2xl"
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto no-scrollbar rounded-2xl sm:rounded-3xl bg-white p-5 sm:p-8 shadow-2xl"
           >
-            {/* Close Button - Adjusted top positioning for layout integrity */}
+            {/* Close Button */}
             <button
               type="button"
               onClick={onClose}
@@ -72,17 +70,18 @@ const EnquiryModal = ({ open, onClose }: Props) => {
               <X size={20} />
             </button>
 
-            {/* Header Content */}
+            {/* Header */}
             <div className="pr-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 text-left sm:text-center">
-                Plan Your Himachal Trip
+                Plan Your Next Trip
               </h2>
+
               <p className="mt-2 text-sm sm:text-base text-left sm:text-center text-gray-600">
                 Fill this form and get the best travel package deals.
               </p>
             </div>
 
-            {/* Form Container */}
+            {/* Form */}
             <form
               onSubmit={handleSubmit(handleCreateEnquiry)}
               className="mt-5 sm:mt-6 space-y-4"
@@ -122,7 +121,6 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                 />
               </div>
 
-              {/* Reduced rows slightly to save valuable vertical screen real estate on mobile */}
               <FormField
                 isEnquiryModal={true}
                 textarea={true}
@@ -131,7 +129,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
                 placeholder="Write your message here..."
                 required
                 register={register}
-                rows={3} 
+                rows={3}
                 error={errors.message}
                 showBorder={true}
               />
@@ -149,6 +147,7 @@ const EnquiryModal = ({ open, onClose }: Props) => {
       )}
     </AnimatePresence>
   )
+
 }
 
 export default EnquiryModal

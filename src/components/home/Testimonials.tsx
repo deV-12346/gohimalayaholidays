@@ -27,9 +27,9 @@ export default function Testimonials() {
 
   return (
 
-    <section className="bg-gray-50 px-6 py-8">
+    <section >
 
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl px-4  py-2">
 
         {/* Heading */}
         <motion.div
@@ -40,7 +40,7 @@ export default function Testimonials() {
           className="text-center"
         >
 
-          <h2 className="text-4xl font-bold">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight text-center">
             What Our Travelers Say
           </h2>
 

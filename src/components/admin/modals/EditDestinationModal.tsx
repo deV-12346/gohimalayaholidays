@@ -93,12 +93,12 @@ export default function EditDestinationModal({
       setValue(
         "popularPlaces",
         destination.popularPlaces ||
-          [""]
+        [""]
       );
 
       setPopularPlaces(
         destination.popularPlaces ||
-          [""]
+        [""]
       );
 
       setImagePreview(
@@ -288,6 +288,8 @@ export default function EditDestinationModal({
           "image",
           selectedFile
         );
+      }else {
+        formData.append("existingImage", destination.image); 
       }
 
       const result =
@@ -297,14 +299,14 @@ export default function EditDestinationModal({
 
       toast.success(
         result.message ||
-          "Destination updated successfully"
+        "Destination updated successfully"
       );
 
       setOpen(false);
     } catch (error: any) {
       toast.error(
         error?.data?.message ||
-          "Failed to update destination"
+        "Failed to update destination"
       );
     }
   };
@@ -314,13 +316,13 @@ export default function EditDestinationModal({
 
     setPopularPlaces(
       destination.popularPlaces ||
-        [""]
+      [""]
     );
 
     setValue(
       "popularPlaces",
       destination.popularPlaces ||
-        [""]
+      [""]
     );
 
     setImagePreview(
@@ -559,9 +561,8 @@ export default function EditDestinationModal({
                           .value
                       )
                     }
-                    placeholder={`Place ${
-                      index + 1
-                    }`}
+                    placeholder={`Place ${index + 1
+                      }`}
                     className="
                       border-white/10
                       bg-white/5
@@ -572,25 +573,25 @@ export default function EditDestinationModal({
 
                   {popularPlaces.length >
                     1 && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() =>
-                        removePlace(
-                          index
-                        )
-                      }
-                      className="
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() =>
+                          removePlace(
+                            index
+                          )
+                        }
+                        className="
                         border-white/10
                         bg-white/5
                         text-white
                         hover:bg-red-500/20
                       "
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  )}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    )}
                 </div>
               )
             )}

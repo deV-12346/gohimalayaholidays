@@ -5,7 +5,11 @@ import PackageCard from './PackageCard'
 import { motion } from "framer-motion"
 import PackageCardSkeleton from '../layouts/packageSkeleton'
 
-const Packages = () => {
+interface PackagesProps {
+  destinationId?: string
+}
+
+const Packages = ({ destinationId }: PackagesProps) => {
   const { data: packages, isLoading, isFetching } = useGetPackagesQuery(undefined, {
     selectFromResult: ({ data, isLoading, isFetching }) => ({
       data: data?.packages,
@@ -13,7 +17,9 @@ const Packages = () => {
       isFetching
     })
   })
-
+  const filteredPackages = destinationId
+    ? packages?.filter((pkg) => pkg?.destinationId?._id === destinationId)
+    : packages
   return (
     <div className="w-full bg-slate-50/50 px-6 py-4 min-h-screen flex flex-col 
     items-center">
@@ -26,28 +32,31 @@ const Packages = () => {
           className="text-center"
         >
           <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
-            All Packages
+            {destinationId ? "Packages For This Destination" : "All Packages"}
           </h2>
           <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 font-medium max-w-xl mx-auto">
-            Explore all the beautiful Packages of Himachal Pradesh
+             Explore our best travel packages filled with adventure, comfort, breathtaking views, and memorable journeys.
           </p>
         </motion.div>
       </div>
 
       <div className="w-full max-w-7xl mx-auto">
         {isLoading || isFetching ? (
-          /* Grid auto-centering items on small devices */
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
-            {[1, 2, 3,4].map((item) => (
+            {[1, 2, 3, 4].map((item) => (
               <PackageCardSkeleton key={item} />
             ))}
           </div>
-        ) : (
+        ) : filteredPackages && filteredPackages.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full">
-            {packages?.map((item) => (
+            {filteredPackages.map((item) => (
               <PackageCard key={item._id} item={item} />
             ))}
           </div>
+        ) : (
+          <p className="text-slate-500 text-center mt-10">
+            No packages found for this destination.
+          </p>
         )}
       </div>
     </div>

@@ -26,7 +26,7 @@ const PackageHero: React.FC<PackageHeroProps> = ({ tour }) => {
   return (
     <section className="relative bg-white border-b border-slate-100">
       {/* Upper Navigation/Breadcrumb Hook */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <Link
           href="/packages"
           className="inline-flex items-center text-sm font-bold text-black hover:text-emerald-600 transition-colors gap-2 group"
@@ -36,7 +36,7 @@ const PackageHero: React.FC<PackageHeroProps> = ({ tour }) => {
         </Link>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-5">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           {/* Left Column: Visual Galleries */}
           <div className="lg:col-span-7 flex flex-col gap-3">

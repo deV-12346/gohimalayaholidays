@@ -32,7 +32,7 @@ export interface GetPackagesResponse {
   success: boolean;
   message: string;
   packages: Package[];
-  totalCount: number;
+  totalCount?: number;
 }
 
 export interface GetPackagesByIdResponse {
@@ -96,6 +96,16 @@ export const packageApi = createApi({
         method: "GET",
       }),
     }),
+    getRelatedPackages:builder.query<GetPackagesResponse,{destinationId:string,packageId:string}>({
+       query:({destinationId,packageId})=>({
+        url: "package/related-packages",
+        method: "GET",
+        params:{
+          destinationId,
+          packageId,
+        }
+       })
+    })
   }),
 });
 
@@ -105,4 +115,6 @@ export const {
   useUpdatePackageMutation,
   useDeletePackageMutation,
   useGetPackageByIdQuery,
+  useGetRelatedPackagesQuery
+  
 } = packageApi;

@@ -41,3 +41,6 @@ export const destinationSchema = z.object({
     .trim())
     .min(1,"At least one popular place is required"),
 })
+export const updateDestinationSchema = destinationSchema.partial().extend({
+  image: destinationSchema.shape.image.nullable().optional(),
+});

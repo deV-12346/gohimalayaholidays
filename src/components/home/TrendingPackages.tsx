@@ -29,14 +29,14 @@ export default function TrendingPackages() {
 
   if (isError) {
     return (
-      <div className="w-full text-center py-10 font-semibold text-rose-600 bg-white border border-slate-100 rounded-2xl max-w-7xl mx-auto my-6">
+      <div className="w-full text-center px-4  py-10 font-semibold text-rose-600 bg-white border border-slate-100 rounded-2xl max-w-7xl mx-auto my-6">
         Error loading packages. Please refresh the page.
       </div>
     )
   }
 
   return (
-    <section className="bg-white px-4 sm:px-6 py-10 w-full flex flex-col items-center">
+    <section className="bg-white w-full flex flex-col items-center px-4  py-2">
       <div className="w-full max-w-7xl">
         
         {/* Heading & Top CTA Section */}
@@ -47,17 +47,17 @@ export default function TrendingPackages() {
           viewport={{ once: true }}
           className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between border-b border-slate-50 pb-6"
         >
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <div className="flex items-center gap-3">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight text-center">
                 Trending Packages
               </h2>
               {isFetching && !isLoading && (
                 <Loader2 className="h-5 w-5 animate-spin text-emerald-600" />
               )}
             </div>
-            <p className="mt-1.5 text-sm sm:text-base text-slate-500 font-medium">
-              Explore our best handpicked Himachal travel packages
+            <p className="mt-1.5 text-sm sm:text-base text-slate-500 font-medium text-center">
+               Explore our best travel packages filled with adventure, comfort, breathtaking views, and memorable journeys.
             </p>
           </div>
           
@@ -90,7 +90,7 @@ export default function TrendingPackages() {
         <div className="w-full flex justify-center mt-8 sm:hidden">
           <Link 
             href="/packages"
-            className="w-full max-w-[22rem] text-center inline-flex items-center justify-center gap-2 rounded-xl bg-slate-50 border border-slate-200 px-5 py-3.5 text-sm font-bold text-slate-800 hover:bg-slate-100 transition shadow-sm"
+            className="w-full max-w-[24rem] text-center inline-flex items-center justify-center gap-2 rounded-xl bg-slate-50 border border-slate-200  py-3.5 text-sm font-bold text-slate-800 hover:bg-slate-100 transition shadow-sm"
           >
             View All Packages
             <ArrowRight className="w-4 h-4 text-slate-600" />

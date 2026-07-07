@@ -62,7 +62,7 @@ const sightseeingPlaces = [
 
 export default function TopSightseeings() {
   return (
-    <section className="bg-white px-4 py-8 sm:px-6">
+    <section className="bg-white py-2 px-4 ">
       <div className="mx-auto max-w-7xl">
         {/* Heading */}
         <div className="text-center">
@@ -70,7 +70,7 @@ export default function TopSightseeings() {
             Explore Himachal
           </p>
 
-          <h2 className="mt-2 text-3xl font-bold text-gray-900 sm:text-5xl">
+          <h2 className="mt-2 text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight text-center">
             Top Most Sightseeings
           </h2>
 

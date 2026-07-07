@@ -10,7 +10,6 @@ import {
   Package,
   CalendarCheck,
   MessageSquare,
-  LogOut,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -66,7 +65,7 @@ export default function AdminSidebar({
         items-center
         gap-3
         border-b
-        border-white/10
+        border-white/40
         px-6
       "
       >
@@ -83,7 +82,7 @@ export default function AdminSidebar({
             Go Himalaya
           </h1>
 
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-white">
             Admin Dashboard
           </p>
         </div>
@@ -120,7 +119,7 @@ export default function AdminSidebar({
                 isActive
                   ? "text-white"
                   : `
-                  text-zinc-400
+                  text-zinc-100
                   hover:bg-white/5
                   hover:text-white
                 `
@@ -163,31 +162,6 @@ export default function AdminSidebar({
           );
         })}
       </nav>
-
-      <div className="border-t border-white/10 p-4">
-        <Link
-          href={"/sign-in"}
-          onClick={()=>signOut()}
-          className="
-          flex
-          w-full
-          items-center
-          gap-4
-          rounded-2xl
-          px-5
-          py-4
-          text-sm
-          font-medium
-          text-zinc-400
-          transition-all
-          hover:bg-red-500/10
-          hover:text-red-400
-        "
-        >
-          <LogOut className="h-5 w-5" />
-          Logout
-        </Link>
-      </div>
     </>
   );
 
