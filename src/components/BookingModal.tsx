@@ -203,7 +203,7 @@ export function BookingModal({
       if (response.success) {
         setCustomerDetails(cleanedPayload)
 
-        setStep(2)
+        setStep(1)
 
         toast.success(
           response.message || "OTP sent successfully!"
