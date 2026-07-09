@@ -87,7 +87,6 @@ const customerFormSchema = z.object({
       return age >= MIN_CUSTOMER_AGE
     }, `You must be at least ${MIN_CUSTOMER_AGE} years old`),
   totalPersons: z
-    .number({ invalid_type_error: "Enter a valid number" })
     .int("Enter a whole number")
     .min(MIN_TRAVELERS, `At least ${MIN_TRAVELERS} person required`)
     .max(MAX_TRAVELERS, `Maximum ${MAX_TRAVELERS} persons allowed`),
