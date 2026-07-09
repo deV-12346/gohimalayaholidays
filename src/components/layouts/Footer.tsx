@@ -1,15 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import {
-  MapPin,
-  Phone,
-  Mail,
-} from "lucide-react";
-import {
-  FaLinkedin,
-  FaFacebook,
-  FaInstagram,
-  FaYoutube,
-} from "react-icons/fa";
+import { MapPin, Phone, Mail } from "lucide-react";
+import { FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
+
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Destinations", href: "/destinations" },
@@ -22,69 +16,22 @@ const quickLinks = [
 const socialLinks = [
   { label: "Facebook", href: "https://facebook.com", icon: FaFacebook },
   { label: "Instagram", href: "https://instagram.com", icon: FaInstagram },
-  // { label: "YouTube", href: "https://youtube.com/@YOUR-CHANNEL", icon: FaInstagram },
 ];
 
 export default function Footer() {
   return (
-    <footer
-      className="
-      border-t
-      border-white/10
-      bg-[#050816]
-      px-4
-      py-12
-      text-gray-300
-    "
-    >
-      <div
-        className="
-        mx-auto
-        grid
-        max-w-7xl
-        grid-cols-1
-        gap-10
-        text-center
-        sm:grid-cols-2
-        sm:text-left
-        lg:grid-cols-3
-      "
-      >
+    <footer className="border-t border-white/10 bg-[#050816] px-4 py-12 text-gray-300">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-3">
+        
         {/* Logo, Description & Follow Us */}
-
-        <div
-          className="
-          flex
-          flex-col
-          items-center
-          sm:items-start
-        "
-        >
-          <h2
-            className="
-            text-2xl
-            font-bold
-            text-white
-            sm:text-3xl
-          "
-          >
+        <div className="flex flex-col items-center sm:items-start">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">
             Go Himalaya Holidays
           </h2>
-
-          <p
-            className="
-            mt-4
-            text-sm
-            leading-7
-            text-gray-400
-            sm:text-base
-          "
-          >
-            Discover the beauty of the Himalayas with
-            unforgettable journeys, peaceful destinations,
-            and premium travel experiences.
+          <p className="mt-4 text-sm leading-7 text-gray-400 sm:text-base">
+            Discover the beauty of the Himalayas with unforgettable journeys,
+            peaceful destinations, and premium travel experiences.
           </p>
-
           <div className="mt-5">
             <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
               Follow Us
@@ -97,21 +44,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="
-                    flex
-                    h-9
-                    w-9
-                    items-center
-                    justify-center
-                    rounded-full
-                    border
-                    border-white/10
-                    bg-white/5
-                    text-gray-400
-                    transition-colors
-                    // hover:border-cyan-400/40
-                    hover:text-white
-                  "
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-400 transition-colors hover:text-white"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -121,7 +54,6 @@ export default function Footer() {
         </div>
 
         {/* Quick Links */}
-
         <div className="flex flex-col items-center sm:items-start">
           <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
             Quick Links
@@ -141,13 +73,12 @@ export default function Footer() {
         </div>
 
         {/* Contact Us */}
-
         <div className="flex flex-col items-center sm:items-start">
           <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
             Contact Us
           </p>
           <div className="mt-4 flex flex-col items-center gap-3 text-sm text-gray-400 sm:items-start sm:text-base">
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-1 sm:gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-white" />
               <span>Go Himalaya Holidays, Vill. Shari PO Thaila, Distt. Shimla, HP 171007</span>
             </div>
@@ -159,43 +90,30 @@ export default function Footer() {
               <Mail className="h-4 w-4 shrink-0 text-white" />
               <span>info@gohimalayaholidays.com</span>
             </a>
-
-            <a
+            
+            <div className="flex flex-col justify-center items-center gap-1">
+              <a
+              href="tel:+91 78767 83844"
+              className="flex items-center gap-2 transition-colors hover:text-white"
+            >
+              <Phone className="h-4 w-4 shrink-0 text-white" />
+                <span>+91 78767 83844,</span>
+              </a>
+              <a
               href="tel:+91 78766 02413"
               className="flex items-center gap-2 transition-colors hover:text-white"
             >
               <Phone className="h-4 w-4 shrink-0 text-white" />
-              <span>+91 78767 83844</span>
-              <span>+91 78766 02413</span>
-            </a>
+                <span>+91 78766 02413</span>
+              </a>
+              </div>
           </div>
         </div>
       </div>
 
       {/* Bottom */}
-
-      <div
-        className="
-        mx-auto
-        mt-10
-        flex
-        max-w-7xl
-        flex-col
-        items-center
-        justify-center
-        gap-3
-        border-t
-        border-white/10
-        pt-6
-        text-center
-        text-sm
-        text-gray-500
-      "
-      >
-        <p>
-          © 2026 Go Himalaya Holidays. All rights reserved.
-        </p>
-
+      <div className="mx-auto mt-10 flex max-w-7xl flex-col items-center justify-center gap-3 border-t border-white/10 pt-6 text-center text-sm text-gray-500">
+        <p>© 2026 Go Himalaya Holidays. All rights reserved.</p>
         <p className="flex items-center gap-1.5">
           Developed by
           <a

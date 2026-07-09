@@ -20,7 +20,7 @@ const DestinationCard = ({ item, priority = false }: DestinationCardProps) => {
   return (
     <Link
       href={`/packages?destination=${item._id}`}
-      className="group w-full max-w-[24rem] flex focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-2xl"
+      className="group w-full max-w-[21rem] sm:max-w-[23rem] flex focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-2xl"
     >
       <motion.article
         initial={{ opacity: 0, y: 24 }}

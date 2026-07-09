@@ -91,7 +91,7 @@ export default function BookingDetailsModal({ booking }: BookingDetailsModalProp
           <Eye className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-white/10 bg-[#0b1120] text-white sm:max-w-[600px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-white/10 bg-[#0b1120] text-white sm:max-w-[600px] rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Booking Details</DialogTitle>
         </DialogHeader>

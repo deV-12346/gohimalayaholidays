@@ -4,6 +4,9 @@ import { Package, useGetPackagesQuery } from '@/services/packages/packageApi'
 import PackageCard from './PackageCard'
 import { motion } from "framer-motion"
 import PackageCardSkeleton from '../layouts/packageSkeleton'
+import { PackageX } from 'lucide-react'
+import { Button } from '../ui/button'
+import Link from 'next/link'
 
 interface PackagesProps {
   destinationId?: string
@@ -54,9 +57,19 @@ const Packages = ({ destinationId }: PackagesProps) => {
             ))}
           </div>
         ) : (
-          <p className="text-slate-500 text-center mt-10">
-            No packages found for this destination.
-          </p>
+            <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center justify-center gap-3 text-center py-12 px-4 rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 w-full"
+          >
+            <PackageX className="h-12 w-12 text-gray-400" />
+            <p className="text-base font-medium text-gray-600">
+              No related packages found for this destination
+            </p>
+            <Link href={"/"} className='cursor-pointer bg-gray-700 text-white hover:bg-gray-600 rounded font-normal px-2 py-1 sm:py-2'>
+             Back to home
+            </Link>
+          </motion.div>
         )}
       </div>
     </div>

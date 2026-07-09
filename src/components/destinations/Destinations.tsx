@@ -37,13 +37,13 @@ const DestinationsPage = () => {
               <Loader2 className="h-5 w-5 animate-spin text-indigo-600" />
             )}
           <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 font-medium max-w-2xl mx-auto">
-        Explore handpicked destinations filled with natural beauty, adventure, culture, and unforgettable memories.
+         Explore handpicked destinations filled with natural beauty, adventure, culture, and unforgettable memories.
         </p>
         </motion.div>
         </div>
         {/* Skeleton Loading */}
         {isLoading ? (
-          <div className="w-full mt-4 grid-cols-1 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="w-full mt-4 grid-cols-1 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-stretch w-full max-w-7xl mx-auto">
             {[1,2,3,4].map((item) => (
               <DestinationCardSkeleton key={item} />
             ))}

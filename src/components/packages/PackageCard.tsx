@@ -8,7 +8,7 @@ import Link from "next/link"
 
 const PackageCard = ({ item }: { item: Package }) => {
   return (
-    <Link href={`/packages/${item._id}`} className="w-full max-w-[24rem] flex">
+    <Link href={`/packages/${item._id}`} className="w-full  max-w-[21rem] sm:max-w-[23rem] flex">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

@@ -27,8 +27,8 @@ interface FormFieldProps {
 }
 
 export default function FormField({
-  isEnquiryModal=false,
-  showBorder=false,
+  isEnquiryModal=true,
+  showBorder=true,
   label,
   name,
   type = "text",
@@ -44,7 +44,7 @@ export default function FormField({
   const fieldStyles = `
     w-full
     rounded-xl
-    ${showBorder ? "border border-zinc-300" : "border border-transparent"}
+    ${ error ? "border border-red-600" : "border border-zinc-300 text-black"}
     bg-white/10
     px-4
     text-sm
@@ -76,7 +76,7 @@ export default function FormField({
           placeholder={placeholder}
           rows={rows}
           {...register(name)}
-          className={`${fieldStyles} min-h-[120px] py-3`}
+          className={`${fieldStyles} min-h-[120px] py-3 ${isEnquiryModal && "text-black"}`}
         />
       ) : (
         <Input
@@ -86,7 +86,7 @@ export default function FormField({
           accept={accept}
           multiple={multiple}
           {...register(name)}
-          className={`${fieldStyles} h-12`}
+          className={`${fieldStyles} h-12 ${isEnquiryModal && "text-black"}`}
         />
       )}
 

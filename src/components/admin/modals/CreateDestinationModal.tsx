@@ -23,6 +23,7 @@ import { useCreateDestinationMutation } from "@/services/destinations/destinatio
 export default function CreateDestinationModal() {
   const [open, setOpen] = useState(false);
   const [popularPlaces, setPopularPlaces] = useState<string[]>([""]);
+  const [placeErrors, setPlaceErrors] = useState<boolean[]>([false]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [createDestination, { isLoading }] = useCreateDestinationMutation();
@@ -43,12 +44,15 @@ export default function CreateDestinationModal() {
   const addPlace = () => {
     const updated = [...popularPlaces, ""];
     setPopularPlaces(updated);
+    setPlaceErrors([...placeErrors, false]);
     setValue("popularPlaces", updated);
   };
   
   const removePlace = (index: number) => {
     const updated = popularPlaces.filter((_, i) => i !== index);
+    const updatedErrors = placeErrors.filter((_, i) => i !== index);
     setPopularPlaces(updated);
+    setPlaceErrors(updatedErrors);
     setValue("popularPlaces", updated);
   };
   
@@ -57,6 +61,12 @@ export default function CreateDestinationModal() {
     updated[index] = value;
     setPopularPlaces(updated);
     setValue("popularPlaces", updated);
+
+    if (value.trim()) {
+      const updatedErrors = [...placeErrors];
+      updatedErrors[index] = false;
+      setPlaceErrors(updatedErrors);
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,12 +107,27 @@ export default function CreateDestinationModal() {
     console.log(errors)
   const onSubmit = async (data: any) => {
     try {
+      // Validate popular places dynamically
+      let hasError = false;
+      const newErrors = popularPlaces.map((place) => {
+        if (!place.trim()) {
+          hasError = true;
+          return true;
+        }
+        return false;
+      });
+
+      if (hasError) {
+        setPlaceErrors(newErrors);
+        toast.error("Please fill all the popular places fields");
+        return;
+      }
+
       if (!selectedFile) {
         toast.error("Please select an image");
         return;
       }
 
-      // Validate popular places
       const validPlaces = popularPlaces.filter(p => p.trim());
       if (validPlaces.length === 0) {
         toast.error("Please add at least one popular place");
@@ -130,6 +155,7 @@ export default function CreateDestinationModal() {
       // Reset form
       reset();
       setPopularPlaces([""]);
+      setPlaceErrors([false]);
       setImagePreview(null);
       setSelectedFile(null);
       setOpen(false);
@@ -146,10 +172,11 @@ export default function CreateDestinationModal() {
       }
     }
   };
-
+   console.log("set erro",placeErrors)
   const handleClose = () => {
     reset();
     setPopularPlaces([""]);
+    setPlaceErrors([false]);
     setImagePreview(null);
     setSelectedFile(null);
     setOpen(false);
@@ -163,11 +190,11 @@ export default function CreateDestinationModal() {
           Add Destination
         </button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-white/10 bg-[#0b1120] text-white sm:max-w-[600px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-gray-200 bg-white text-gray-900 sm:max-w-[600px] rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Create Destination</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-gray-900">Create Destination</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-gray-900">
           <FormField
             label="Title"
             name="title"
@@ -196,8 +223,8 @@ export default function CreateDestinationModal() {
           
           {/* Image Upload with Preview */}
           <div className="space-y-2">
-            <Label className="text-zinc-300">
-              Image <span className="text-red-400">*</span>
+            <Label className="text-zinc-700 font-medium">
+              Image <span className="text-red-500">*</span>
             </Label>
             
             {!imagePreview ? (
@@ -212,19 +239,19 @@ export default function CreateDestinationModal() {
                 />
                 <label
                   htmlFor="destination-image"
-                  className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 bg-white/5 p-8 transition-colors hover:border-cyan-500/50 hover:bg-white/10"
+                  className="flex cursor-pointer text-gray-900 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-8 transition-colors hover:border-cyan-500 hover:bg-gray-100/50"
                 >
-                  <Upload className="h-12 w-12 text-zinc-500" />
-                  <p className="mt-2 text-sm text-zinc-400">
+                  <Upload className="h-12 w-12 text-gray-400" />
+                  <p className="mt-2 text-sm font-medium text-gray-700">
                     Click to upload image
                   </p>
-                  <p className="mt-1 text-xs text-zinc-500">
+                  <p className="mt-1 text-xs text-gray-500">
                     PNG, JPG, JPEG, WEBP (Max 5MB)
                   </p>
                 </label>
               </div>
             ) : (
-              <div className="relative rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className="relative rounded-lg border border-gray-200 bg-gray-50 p-4">
                 <div className="relative h-48 w-full overflow-hidden rounded-lg">
                   <Image
                     src={imagePreview}
@@ -236,11 +263,11 @@ export default function CreateDestinationModal() {
                 <button
                   type="button"
                   onClick={removeImage}
-                  className="absolute right-6 top-6 rounded-full bg-red-500/90 p-2 text-white transition-all hover:bg-red-600"
+                  className="absolute right-6 top-6 rounded-full bg-red-500 p-2 text-white transition-all hover:bg-red-600"
                 >
                   <X className="h-4 w-4" />
                 </button>
-                <p className="mt-2 text-sm text-zinc-400">
+                <p className="mt-2 text-sm font-medium text-gray-600">
                   {selectedFile?.name}
                 </p>
               </div>
@@ -249,27 +276,38 @@ export default function CreateDestinationModal() {
 
           {/* Popular Places */}
           <div className="space-y-2">
-            <Label className="text-zinc-300">
-              Popular Places <span className="text-red-400">*</span>
+            <Label className="text-zinc-700 font-medium">
+              Popular Places <span className="text-red-500">*</span>
             </Label>
             {popularPlaces.map((place, index) => (
-              <div key={index} className="flex gap-2">
-                <Input
-                  value={place}
-                  onChange={(e) => updatePlace(index, e.target.value)}
-                  placeholder={`Place ${index + 1}`}
-                  className="border-white/10 bg-white/5 text-white placeholder:text-zinc-500"
-                />
-                {popularPlaces.length > 1 && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => removePlace(index)}
-                    className="border-white/10 bg-white/5 text-white hover:bg-red-500/20"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
+              <div key={index} className="space-y-1">
+                <div className="flex gap-2">
+                  <Input
+                    value={place}
+                    onChange={(e) => updatePlace(index, e.target.value)}
+                    placeholder={`Place ${index + 1}`}
+                    className={`bg-white text-gray-900 placeholder:text-gray-400 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 
+                      ${placeErrors[index] 
+                        ? "border-red-500 focus-visible:ring-red-500/30 focus-visible:border-red-500" 
+                        : "border-zinc-300 focus-visible:ring-orange-500/30 focus-visible:border-orange-500"
+                      }`}
+                  />
+                  {popularPlaces.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => removePlace(index)}
+                      className="border-gray-300 text-gray-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 flex-shrink-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+                {placeErrors[index] && (
+                  <p className="text-xs font-medium text-red-500">
+                    This place field cannot be empty
+                  </p>
                 )}
               </div>
             ))}
@@ -277,9 +315,9 @@ export default function CreateDestinationModal() {
               type="button"
               variant="outline"
               onClick={addPlace}
-              className="w-full border-white/10 bg-white/5 text-white hover:bg-white/10"
+              className="w-full border-gray-300 bg-white hover:bg-gray-50 text-gray-700 font-medium"
             >
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="mr-2 h-4 w-4 text-gray-500" />
               Add Place
             </Button>
           </div>
@@ -290,14 +328,14 @@ export default function CreateDestinationModal() {
               type="button"
               variant="outline"
               onClick={handleClose}
-              className="flex-1 border-white/10 bg-white/5 text-white hover:bg-white/10"
+              className="flex-1 border-gray-300 bg-white text-gray-700 hover:bg-gray-50 font-medium"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isLoading || !selectedFile}
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90"
+              className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-95 font-medium shadow-sm"
             >
               {isLoading ? (
                 <>

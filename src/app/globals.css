@@ -7,7 +7,7 @@
 @layer components {
 
   .button {
-    @apply px-3 py-2 rounded-lg font-medium transition-all duration-300;
+    @apply px-3 py-2 rounded-lg font-medium transition-all duration-300 text-black;
   }
 
   .button-primary {
@@ -157,29 +157,7 @@
     @apply font-sans;
   }
 }
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus {
-  -webkit-text-fill-color: white !important;
-  -webkit-box-shadow: 0 0 0px 1000px rgba(48, 45, 45, 0.1) inset !important;
-  transition: background-color 5000s ease-in-out 0s;
-  caret-color: white;
-  border-radius: 12px;
-}
-.admin-input:-webkit-autofill {
-  -webkit-text-fill-color: white !important;
-  -webkit-box-shadow: 0 0 0px 1000px #111827 inset !important;
-}
-.enquiry-input:-webkit-autofill {
-  -webkit-text-fill-color: #111827 !important;
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-}
+
 /* =========================================
    CUSTOM SCROLLBAR
 ========================================= */
@@ -249,3 +227,4 @@ textarea:-webkit-autofill:focus {
   background-color: rgba(255, 255, 255, 0.4);
 }
  
+/* Chrome, Edge, Safari Autofill Fix */

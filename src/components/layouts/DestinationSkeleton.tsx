@@ -2,7 +2,7 @@
 
 export default function DestinationCardSkeleton() {
   return (
-    <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm w-full max-w-[21rem] sm:max-w-[23rem]">
 
       {/* Image */}
       <div className="h-72 w-full animate-pulse bg-gray-200" />

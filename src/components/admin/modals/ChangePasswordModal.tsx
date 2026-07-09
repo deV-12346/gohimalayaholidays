@@ -44,19 +44,27 @@ export default function ChangePasswordModal() {
     }
   };
 
+  const handleClose = () => {
+    reset();
+    setOpen(false);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(val) => {
+      if (!val) handleClose();
+      else setOpen(true);
+    }}>
       <DialogTrigger asChild>
-        <button className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-white/10">
-          <KeyRound className="h-5 w-5" />
+        <button className="flex items-center justify-center gap-2 rounded-2xl border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-black transition-all hover:bg-gray-50">
+          <KeyRound className="h-5 w-5 text-gray-500" />
           Change Password
         </button>
       </DialogTrigger>
-      <DialogContent className="border-white/10 bg-[#0b1120] text-white sm:max-w-[500px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-zinc-300 bg-white text-black sm:max-w-[500px] rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Change Password</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-black">Change Password</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-black">
           <FormField
             label="New Password"
             name="newPassword"
@@ -79,15 +87,15 @@ export default function ChangePasswordModal() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setOpen(false)}
-              className="flex-1 border-white/10 bg-white/5 text-white hover:bg-white/10"
+              onClick={handleClose}
+              className="flex-1 h-12 rounded-xl border border-zinc-300 bg-white text-gray-700 hover:bg-gray-50 font-medium transition-all"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90"
+              className="flex-1 h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-95 font-medium shadow-sm transition-all"
             >
               {isLoading ? (
                 <>
@@ -103,4 +111,4 @@ export default function ChangePasswordModal() {
       </DialogContent>
     </Dialog>
   );
-}
+} 

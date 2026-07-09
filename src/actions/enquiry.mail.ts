@@ -103,7 +103,7 @@ export const sendEnquiryAdminAlert = async (
   message: string
 ) => {
   const res = await transporter.sendMail({
-    from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
+    from: process.env.EMAIL_USER,
     to: adminemail,
     subject: `📩 New Enquiry from ${name}`,
     html: `
@@ -187,6 +187,7 @@ export const sendEnquiryAdminAlert = async (
         </div>
       </div>
     `,
+    
   });
   console.log("res", res)
 };

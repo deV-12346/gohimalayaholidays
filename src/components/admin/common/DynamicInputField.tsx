@@ -19,7 +19,7 @@ interface DynamicInputFieldsProps<T extends FieldValues> {
   name: "includedService" | "excludedService" | "placesCovered" | "itinerary";
   label: string;
   placeholder: string;
-  errors?: FieldErrors<T>; // <-- add this
+  errors?: FieldErrors<T>;
 }
 
 const DynamicInputFields = <T extends FieldValues>({
@@ -48,7 +48,7 @@ const DynamicInputFields = <T extends FieldValues>({
 
   return (
     <div className="space-y-3">
-      <Label className="text-sm font-medium text-white">{label}</Label>
+      <Label className="text-sm font-medium text-gray-700">{label}</Label>
 
       {fields.map((field, index) => {
         const dayError = isItinerary ? getFieldError(index, "day") : undefined;
@@ -62,7 +62,9 @@ const DynamicInputFields = <T extends FieldValues>({
             <div
               className={
                 isItinerary
-                  ? "flex items-start gap-2 rounded-xl border border-white/10 bg-white/5 p-3"
+                  ? `flex items-start gap-2 rounded-xl border p-3 bg-white ${
+                      dayError || descError ? "border-red-500" : "border-zinc-300"
+                    }`
                   : "flex items-center gap-2"
               }
             >
@@ -75,7 +77,11 @@ const DynamicInputFields = <T extends FieldValues>({
                         valueAsNumber: true,
                       })}
                       placeholder="Day"
-                      className="border-white/10 bg-white/5 text-white placeholder:text-zinc-400 focus-visible:ring-cyan-500 w-full"
+                      className={`w-full h-12 rounded-xl bg-white px-4 text-sm text-black placeholder:text-zinc-400 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                        dayError
+                          ? "border-red-500 focus-visible:ring-red-500/30 focus-visible:border-red-500"
+                          : "border-zinc-300 focus-visible:ring-orange-500/30 focus-visible:border-orange-500"
+                      }`}
                     />
                     {dayError && (
                       <p className="mt-1 text-xs font-medium text-red-500">
@@ -87,7 +93,11 @@ const DynamicInputFields = <T extends FieldValues>({
                     <Input
                       {...register(`${name}.${index}.description` as Path<T>)}
                       placeholder={`${placeholder} ${index + 1}`}
-                      className="border-white/10 bg-white/5 text-white placeholder:text-zinc-400 focus-visible:ring-cyan-500 w-full"
+                      className={`w-full h-12 rounded-xl bg-white px-4 text-sm text-black placeholder:text-zinc-400 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                        descError
+                          ? "border-red-500 focus-visible:ring-red-500/30 focus-visible:border-red-500"
+                          : "border-zinc-300 focus-visible:ring-orange-500/30 focus-visible:border-orange-500"
+                      }`}
                     />
                     {descError && (
                       <p className="mt-1 text-xs font-medium text-red-500">
@@ -101,7 +111,11 @@ const DynamicInputFields = <T extends FieldValues>({
                   <Input
                     {...register(`${name}.${index}` as Path<T>)}
                     placeholder={`${placeholder} ${index + 1}`}
-                    className="border-white/10 bg-white/5 text-white placeholder:text-zinc-400 focus-visible:ring-cyan-500 w-full"
+                    className={`w-full h-12 rounded-xl bg-white px-4 text-sm text-black placeholder:text-zinc-400 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                      plainError
+                        ? "border-red-500 focus-visible:ring-red-500/30 focus-visible:border-red-500"
+                        : "border-zinc-300 focus-visible:ring-orange-500/30 focus-visible:border-orange-500"
+                    }`}
                   />
                   {plainError && (
                     <p className="mt-1 text-xs font-medium text-red-500">
@@ -114,8 +128,9 @@ const DynamicInputFields = <T extends FieldValues>({
               {fields.length > 1 && (
                 <Button
                   type="button"
+                  size="icon"
                   onClick={() => remove(index)}
-                  className="shrink-0 bg-red-500 text-white hover:bg-red-600"
+                  className="h-12 w-12 rounded-xl border border-zinc-300 bg-white text-gray-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 shrink-0"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -135,9 +150,9 @@ const DynamicInputFields = <T extends FieldValues>({
               : "") as any
           )
         }
-        className="w-full border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+        className="w-full h-12 rounded-xl border border-zinc-300 bg-white hover:bg-gray-50 text-gray-700 font-medium transition-all duration-200"
       >
-        <Plus className="mr-2 h-4 w-4" />
+        <Plus className="mr-2 h-4 w-4 text-gray-500" />
         Add {label}
       </Button>
     </div>

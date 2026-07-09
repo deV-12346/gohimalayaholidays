@@ -15,9 +15,10 @@ export const GET = withErrorHandler(async(req:NextRequest)=>{
         },{status:404})
     }
     const packages = await packageModel.find({destinationId:destinationId}).limit(5).populate("destinationId", "title descrition destinationLocation")
+    const pckg = packages.filter((pck)=>String(pck._id) !== packageId)
     return NextResponse.json({
         success:true,
         message:"Related Packages fetched",
-        packages
-    },{status:200})
+        packages:pckg
+    },{status:200}) 
 })

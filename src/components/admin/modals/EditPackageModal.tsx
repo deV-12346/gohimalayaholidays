@@ -83,7 +83,7 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
   useEffect(() => {
     if (open) {
       reset({
-        destinationId: packageData.destinationId._id,
+        destinationId: packageData?.destinationId?._id,
         title: packageData.title,
         description: packageData.description,
         price: String(packageData.price),
@@ -199,24 +199,24 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-white/10 bg-[#0b1120] text-white sm:max-w-[700px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-zinc-300 bg-white text-black sm:max-w-[700px] rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Edit Package</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-black">Edit Package</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-black">
           <div className="space-y-2">
-            <Label>Destination</Label>
+            <Label className="text-gray-700 text-sm font-medium">Destination</Label>
             <Select
               value={destinationId}
               onValueChange={(val) => setValue("destinationId", val, { shouldValidate: true })}
             >
-              <SelectTrigger className="border-white/10 bg-white/5 text-white">
+              <SelectTrigger className="w-full h-12 rounded-xl border border-zinc-300 bg-white/10 px-4 text-sm text-black transition-all duration-200 focus:visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/30 focus-visible:border-orange-500">
                 <SelectValue placeholder="Select destination" />
               </SelectTrigger>
-              <SelectContent className="border-white/10 bg-[#0b1120] text-white border-zinc-300">
+              <SelectContent className="border border-zinc-300 bg-white text-black">
                 {destinationsData?.destinations?.map((destination: any) => (
-                  <SelectItem key={destination._id} value={destination._id}>
+                  <SelectItem key={destination._id} value={destination._id} className="focus:bg-gray-100 focus:text-black">
                     {destination.title}
                   </SelectItem>
                 ))}
@@ -279,19 +279,19 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
           </div>
 
           <div className="space-y-2">
-            <Label>Package Images</Label>
+            <Label className="text-gray-700 text-sm font-medium">Package Images</Label>
 
             {existingImages.length > 0 && (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {existingImages.map((img) => (
-                  <div key={img.secure_url} className="relative overflow-hidden rounded-2xl border border-white/10">
+                  <div key={img.secure_url} className="relative overflow-hidden rounded-xl border border-zinc-300">
                     <div className="relative h-32 w-full">
                       <Image src={img.secure_url} alt="existing" fill className="object-cover" />
                     </div>
                     <button
                       type="button"
                       onClick={() => removeExistingImage(img.secure_url)}
-                      className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white"
+                      className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white transition-all hover:bg-red-600"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -310,23 +310,23 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
             />
             <label
               htmlFor="packageImagesEdit"
-              className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/10 bg-white/5 p-8"
+              className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-zinc-300 bg-white/10 p-8 transition-all duration-200 hover:border-orange-500 hover:bg-gray-50"
             >
-              <Upload className="h-10 w-10 text-zinc-500" />
-              <p className="mt-2 text-sm text-zinc-400">Add More Images</p>
+              <Upload className="h-10 w-10 text-zinc-400" />
+              <p className="mt-2 text-sm font-medium text-gray-700">Add More Images</p>
             </label>
 
             {newImagePreviews.length > 0 && (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {newImagePreviews.map((preview, index) => (
-                  <div key={index} className="relative overflow-hidden rounded-2xl border border-white/10">
+                  <div key={index} className="relative overflow-hidden rounded-xl border border-zinc-300">
                     <div className="relative h-32 w-full">
                       <Image src={preview} alt="new preview" fill className="object-cover" />
                     </div>
                     <button
                       type="button"
                       onClick={() => removeNewImage(index)}
-                      className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white"
+                      className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white transition-all hover:bg-red-600"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -377,14 +377,14 @@ export default function EditPackageModal({ packageData }: EditPackageModalProps)
               type="button"
               variant="outline"
               onClick={handleClose}
-              className="flex-1 border-white/10 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+              className="flex-1 h-12 rounded-xl border border-zinc-300 bg-white text-gray-700 hover:bg-gray-50 font-medium transition-all"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600"
+              className="flex-1 h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-95 font-medium shadow-sm transition-all"
             >
               {isLoading ? (
                 <>

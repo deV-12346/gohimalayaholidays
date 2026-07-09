@@ -358,10 +358,11 @@ export default function EditDestinationModal({
         className="
           max-h-[90vh]
           overflow-y-auto
-          border-white/10
-          bg-[#0b1120]
-          text-white
+          border-zinc-300
+          bg-white
+          text-black
           sm:max-w-[600px]
+          rounded-2xl
         "
       >
         <DialogHeader>
@@ -369,6 +370,7 @@ export default function EditDestinationModal({
             className="
               text-2xl
               font-bold
+              text-black
             "
           >
             Edit Destination
@@ -379,7 +381,7 @@ export default function EditDestinationModal({
           onSubmit={handleSubmit(
             onSubmit
           )}
-          className="space-y-4"
+          className="space-y-4 text-black"
         >
           <FormField
             label="Title"
@@ -414,7 +416,7 @@ export default function EditDestinationModal({
           />
 
           <div className="space-y-2">
-            <Label className="text-zinc-300">
+            <Label className="text-gray-700 text-sm font-medium">
               Image{" "}
               {!selectedFile && (
                 <span
@@ -435,10 +437,10 @@ export default function EditDestinationModal({
             <div
               className="
                 relative
-                rounded-lg
+                rounded-xl
                 border
-                border-white/10
-                bg-white/5
+                border-zinc-300
+                bg-white/10
                 p-4
               "
             >
@@ -448,7 +450,7 @@ export default function EditDestinationModal({
                   h-48
                   w-full
                   overflow-hidden
-                  rounded-lg
+                  rounded-xl
                 "
               >
                 {imagePreview && (
@@ -472,7 +474,7 @@ export default function EditDestinationModal({
                     right-6
                     top-6
                     rounded-full
-                    bg-red-500/90
+                    bg-red-500
                     p-2
                     text-white
                     transition-all
@@ -508,16 +510,17 @@ export default function EditDestinationModal({
                     items-center
                     justify-center
                     gap-2
-                    rounded-lg
+                    rounded-xl
                     border
-                    border-white/10
-                    bg-white/5
+                    border-zinc-300
+                    bg-white/10
                     p-2
                     text-sm
-                    text-zinc-400
+                    text-gray-700
+                    font-medium
                     transition-colors
-                    hover:border-cyan-500/50
-                    hover:bg-white/10
+                    hover:border-orange-500
+                    hover:bg-gray-50
                   "
                 >
                   <Upload className="h-4 w-4" />
@@ -531,9 +534,9 @@ export default function EditDestinationModal({
           </div>
 
           <div className="space-y-2">
-            <Label className="text-zinc-300">
+            <Label className="text-gray-700 text-sm font-medium">
               Popular Places{" "}
-              <span className="text-red-400">
+              <span className="text-red-500">
                 *
               </span>
             </Label>
@@ -564,10 +567,22 @@ export default function EditDestinationModal({
                     placeholder={`Place ${index + 1
                       }`}
                     className="
-                      border-white/10
-                      bg-white/5
-                      text-white
-                      placeholder:text-zinc-500
+                      w-full
+                      h-12
+                      rounded-xl
+                      border
+                      border-zinc-300
+                      bg-white/10
+                      px-4
+                      text-sm
+                      text-black
+                      placeholder:text-zinc-400
+                      transition-all
+                      duration-200
+                      focus-visible:outline-none
+                      focus-visible:ring-2
+                      focus-visible:ring-orange-500/30
+                      focus-visible:border-orange-500
                     "
                   />
 
@@ -583,11 +598,16 @@ export default function EditDestinationModal({
                           )
                         }
                         className="
-                        border-white/10
-                        bg-white/5
-                        text-white
-                        hover:bg-red-500/20
-                      "
+                          h-12
+                          w-12
+                          rounded-xl
+                          border
+                          border-zinc-300
+                          text-gray-600
+                          hover:bg-red-50
+                          hover:text-red-600
+                          hover:border-red-200
+                        "
                       >
                         <X className="h-4 w-4" />
                       </Button>
@@ -602,10 +622,14 @@ export default function EditDestinationModal({
               onClick={addPlace}
               className="
                 w-full
-                border-white/10
-                bg-white/5
-                text-white
-                hover:bg-white/10
+                h-12
+                rounded-xl
+                border
+                border-zinc-300
+                bg-white/10
+                hover:bg-gray-50
+                text-gray-700
+                font-medium
               "
             >
               <X
@@ -613,6 +637,7 @@ export default function EditDestinationModal({
                   mr-2
                   h-4
                   w-4
+                  text-gray-500
                   rotate-45
                 "
               />
@@ -623,8 +648,9 @@ export default function EditDestinationModal({
             {errors.popularPlaces && (
               <p
                 className="
-                  text-sm
-                  text-red-400
+                  text-xs
+                  font-medium
+                  text-red-500
                 "
               >
                 {
@@ -649,10 +675,15 @@ export default function EditDestinationModal({
               onClick={handleClose}
               className="
                 flex-1
-                border-white/10
-                bg-white/5
-                text-white
-                hover:bg-white/10
+                h-12
+                rounded-xl
+                border
+                border-zinc-300
+                bg-white
+                text-gray-700
+                hover:bg-gray-50
+                font-medium
+                transition-all
               "
             >
               Cancel
@@ -663,11 +694,16 @@ export default function EditDestinationModal({
               disabled={isLoading}
               className="
                 flex-1
+                h-12
+                rounded-xl
                 bg-gradient-to-r
                 from-cyan-500
                 to-blue-600
                 text-white
-                hover:opacity-90
+                hover:opacity-95
+                font-medium
+                shadow-sm
+                transition-all
               "
             >
               {isLoading ? (
