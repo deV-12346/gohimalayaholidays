@@ -8,6 +8,7 @@ import { withErrorHandler } from "@/libs/withErrorHandler";
 import { pagination } from "@/libs/pagination";
 import { escapeRegex } from "@/libs/security";
 import destinationModel from "@/models/destination.model";
+import packageModel from "@/models/package.model";
 
 export const POST = withHandler(async (req:NextRequest,user) => {
         await connectDb()
@@ -169,8 +170,16 @@ export const DELETE = withHandler(async (req:NextRequest,user) => {
                 message:"Destination not found"
             },{status:400})
         }
-        await destination?.deleteOne()
-        await deleteFromCloudinary(destination?.image_public_id)
+        // Don't orphan packages that belong to this destination
+        const packageCount = await packageModel.countDocuments({destinationId: destination._id})
+        if(packageCount > 0){
+            return NextResponse.json({
+                success:false,
+                message:`Cannot delete: this destination has ${packageCount} package(s). Delete them first.`
+            },{status:409})
+        }
+        await destination.deleteOne()
+        await deleteFromCloudinary(destination.image_public_id)
         return NextResponse.json({
             success:true,
             message:"Destination deleted successfully"

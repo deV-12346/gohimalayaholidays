@@ -9,7 +9,9 @@ import { pagination } from "@/libs/pagination";
 import { connectDb } from "@/libs/ConnectDb";
 import destinationModel from "@/models/destination.model";
 import { escapeRegex } from "@/libs/security";
+import bookingModel from "@/models/booking.model";
 export const POST = withHandler(async (req:NextRequest,user) => {
+    await connectDb()
     const formData = await req.formData()
     const obj = {
     destinationId: formData.get("destinationId"),
@@ -29,7 +31,7 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     const result = await packageSchema.safeParse({itinerary:itineraries,...obj})
     if(!result.success || result.error){
         return NextResponse.json({
-        succcess:false,
+        success:false,
         message:result.error.issues[0].message
        },{status:400})
     }
@@ -38,7 +40,7 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     const destination = await destinationModel.findById(destinationId)
     if(!destination){
         return NextResponse.json({
-        succcess:false,
+        success:false,
         message:"Destination id not found"
        },{status:404})
     }
@@ -60,12 +62,12 @@ export const POST = withHandler(async (req:NextRequest,user) => {
         itinerary
     })
     return NextResponse.json({
-        succcess:true,
+        success:true,
         message:"Package Uploaded successfully"
     },{status:201})
 }) 
 export const GET = withErrorHandler(async (req:NextRequest)=>{
-    connectDb()
+    await connectDb()
     const searchParams = req.nextUrl.searchParams
     const page = Number(searchParams.get("page")) || 1
     const rowPerPage = Math.min(Number(searchParams.get("limit")) || 10, 100)
@@ -107,6 +109,7 @@ export const GET = withErrorHandler(async (req:NextRequest)=>{
     })
 })
 export const PATCH = withHandler(async (req:NextRequest, user) => {
+    await connectDb()
     const formData = await req.formData()
     const packageId = formData.get("packageId") as string
      
@@ -149,24 +152,21 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
     }
     // Upload new images if provided
     let updatedImages = dbPackage.packageImages
+    let pendingOldImages: typeof dbPackage.packageImages = []
     const result = editPackageSchema.safeParse({destinationId,title,description,price,slots,duration,includedService,excludedService,packageImages,itinerary,placesCovered})
     if(!result.success || result.error){
         return NextResponse.json({
-        succcess:false,
+        success:false,
         message:result.error.issues[0].message
        },{status:400})
     }
     if(packageImages.length > 0){
-        // Delete old images from cloudinary
-        await Promise.allSettled(
-            dbPackage.packageImages.map(async (img)=>(
-                await deleteFromCloudinary(img.public_id!)
-            ))
-        )
-        // Upload new images
+        // Upload the new images FIRST so a failed upload never leaves the package without images
         const images: CloudinaryResult[] = await Promise.all(
             packageImages.map((image) => uploadOnCloudinary(image, "packages"))
         )
+        // The old images are removed only after the package is saved (see below)
+        pendingOldImages = dbPackage.packageImages
         updatedImages = images
     }
     // Update package
@@ -182,6 +182,10 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
     dbPackage.placesCovered = placesCovered || dbPackage.placesCovered
     dbPackage.itinerary = itinerary || dbPackage.itinerary
     await dbPackage.save()
+    // Saved successfully: now it is safe to remove the replaced images
+    await Promise.allSettled(
+        pendingOldImages.map((img) => deleteFromCloudinary(img.public_id!))
+    )
 
     return NextResponse.json({
         success:true,
@@ -190,6 +194,7 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
 })
 
 export const DELETE = withHandler(async (req:NextRequest)=>{
+    await connectDb()
     const {packageId} = await req.json()
     if(!packageId){
         return NextResponse.json({
@@ -205,12 +210,18 @@ export const DELETE = withHandler(async (req:NextRequest)=>{
             message:"Package not found"
         },{status:404})
     }
-    await Promise.allSettled(
-        dbPackage.packageImages.map(async (img)=>(
-            await deleteFromCloudinary(img.public_id!)
-        ))
-    )
+    // Don't orphan bookings that point at this package
+    const bookingCount = await bookingModel.countDocuments({packageId: dbPackage._id})
+    if(bookingCount > 0){
+        return NextResponse.json({
+            success:false,
+            message:`Cannot delete: this package has ${bookingCount} booking(s). Cancel or remove them first.`
+        },{status:409})
+    }
     await dbPackage.deleteOne()
+    await Promise.allSettled(
+        dbPackage.packageImages.map((img)=> deleteFromCloudinary(img.public_id!))
+    )
     return NextResponse.json({
         success:true,
         message:"Package deleted successfully"
