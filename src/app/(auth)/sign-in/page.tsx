@@ -117,7 +117,7 @@ export default function SignInPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-[46px] text-gray-400 hover:text-gray-600 transition-colors"
+              className=" absolute right-4 top-10 text-gray-400 hover:text-gray-600 transition-colors"
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>

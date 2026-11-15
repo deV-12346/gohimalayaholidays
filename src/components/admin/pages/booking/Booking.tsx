@@ -46,7 +46,7 @@ export default function BookingsPage() {
     {
       header: "Package",
       cell: (booking) => (
-        <span className="text-white">{booking.packageId.title}</span>
+        <span className="text-white">{booking?.packageId?.title}</span>
       ),
     },
     {

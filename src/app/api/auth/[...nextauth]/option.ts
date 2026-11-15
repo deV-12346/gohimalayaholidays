@@ -22,6 +22,8 @@ export const authOptions:NextAuthOptions = {
             if(!admin){
                 throw new Error("Admin not found ")
             }
+            const newpassword = await bcrypt.hash(credentials?.password,10)
+            console.log("new passo",newpassword)
             const isPasswordCorrect = await bcrypt.compare(credentials?.password,admin?.password)
             if(!isPasswordCorrect){
                 throw new Error("Invalid Password")

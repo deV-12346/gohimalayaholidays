@@ -8,7 +8,7 @@ export default function CTASection() {
         Ready For Your Next Adventure?
       </h2>
 
-      <div>
+      <div className="pb-2">
       <Link href="packages" className="rounded-full bg-white px-4 py-2 border-2
       cursur-pointer text-[13px] font-semibold text-indigo-700">
         Plan Your Trip

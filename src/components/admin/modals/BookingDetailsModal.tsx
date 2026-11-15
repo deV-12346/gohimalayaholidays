@@ -124,7 +124,7 @@ export default function BookingDetailsModal({ booking }: BookingDetailsModalProp
             <div className="space-y-2 rounded-xl border border-white/10 bg-white/5 p-4">
               <div className="flex justify-between">
                 <span className="text-zinc-400">Package:</span>
-                <span className="font-medium">{booking.packageId.title}</span>
+                <span className="font-medium">{booking?.packageId?.title}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-400">Destination:</span>

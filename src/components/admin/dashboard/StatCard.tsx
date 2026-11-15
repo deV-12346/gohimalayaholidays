@@ -31,8 +31,7 @@ export default function StatCard({
       duration-300
       hover:-translate-y-1
       hover:border-white/20
-    "
-    >
+    ">
       {/* Glow */}
 
       <div
@@ -55,9 +54,7 @@ export default function StatCard({
         {/* Left */}
 
         <div>
-          <p className="text-sm text-zinc-400">
-            {title}
-          </p>
+          <p className="text-sm text-zinc-400">{title}</p>
 
           <h2
             className="
@@ -65,8 +62,7 @@ export default function StatCard({
             text-3xl
             font-bold
             text-white
-          "
-          >
+          ">
             {value}
           </h2>
         </div>
@@ -83,8 +79,7 @@ export default function StatCard({
           rounded-2xl
           bg-gradient-to-br
           ${gradient}
-        `}
-        >
+        `}>
           <Icon className="h-7 w-7 text-white" />
         </div>
       </div>
