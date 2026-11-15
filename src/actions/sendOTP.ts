@@ -1,5 +1,5 @@
 import { transporter } from "@/config/nodemailer"
-import { OTP_TTL_MS } from "@/libs/security"
+import { OTP_TTL_MS, escapeHtml } from "@/libs/security"
 
 export const sendOTP = async (email: string, customerName: string, otp: string, otpExpiry: Date) => {
   await transporter.sendMail({
@@ -52,7 +52,7 @@ export const sendOTP = async (email: string, customerName: string, otp: string, 
           "
         >
           <h2>
-            Hello ${customerName} 👋
+            Hello ${escapeHtml(customerName)} 👋
           </h2>
 
           <p

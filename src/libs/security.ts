@@ -1,5 +1,18 @@
 import { createHmac, randomInt, timingSafeEqual } from "crypto"
 
+/** Escape user input before using it inside a MongoDB $regex. */
+export const escapeRegex = (value: string): string =>
+  value.slice(0, 100).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+
+/** Escape user input before putting it inside HTML (emails). */
+export const escapeHtml = (value: unknown): string =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+
 export const OTP_LENGTH = 6
 export const OTP_TTL_MS = 10 * 60 * 1000
 export const OTP_RESEND_COOLDOWN_MS = 60 * 1000

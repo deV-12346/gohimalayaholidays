@@ -1,11 +1,12 @@
 import { transporter } from "@/config/nodemailer"
+import { escapeHtml } from "@/libs/security"
 
 export const createAdminAccount = async (
   adminName: string,
   email: string,
   password: string
 ) => {
-  const res = await transporter.sendMail({
+  await transporter.sendMail({
     from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "Account created successfully",
@@ -68,7 +69,7 @@ export const createAdminAccount = async (
                 font-size:24px;
               "
             >
-              Hello ${adminName} 👋
+              Hello ${escapeHtml(adminName)} 👋
             </h2>
 
             <p
@@ -110,7 +111,7 @@ export const createAdminAccount = async (
                   color:#374151;
                 "
               >
-                <b>Email:</b> ${email}
+                <b>Email:</b> ${escapeHtml(email)}
               </p>
 
               <p
@@ -120,7 +121,7 @@ export const createAdminAccount = async (
                   color:#374151;
                 "
               >
-                <b>Password:</b> ${password}
+                <b>Password:</b> ${escapeHtml(password)}
               </p>
 
             </div>

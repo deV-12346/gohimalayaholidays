@@ -13,7 +13,6 @@ export const POST = withHandler(async (req:NextRequest)=>{
     try {
         const body = await req.json()
         const result = adminSchema.safeParse(body)
-        console.log(result)
         if(!result.success){
             return NextResponse.json({
                 success:false,

@@ -1,6 +1,7 @@
 import { sendEnquiryAdminAlert, sendEnquiryConfirmation } from "@/actions/enquiry.mail";
 import { connectDb } from "@/libs/ConnectDb";
 import { pagination } from "@/libs/pagination";
+import { escapeRegex } from "@/libs/security";
 import { withErrorHandler } from "@/libs/withErrorHandler";
 import { withHandler } from "@/libs/withHandler";
 import adminModel from "@/models/admin.model";
@@ -42,8 +43,8 @@ export const GET = withHandler(async (req:NextRequest)=>{
         await connectDb()
         const searchParams = req.nextUrl.searchParams
         const page = Number(searchParams.get("page")) || 1
-        const rowPerPage = Number(searchParams.get("limit")) || 10
-        const search = searchParams.get("search") || ""
+        const rowPerPage = Math.min(Number(searchParams.get("limit")) || 10, 100)
+        const search = escapeRegex(searchParams.get("search") || "")
         const {limit,offset} = pagination(page,rowPerPage)
         const filter = {
             $or: [

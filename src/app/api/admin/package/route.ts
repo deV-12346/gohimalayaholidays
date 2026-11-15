@@ -8,6 +8,7 @@ import { withErrorHandler } from "@/libs/withErrorHandler"
 import { pagination } from "@/libs/pagination";
 import { connectDb } from "@/libs/ConnectDb";
 import destinationModel from "@/models/destination.model";
+import { escapeRegex } from "@/libs/security";
 export const POST = withHandler(async (req:NextRequest,user) => {
     const formData = await req.formData()
     const obj = {
@@ -26,7 +27,6 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     let itineraryRaw =  formData.getAll("itinerary")
     const  itineraries = itineraryRaw.map((item)=>  typeof item === "string" ? JSON.parse(item) : item)
     const result = await packageSchema.safeParse({itinerary:itineraries,...obj})
-    console.log(result.data)
     if(!result.success || result.error){
         return NextResponse.json({
         succcess:false,
@@ -46,7 +46,6 @@ export const POST = withHandler(async (req:NextRequest,user) => {
     packageImages.map((image) =>
        uploadOnCloudinary(image, "packages")
     ))
-    console.log("placesCovered",placesCovered)
     await packageModel.create({
         destinationId:new Types.ObjectId(destinationId),
         title,
@@ -69,8 +68,8 @@ export const GET = withErrorHandler(async (req:NextRequest)=>{
     connectDb()
     const searchParams = req.nextUrl.searchParams
     const page = Number(searchParams.get("page")) || 1
-    const rowPerPage = Number(searchParams.get("limit")) || 10
-    const search = searchParams.get("search") || ""
+    const rowPerPage = Math.min(Number(searchParams.get("limit")) || 10, 100)
+    const search = escapeRegex(searchParams.get("search") || "")
     const {limit,offset} = pagination(page,rowPerPage)
         const filter = {
              $or: [
@@ -148,7 +147,6 @@ export const PATCH = withHandler(async (req:NextRequest, user) => {
             },{status:404})
         }
     }
-     console.log("placesCovered",placesCovered)
     // Upload new images if provided
     let updatedImages = dbPackage.packageImages
     const result = editPackageSchema.safeParse({destinationId,title,description,price,slots,duration,includedService,excludedService,packageImages,itinerary,placesCovered})

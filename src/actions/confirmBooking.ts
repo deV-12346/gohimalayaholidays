@@ -1,4 +1,5 @@
 import { transporter } from "@/config/nodemailer"
+import { escapeHtml } from "@/libs/security"
 
 export const confirmBooking = async (customerName: string, packageName: string, email: string) => {
   await transporter.sendMail({
@@ -59,7 +60,7 @@ export const confirmBooking = async (customerName: string, packageName: string, 
         >
 
           <h2>
-            Hello ${customerName} 👋
+            Hello ${escapeHtml(customerName)} 👋
           </h2>
 
           <p
@@ -98,7 +99,7 @@ export const confirmBooking = async (customerName: string, packageName: string, 
               "
             >
               <b>Package:</b>
-              ${packageName}
+              ${escapeHtml(packageName)}
             </p>
 
             <p

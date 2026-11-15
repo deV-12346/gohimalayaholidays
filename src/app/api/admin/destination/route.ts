@@ -6,6 +6,7 @@ import { connectDb } from "@/libs/ConnectDb";
 import { withHandler } from "@/libs/withHandler";
 import { withErrorHandler } from "@/libs/withErrorHandler";
 import { pagination } from "@/libs/pagination";
+import { escapeRegex } from "@/libs/security";
 import destinationModel from "@/models/destination.model";
 
 export const POST = withHandler(async (req:NextRequest,user) => {
@@ -16,15 +17,7 @@ export const POST = withHandler(async (req:NextRequest,user) => {
         const destinationLocation = formData.get("destinationLocation") as string
         const image = formData.get('image') as File
         const popularPlacesRaw = formData.get('popularPlaces') as string
-        
-        console.log("Received formData:", {
-            title,
-            description,
-            destinationLocation,
-            image: image?.name,
-            popularPlacesRaw
-        });
-        
+
         let popularPlaces: string[] = [];
         try {
             popularPlaces = popularPlacesRaw ? JSON.parse(popularPlacesRaw) : [];
@@ -43,14 +36,12 @@ export const POST = withHandler(async (req:NextRequest,user) => {
             popularPlaces
         })
         if(!result.success){
-            console.error("Validation error:", result.error);
             return NextResponse.json({
                 success:false,
                 message:result.error.issues[0].message
             },{status:400})
         }
         const imgRes = await uploadOnCloudinary(image,'destination')
-        console.log(imgRes)
         const newDestination = await destinationModel.create({
             title,
             description,
@@ -71,8 +62,8 @@ export const GET = withErrorHandler(async (req:NextRequest,user) => {
         await connectDb()
         const searchParams = req.nextUrl.searchParams
         const page = Number(searchParams.get("page")) || 1
-        const rowPerPage = Number(searchParams.get("limit")) || 10
-        const search = searchParams.get("search") || ""
+        const rowPerPage = Math.min(Number(searchParams.get("limit")) || 10, 100)
+        const search = escapeRegex(searchParams.get("search") || "")
         const {limit,offset} = pagination(page,rowPerPage)
               const filter = {
                 $or: [

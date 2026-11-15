@@ -6,21 +6,16 @@ import { NextRequest, NextResponse } from "next/server";
 import customerModel from "@/models/customer.model";
 import destinationModel from "@/models/destination.model";
 import packageModel from "@/models/package.model";
-import mongoose from "mongoose";
-console.log(destinationModel.modelName);
-console.log(packageModel.modelName);
+import { escapeRegex } from "@/libs/security";
+// Referenced so the models are registered before populate() runs
+void destinationModel
+void packageModel
 export const GET = withHandler(async (req:NextRequest,user)=>{
     await connectDb()
-    console.log(mongoose.modelNames());
-    const destination = await destinationModel.findById(
-  "6a2034b1ed61d6bba318cab5"
-);
-
-console.log(destination);
     const searchParams = req.nextUrl.searchParams
     const page = Number(searchParams.get("page")) || 1
-    const rowPerPage = Number(searchParams.get("limit")) || 10
-    const search = searchParams.get("search") || ""
+    const rowPerPage = Math.min(Number(searchParams.get("limit")) || 10, 100)
+    const search = escapeRegex(searchParams.get("search") || "")
     const {limit,offset} = pagination(page,rowPerPage)
     let filter = {};
      if (search) {
@@ -54,8 +49,7 @@ console.log(destination);
     .populate("packageId", "title price")
     .skip(offset)
     .limit(limit)
-    .sort({ createdAt: -1 });;
-    console.log("bookings",bookings)
+    .sort({ createdAt: -1 });
     if(bookings.length === 0){
         return NextResponse.json({
             success:false,

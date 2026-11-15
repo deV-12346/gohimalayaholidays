@@ -1,11 +1,12 @@
 import { transporter } from "@/config/nodemailer"
+import { escapeHtml } from "@/libs/security"
 export const sendEnquiryConfirmation = async (
   name: string,
   email: string,
   phoneNumber: string,
   message: string
 ) => {
-  const res = await transporter.sendMail({
+  await transporter.sendMail({
     from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "We've Received Your Enquiry – Go Himalaya Holidays",
@@ -34,7 +35,7 @@ export const sendEnquiryConfirmation = async (
         </div>
 
         <div style="padding:40px 30px;">
-          <h2>Hello ${name} 👋</h2>
+          <h2>Hello ${escapeHtml(name)} 👋</h2>
           <p style="color:#4b5563;line-height:28px;">
             Thank you for reaching out to us! We have received your enquiry
             and our team will get back to you within <strong>24–48 hours</strong>.
@@ -53,19 +54,19 @@ export const sendEnquiryConfirmation = async (
             <table style="width:100%;border-collapse:collapse;">
               <tr>
                 <td style="padding:8px 0;color:#6b7280;width:40%;">Name</td>
-                <td style="padding:8px 0;color:#111827;font-weight:600;">${name}</td>
+                <td style="padding:8px 0;color:#111827;font-weight:600;">${escapeHtml(name)}</td>
               </tr>
               <tr>
                 <td style="padding:8px 0;color:#6b7280;">Email</td>
-                <td style="padding:8px 0;color:#111827;font-weight:600;">${email}</td>
+                <td style="padding:8px 0;color:#111827;font-weight:600;">${escapeHtml(email)}</td>
               </tr>
               <tr>
                 <td style="padding:8px 0;color:#6b7280;">Phone</td>
-                <td style="padding:8px 0;color:#111827;font-weight:600;">${phoneNumber}</td>
+                <td style="padding:8px 0;color:#111827;font-weight:600;">${escapeHtml(phoneNumber)}</td>
               </tr>
               <tr>
                 <td style="padding:8px 0;color:#6b7280;vertical-align:top;">Message</td>
-                <td style="padding:8px 0;color:#111827;">${message}</td>
+                <td style="padding:8px 0;color:#111827;">${escapeHtml(message)}</td>
               </tr>
             </table>
           </div>
@@ -91,7 +92,6 @@ export const sendEnquiryConfirmation = async (
       </div>
     `,
   });
-  console.log("res ", res)
 };
 
 
@@ -102,10 +102,10 @@ export const sendEnquiryAdminAlert = async (
   phoneNumber: string,
   message: string
 ) => {
-  const res = await transporter.sendMail({
+  await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: adminemail,
-    subject: `📩 New Enquiry from ${name}`,
+    subject: `📩 New Enquiry from ${escapeHtml(name)}`,
     html: `
       <div
         style="
@@ -147,23 +147,23 @@ export const sendEnquiryAdminAlert = async (
             <table style="width:100%;border-collapse:collapse;">
               <tr>
                 <td style="padding:10px 0;color:#6b7280;width:40%;border-bottom:1px solid #e5e7eb;">Name</td>
-                <td style="padding:10px 0;color:#111827;font-weight:600;border-bottom:1px solid #e5e7eb;">${name}</td>
+                <td style="padding:10px 0;color:#111827;font-weight:600;border-bottom:1px solid #e5e7eb;">${escapeHtml(name)}</td>
               </tr>
               <tr>
                 <td style="padding:10px 0;color:#6b7280;border-bottom:1px solid #e5e7eb;">Email</td>
                 <td style="padding:10px 0;border-bottom:1px solid #e5e7eb;">
-                  <a href="mailto:${email}" style="color:#4f46e5;">${email}</a>
+                  <a href="mailto:${escapeHtml(email)}" style="color:#4f46e5;">${escapeHtml(email)}</a>
                 </td>
               </tr>
               <tr>
                 <td style="padding:10px 0;color:#6b7280;border-bottom:1px solid #e5e7eb;">Phone</td>
                 <td style="padding:10px 0;border-bottom:1px solid #e5e7eb;">
-                  <a href="tel:${phoneNumber}" style="color:#4f46e5;">${phoneNumber}</a>
+                  <a href="tel:${escapeHtml(phoneNumber)}" style="color:#4f46e5;">${escapeHtml(phoneNumber)}</a>
                 </td>
               </tr>
               <tr>
                 <td style="padding:10px 0;color:#6b7280;vertical-align:top;">Message</td>
-                <td style="padding:10px 0;color:#374151;">${message}</td>
+                <td style="padding:10px 0;color:#374151;">${escapeHtml(message)}</td>
               </tr>
             </table>
           </div>
@@ -189,5 +189,4 @@ export const sendEnquiryAdminAlert = async (
     `,
     
   });
-  console.log("res", res)
 };
