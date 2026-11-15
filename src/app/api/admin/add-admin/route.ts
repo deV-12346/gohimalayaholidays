@@ -5,7 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs"
 import { createAdminAccount } from "@/actions/createAdmin.mail";
 import mongoose from "mongoose"
-export async function POST(req:NextRequest){
+import { withHandler } from "@/libs/withHandler";
+// Only a signed-in admin may create another admin
+export const POST = withHandler(async (req:NextRequest)=>{
     await connectDb()
     const session = await mongoose.startSession()
     try {
@@ -56,4 +58,4 @@ export async function POST(req:NextRequest){
     }finally{
         session.endSession()
     }
-}
+})

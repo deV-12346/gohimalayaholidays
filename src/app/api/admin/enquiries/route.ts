@@ -2,6 +2,7 @@ import { sendEnquiryAdminAlert, sendEnquiryConfirmation } from "@/actions/enquir
 import { connectDb } from "@/libs/ConnectDb";
 import { pagination } from "@/libs/pagination";
 import { withErrorHandler } from "@/libs/withErrorHandler";
+import { withHandler } from "@/libs/withHandler";
 import adminModel from "@/models/admin.model";
 import enquiryModel from "@/models/enquiry.model";
 import { enquirySchema } from "@/schema/enquiey.schema";
@@ -36,7 +37,8 @@ export const POST = withErrorHandler(async (req:NextRequest)=>{
     },{status:201})
 })
 
-export const GET = withErrorHandler(async (req:NextRequest)=>{
+// Admin only: this returns customers' personal data (the POST above stays public)
+export const GET = withHandler(async (req:NextRequest)=>{
         await connectDb()
         const searchParams = req.nextUrl.searchParams
         const page = Number(searchParams.get("page")) || 1
