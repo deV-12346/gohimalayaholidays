@@ -6,8 +6,11 @@ export interface Customer extends Document{
     phoneNumber:string;
     email:string;
     dob?:string;
-    otp?:number | null;
+    /** HMAC hash of the OTP (never the plaintext code) */
+    otp?:string | null;
     otpExpiry?:Date | null;
+    otpAttempts?:number;
+    lastOtpSentAt?:Date | null;
     isVerified:boolean;
 }
 const customerSchema:Schema<Customer> = new Schema({
@@ -22,16 +25,26 @@ const customerSchema:Schema<Customer> = new Schema({
     },
     email:{
         required:true,
-        type:String
+        type:String,
+        trim:true,
+        lowercase:true,
+        unique:true
     },
     dob:{
         required:true,
         type:String
     },
     otp:{
-        type:Number
+        type:String
     },
     otpExpiry:{
+        type:Date
+    },
+    otpAttempts:{
+        type:Number,
+        default:0
+    },
+    lastOtpSentAt:{
         type:Date
     },
     isVerified:{

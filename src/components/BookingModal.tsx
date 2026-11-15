@@ -55,8 +55,8 @@ const customerFormSchema = z.object({
 const otpFormSchema = z.object({
   otp: z
     .string()
-    .length(4, "OTP must be exactly 4 digits")
-    .regex(/^\d{4}$/, "OTP must contain only numbers"),
+    .length(6, "OTP must be exactly 6 digits")
+    .regex(/^\d{6}$/, "OTP must contain only numbers"),
 })
 
 type CustomerFormValues = z.infer<typeof customerFormSchema>
@@ -203,7 +203,9 @@ export function BookingModal({
       if (response.success) {
         setCustomerDetails(cleanedPayload)
 
-        setStep(1)
+        // Move on to the OTP step (this was setStep(1), which left the
+        // OTP form unreachable)
+        setStep(2)
 
         toast.success(
           response.message || "OTP sent successfully!"
@@ -554,9 +556,9 @@ export function BookingModal({
                   id="otp"
                   type="text"
                   inputMode="numeric"
-                  placeholder="0 0 0 0"
-                  maxLength={4}
-                  className="h-14 text-2xl text-center tracking-[0.4em] rounded-xl border-slate-300 text-black focus-visible:ring-2 focus-visible:ring-black/10 focus-visible:border-black font-bold"
+                  placeholder="0 0 0 0 0 0"
+                  maxLength={6}
+                  className="h-14 text-2xl text-center tracking-[0.3em] rounded-xl border-slate-300 text-black focus-visible:ring-2 focus-visible:ring-black/10 focus-visible:border-black font-bold"
                   {...otpForm.register("otp")}
                 />
               </FormField>

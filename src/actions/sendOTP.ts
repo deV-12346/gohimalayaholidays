@@ -1,6 +1,7 @@
 import { transporter } from "@/config/nodemailer"
+import { OTP_TTL_MS } from "@/libs/security"
 
-export const sendOTP = async (email: string, customerName: string, otp: number, otpExpiry: Date) => {
+export const sendOTP = async (email: string, customerName: string, otp: string, otpExpiry: Date) => {
   await transporter.sendMail({
     from: `"Go Himalaya Holidays" <${process.env.EMAIL_USER}>`,
     to: email,
@@ -91,7 +92,7 @@ export const sendOTP = async (email: string, customerName: string, otp: number, 
             "
           >
             OTP expires in
-            5 minutes.
+            ${Math.round(OTP_TTL_MS / 60000)} minutes.
           </p>
         </div>
       </div>

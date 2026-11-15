@@ -11,8 +11,9 @@ export const customerSchema = z.object({
     .max(10, "Phone number must be 10 digits"),
   email: z
     .string()
-    .email("Invalid email address")
-    .trim(),
+    .trim()
+    .toLowerCase()
+    .email("Invalid email address"),
   dob: z
     .string()
     .min(1, "Date of birth is required"),
